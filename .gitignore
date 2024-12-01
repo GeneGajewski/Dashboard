@@ -45,6 +45,7 @@
 *.o
 *.ocx
 *.msi
+*.dsv
 
 # Binaries and distributables
 Dashboard-cache/

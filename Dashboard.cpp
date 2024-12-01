@@ -10,9 +10,9 @@ USEFORM("MainForm.cpp", FormMain);
 USEFORM("Preferences.cpp", FormPrefs);
 USEFORM("Select.cpp", FormSelect);
 USEFORM("UpdateInfo.cpp", UpdInfo);
+USEFORM("Download.cpp", DL);
 USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("DataModule.cpp", DMod); /* TDataModule: File Type */
-USEFORM("Download.cpp", DL);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
