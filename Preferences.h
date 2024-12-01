@@ -66,7 +66,6 @@ __published:	// IDE-managed Components
 	TButton *btnOk;
 	TButton *btnCancel;
 	TLabel *label;
-	TSpinButton *SpinButton1;
 	TCSpinEdit *CSpinEdit1;
 	TLabel *Label1;
 	void __fastcall cbStylesChange(TObject *Sender);
