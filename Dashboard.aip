@@ -37,7 +37,7 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="APPDIR" ComponentId="{3BA19D32-F8B7-49DE-ABA3-081A2AC915B2}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="Dashboard.exe" ComponentId="{B8D98C70-BB4D-4EF8-96EC-056D8354C583}" Directory_="APPDIR" Attributes="0" KeyPath="Dashboard.exe"/>
-    <ROW Component="Dashboard.pdf" ComponentId="{9693078E-D1E4-40B4-A8C5-11A0C85BE117}" Directory_="APPDIR" Attributes="0" KeyPath="Dashboard.pdf" Type="0"/>
+    <ROW Component="Dashboard.pdf" ComponentId="{9693078E-D1E4-40B4-A8C5-11A0C85BE117}" Directory_="APPDIR" Attributes="0" KeyPath="rtl290.bpl" Type="0"/>
     <ROW Component="ProductInformation" ComponentId="{9723638D-EF9E-4F7A-A032-DC694F4923D6}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{C028480A-C33F-4421-B836-B8A67225159C}" Directory_="SHORTCUTDIR" Attributes="0"/>
     <ROW Component="alarmclock.ttf" ComponentId="{2C4BD911-392F-42EA-B1BE-487DFCC3D43C}" Directory_="FontsFolder" Attributes="0" Type="0"/>
@@ -49,7 +49,6 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
     <ROW File="Dashboard.exe" Component_="Dashboard.exe" FileName="DASHBO~1.EXE|Dashboard.exe" Attributes="0" SourcePath="Win32\Debug\Dashboard.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="Dashboard.pdf" Component_="Dashboard.pdf" FileName="DASHBO~1.PDF|Dashboard.pdf" Attributes="0" SourcePath="Win32\Debug\Dashboard.pdf" SelfReg="false"/>
     <ROW File="rtl290.bpl" Component_="Dashboard.pdf" FileName="rtl290.bpl" Attributes="0" SourcePath="C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\rtl290.bpl" SelfReg="false"/>
     <ROW File="vcl290.bpl" Component_="Dashboard.pdf" FileName="vcl290.bpl" Attributes="0" SourcePath="C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\vcl290.bpl" SelfReg="false"/>
     <ROW File="xmlrtl290.bpl" Component_="Dashboard.pdf" FileName="XMLRTL~1.BPL|xmlrtl290.bpl" Attributes="0" SourcePath="C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\xmlrtl290.bpl" SelfReg="false"/>
@@ -69,6 +68,7 @@
     <ROW File="IndySystem290.bpl" Component_="Dashboard.pdf" FileName="INDYSY~1.BPL|IndySystem290.bpl" Attributes="0" SourcePath="C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\IndySystem290.bpl" SelfReg="false"/>
     <ROW File="borlndmm.dll" Component_="borlndmm.dll" FileName="borlndmm.dll" Attributes="0" SourcePath="C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\borlndmm.dll" SelfReg="false"/>
     <ROW File="alarmclock.ttf" Component_="alarmclock.ttf" FileName="ALARMC~1.TTF|alarm clock.ttf" Attributes="0" SourcePath="C:\Users\gajew\Downloads\alarm clock.ttf" SelfReg="false"/>
+    <ROW File="Dashboard.pdf" Component_="Dashboard.pdf" FileName="DASHBO~1.PDF|Dashboard.pdf" Attributes="0" SourcePath="Dashboard.pdf" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
     <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFileName="[|ProductName].[|ProductVersion]" Languages="en" InstallationType="4" UseLargeSchema="true"/>
