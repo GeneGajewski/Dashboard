@@ -8,10 +8,10 @@
     <ROW Property="ARPPRODUCTICON" Value="Dashboard.exe" Type="8"/>
     <ROW Property="ARPURLUPDATEINFO" Value="https://gajewski.net"/>
     <ROW Property="Manufacturer" Value="WG5ENE"/>
-    <ROW Property="ProductCode" Value="1033:{478DC8ED-71D4-449F-9305-0F52E8C3DB9F} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{64B66E8F-0964-460F-8B75-D892D8AB8BE1} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Dashboard"/>
-    <ROW Property="ProductVersion" Value="1.0.1" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.0.1" Options="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{2C2D1FCA-1FAB-4F98-8892-AF6F15EC4ADE}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -28,19 +28,25 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
     <ROW Directory="FontsFolder" Directory_Parent="TARGETDIR" DefaultDir="FONTSF~1|FontsFolder" IsPseudoRoot="1"/>
+    <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SideBySideGuidComponent">
-    <ROW Component="APPDIR" Value="{3BA19D32-F8B7-49DE-ABA3-081A2AC915B2}"/>
-    <ROW Component="ProductInformation" Value="{9723638D-EF9E-4F7A-A032-DC694F4923D6}"/>
+    <ROW Component="APPDIR" Value="{D88F4B68-D159-4C6F-835A-1F3D4316CCFA}"/>
+    <ROW Component="Dashboard.exe" Value="{B856A13F-A5F5-4D89-8946-00A7AA5884DF}"/>
+    <ROW Component="Dashboard.pdf" Value="{AD911CE7-34FC-4EB5-AD0C-54991A8074DD}"/>
+    <ROW Component="ProductInformation" Value="{71A64A88-6B8A-4BDF-9944-E1717809E111}"/>
+    <ROW Component="alarmclock.ttf" Value="{0E32A218-E607-408B-AB21-C2718C8006E2}"/>
+    <ROW Component="borlndmm.dll" Value="{CFAF3D5D-1D46-4533-BB42-DB50D444509E}"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="APPDIR" ComponentId="{3BA19D32-F8B7-49DE-ABA3-081A2AC915B2}" Directory_="APPDIR" Attributes="0"/>
-    <ROW Component="Dashboard.exe" ComponentId="{56596976-521D-4F66-AD64-5112A0A5ABD1}" Directory_="APPDIR" Attributes="0" KeyPath="Dashboard.exe"/>
-    <ROW Component="Dashboard.pdf" ComponentId="{9693078E-D1E4-40B4-A8C5-11A0C85BE117}" Directory_="APPDIR" Attributes="0" KeyPath="rtl290.bpl" Type="0"/>
-    <ROW Component="ProductInformation" ComponentId="{9723638D-EF9E-4F7A-A032-DC694F4923D6}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
-    <ROW Component="alarmclock.ttf" ComponentId="{2C4BD911-392F-42EA-B1BE-487DFCC3D43C}" Directory_="FontsFolder" Attributes="0" Type="0"/>
-    <ROW Component="borlndmm.dll" ComponentId="{C4CC4D79-376B-4D67-B1FF-5357B2E16237}" Directory_="APPDIR" Attributes="0" KeyPath="borlndmm.dll"/>
+    <ROW Component="APPDIR" ComponentId="{D88F4B68-D159-4C6F-835A-1F3D4316CCFA}" Directory_="APPDIR" Attributes="0"/>
+    <ROW Component="Dashboard.exe" ComponentId="{B856A13F-A5F5-4D89-8946-00A7AA5884DF}" Directory_="APPDIR" Attributes="0" KeyPath="Dashboard.exe"/>
+    <ROW Component="Dashboard.pdf" ComponentId="{AD911CE7-34FC-4EB5-AD0C-54991A8074DD}" Directory_="APPDIR" Attributes="0" KeyPath="rtl290.bpl" Type="0"/>
+    <ROW Component="ProductInformation" ComponentId="{71A64A88-6B8A-4BDF-9944-E1717809E111}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="SHORTCUTDIR" ComponentId="{25E66A98-54E1-48D5-81E0-58D4F51E65AF}" Directory_="SHORTCUTDIR" Attributes="0"/>
+    <ROW Component="alarmclock.ttf" ComponentId="{0E32A218-E607-408B-AB21-C2718C8006E2}" Directory_="FontsFolder" Attributes="0" Type="0"/>
+    <ROW Component="borlndmm.dll" ComponentId="{CFAF3D5D-1D46-4533-BB42-DB50D444509E}" Directory_="APPDIR" Attributes="0" KeyPath="borlndmm.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
@@ -130,6 +136,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
+    <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
@@ -153,6 +160,7 @@
     <ROW Feature_="MainFeature" Component_="borlndmm.dll"/>
     <ROW Feature_="MainFeature" Component_="alarmclock.ttf"/>
     <ROW Feature_="MainFeature" Component_="Dashboard.exe"/>
+    <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="Dashboard.exe" SourcePath="Dashboard.ico" Index="0"/>
@@ -185,6 +193,9 @@
     <ROW Registry="ProductName" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="\"/>
     <ROW Registry="Software" Root="-1" Key="Software" Name="\"/>
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="Dashboard" Directory_="SHORTCUTDIR" Name="DASHBO~1|Dashboard" Component_="Dashboard.exe" Target="[#Dashboard.exe]" Description="View NetLogger radio nets" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>

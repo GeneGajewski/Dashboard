@@ -18,17 +18,20 @@
 
 
 
-$DLURL = "https://www.gajewski.net/update/Dashboard.1.0.0.msi";
+$DLURL = "https://www.gajewski.net/update/Dashboard.1.0.1.msi";
 
 $major = $_GET["maj"]; 
 $minor = $_GET["min"]; 
 $release = $_GET["rel"]; 
 $build = $_GET["bld"]; 
 
-$Ver = array( 1, 0, 0, 0);
-$VersionStr = "0.9.0.0"; // X.Y.Z
+$Ver = array( 1, 0, 1, 0);
+$VersionStr = "1.0.1.0"; // X.Y.Z
 
-$Info = "This is Dashboard version 1.0";
+$Info = "This is Dashboard version 1.0.1
+
+Removed a stray control from the preferences dialog.
+";
 
 $major = (int) $major;
 $minor = (int) $minor;
