@@ -20,6 +20,7 @@
 #pragma hdrstop
 
 #include "DataModule.h"
+#include "CodeSiteLogging.hpp"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -315,8 +316,9 @@ String TDMod::GetValue(const _di_IXMLNode& Node)
 			retval = ""; // empty node ...
 		}
 
-	} catch (...) // just in case...
+	} catch (Exception *e) // just in case...
 	{
+		CodeSite->SendException("GetValue()",e);
 		retval = "";
 	}
 	return retval;

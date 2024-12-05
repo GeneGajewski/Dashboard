@@ -44,7 +44,7 @@ void __fastcall TFormSelect::FormShow(TObject *Sender)
 {
 	ModalResult = mrCancel;
 
-    // refreshing the list is limited to once a minute
+	// refreshing the list of active nets is limited to once a minute
 	if(NetList->Count == 0 || SecondsBetween(GetTime(),last_checked) > NETLIST_SECONDS)
 	{
 		FormMain->LED(true);

@@ -6,7 +6,7 @@
 ---
 
 
-Dashboard is a fast and easy monitoring application for [NetLogger](https://www.netlogger.org) amateur radio nets.
+Dashboard for Net Logger is a fast and easy monitoring application for [NetLogger](https://www.netlogger.org) amateur radio nets.
 
 This application is built using Embarcadero's [C++ Builder Community Edition](https://www.embarcadero.com/products/cbuilder/starter/),
 which is free to use for non-commercial purposes. I chose this toolset as I am a longtime user of C++ Builder and I appreciate the simplicity
@@ -15,10 +15,7 @@ Besides, I've been around since the [Turbo C 1.5](https://en.wikipedia.org/wiki/
 
 This is a straightforward IDE project in c++ using the Delphi VCL component library. There's no makefiles to deal with. It's themed as well with plenty of light and dark UI styles to choose from. It has a FireDAC SQLite backend which isn't really being needed/exploited at the moment, but will make it super easy to add advanced features in the future, such bulk storage and querying and so on, but the primary goal here is to be exceedingly *simple*, self explanatory and *easy on the eyes* - less distraction, more ***radio***! 
 
-There is also future potential for making a FireMonkey-based version for Android and an Mac as well if there is any interest.
-
-Installs are built using the free-to-use version of [Advanced Installer](https://www.advancedinstaller.com/).
-
+There is also future potential for making a FireMonkey-based version for Android and and Mac as well if there is any interest.
 
 New program updates can be queried for within the program and can be downloaded and installed if desired.
 

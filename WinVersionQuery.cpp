@@ -32,104 +32,104 @@ namespace Utility
         _TCHAR buffer[MAXBUF];
 
         memset(buffer, 0, sizeof(buffer));
-        DWORD modulename_size = GetModuleFileNameW(NULL, buffer, MAXBUF - 1);
-        modulename = buffer;
-        GetpBlock();
-    }
+		DWORD modulename_size = GetModuleFileName(NULL, buffer, MAXBUF - 1);
+		modulename = buffer;
+		GetpBlock();
+	}
 
-    // ctor for a specifically named file module
-    WinVersionQuery::WinVersionQuery(const wchar_t* _modulename) :
-        pBlock(NULL), lp_size(0), lp(NULL)
-    {
-        modulename = _modulename;
-        GetpBlock();
-    }
+	// ctor for a specifically named file
+	WinVersionQuery::WinVersionQuery(const wchar_t* _modulename) :
+		pBlock(NULL), lp_size(0), lp(NULL)
+	{
+		modulename = _modulename;
+		GetpBlock();
+	}
 
-    // get the version parameter block thingy we need for queries
-    bool WinVersionQuery::GetpBlock(void)
-    {
-        DWORD block_size, dummy;
-        block_size = GetFileVersionInfoSizeEx(
-            FILE_VER_GET_NEUTRAL, modulename.c_str(), &dummy);
-        if (block_size) {
-            pBlock = new char[block_size];
-            BOOL retval = GetFileVersionInfoEx(FILE_VER_GET_NEUTRAL,
-                modulename.c_str(), NULL, block_size, pBlock);
-            if (retval) {
-                // get ptr to translation block array
+	// get the version parameter block thingy we need for queries
+	bool WinVersionQuery::GetpBlock(void)
+	{
+		DWORD block_size, dummy;
+		block_size = GetFileVersionInfoSizeEx(
+			FILE_VER_GET_NEUTRAL, modulename.c_str(), &dummy);
+		if (block_size) {
+			pBlock = new char[block_size];
+			BOOL retval = GetFileVersionInfoEx(FILE_VER_GET_NEUTRAL,
+				modulename.c_str(), NULL, block_size, pBlock);
+			if (retval) {
+				// get ptr to translation block array
 				HRESULT result = VerQueryValue(pBlock,
-                    L"\\VarFileInfo\\Translation", (LPVOID*)&lp, &lp_size);
-                if (SUCCEEDED(result)) {
-                    SetLCP(0); // default
-                    flags = GetFlags();
-                    return true;
-                }
-            }
-            if (pBlock)
-                delete pBlock;
-            pBlock = NULL;
-            lp = NULL;
-            lp_size = 0;
-        }
-        return false;
-    }
-    // return a string value for current lang/codepge/stringname
-    String WinVersionQuery::GetStr(String name)
-    {
-        if (pBlock) {
-            UINT str_size;
-            _TCHAR* str;
+					L"\\VarFileInfo\\Translation", (LPVOID*)&lp, &lp_size);
+				if (SUCCEEDED(result)) {
+					SetLCP(0); // default
+					flags = GetFlags();
+					return true;
+				}
+			}
+			if (pBlock)
+				delete pBlock;
+			pBlock = NULL;
+			lp = NULL;
+			lp_size = 0;
+		}
+		return false;
+	}
+	// return a string value for current lang/codepge/stringname
+	String WinVersionQuery::GetStr(String name)
+	{
+		if (pBlock) {
+			UINT str_size;
+			_TCHAR* str;
 
-            HRESULT result = VerQueryValue(
-                pBlock, Query(name).c_str(), (LPVOID*)&str, &str_size);
-            if (SUCCEEDED(result) && str_size)
-                return String(str);
-        }
-        return NULL;
-    }
+			HRESULT result = VerQueryValue(
+				pBlock, Query(name).c_str(), (LPVOID*)&str, &str_size);
+			if (SUCCEEDED(result) && str_size)
+				return String(str);
+		}
+		return NULL;
+	}
 
-    // select lang/codepage array entry  0-based
-    bool WinVersionQuery::SetLCP(unsigned index)
-    {
-        int count = LCPCount();
+	// select lang/codepage array entry  0-based
+	bool WinVersionQuery::SetLCP(unsigned index)
+	{
+		int count = LCPCount();
 
-        if (count && index < count) {
-            language = lp[index].wLanguage;
-            codepage = lp[index].wCodePage;
-            return true;
-        }
-        return false;
-    }
+		if (count && index < count) {
+			language = lp[index].wLanguage;
+			codepage = lp[index].wCodePage;
+			return true;
+		}
+		return false;
+	}
 
-    // number of language/codepage entries
-    unsigned WinVersionQuery::LCPCount()
-    {
-        return lp != NULL ? lp_size / sizeof(LANGANDCODEPAGE) : 0;
-    }
+	// number of language/codepage entries
+	unsigned WinVersionQuery::LCPCount()
+	{
+		return lp != NULL ? lp_size / sizeof(LANGANDCODEPAGE) : 0;
+	}
 
 	// return windows fixedfileinfo struct. Struct contents not valid if
 	// return result is false
-    const bool WinVersionQuery::GetFixedInfo(VS_FIXEDFILEINFO &info)
-    {
-        if (pBlock) {
-            UINT size;
-            VS_FIXEDFILEINFO* vsfixed;
-            HRESULT result =
-                VerQueryValueW(pBlock, L"\\", (LPVOID*)&vsfixed, &size);
+	const bool WinVersionQuery::GetFixedInfo(VS_FIXEDFILEINFO &info)
+	{
+		if (pBlock) {
+			UINT size;
+			VS_FIXEDFILEINFO* vsfixed;
+			HRESULT result =
+				VerQueryValueW(pBlock, L"\\", (LPVOID*)&vsfixed, &size);
 
-            if (SUCCEEDED(result) && vsfixed->dwSignature == magic_number)
-                info = *vsfixed;
-            return true;
-        }
-        return false;
-    }
+			if (SUCCEEDED(result) && vsfixed->dwSignature == magic_number)
+				info = *vsfixed;
+			return true;
+		}
+		return false;
+	}
 
-    // dtor
-    WinVersionQuery::~WinVersionQuery()
-    {
-        if (pBlock)
-            delete pBlock;
-    }
+	// dtor
+	WinVersionQuery::~WinVersionQuery()
+	{
+		if (pBlock)
+			delete pBlock;
+	}
 
     // build string for VerQueryValue string-value query
     String WinVersionQuery::Query(const String &name)
@@ -149,140 +149,110 @@ namespace Utility
 
 #define __MAKEDW(a, b) (DWORD)(((DWORD)a << 16) | b)
 
-    void VerStr::makestr()
-    {
-        String s;
-        s = String(FMajor) + dot + String(FMinor) + dot + String(FRelease) +
-            dot + String(FBuild);
-        verstr = s;
-    }
-
-	void VerStr::set_major(WORD val)
+	String VerStr::makestr()
 	{
-        FMajor = val;
-        makestr();
-    }
+		String s;
+		s = String(FMajor) + dot + String(FMinor) + dot + String(FRelease) +
+			dot + String(FBuild);
+		return s;
+	}
 
-    void VerStr::set_minor(WORD val)
-    {
-        FMinor = val;
-        makestr();
-    }
+	void VerStr::set_string(const String &ver)
+	{
+		//	FMajor = FMinor = FRelease = FBuild = 0;
+		TStringList* list = new TStringList;
 
-    void VerStr::set_release(WORD val)
-    {
-        FRelease = val;
-        makestr();
-    }
+		WORD maj, min, rel, bld;
+		maj = min = rel = bld = 0;
 
-    void VerStr::set_build(WORD val)
-    {
-        FBuild = val;
-        makestr();
-    }
+		list->Delimiter = dot;
+		list->DelimitedText = ver;
 
-    String VerStr::VerStr::get_string()
-    {
-        return verstr;
-    }
+		int cnt = list->Count;
 
-    void VerStr::set_string(const String &ver)
-    {
-        //	FMajor = FMinor = FRelease = FBuild = 0;
-        TStringList* list = new TStringList;
+		try {
+			if (list->Count >= 1)
+				maj = StrToUInt(list->Strings[0]);
 
-        WORD maj, min, rel, bld;
-        maj = min = rel = bld = 0;
+			if (list->Count >= 2)
+				min = StrToUInt(list->Strings[1]);
 
-        list->Delimiter = dot;
-        list->DelimitedText = ver;
+			if (list->Count >= 3)
+				rel = StrToUInt(list->Strings[2]);
 
-        int cnt = list->Count;
+			if (list->Count >= 4)
+				bld = StrToUInt(list->Strings[3]);
 
-        try {
-            if (list->Count >= 1)
-                maj = StrToUInt(list->Strings[0]);
+			FMajor = maj;
+			FMinor = min;
+			FRelease = rel;
+			FBuild = bld;
+		} catch (EConvertError &e) {
+			// bad string conversion - do nothing
+		}
+		if (list)
+			delete list;
+	}
 
-            if (list->Count >= 2)
-                min = StrToUInt(list->Strings[1]);
+	VerStr::VerStr() : FMajor(0), FMinor(0), FRelease(0), FBuild(0)
+	{
 
-            if (list->Count >= 3)
-                rel = StrToUInt(list->Strings[2]);
+	}
 
-            if (list->Count >= 4)
-                bld = StrToUInt(list->Strings[3]);
+	VerStr::VerStr(const String &ref) :
+		FMajor(0), FMinor(0), FRelease(0), FBuild(0)
+	{
+		set_string(ref);
+	}
 
-            FMajor = maj;
-            FMinor = min;
-            FRelease = rel;
-            FBuild = bld;
-            makestr();
-        } catch (EConvertError &e) {
-            // bad string conversion - do nothing
-        }
-        if (list)
-            delete list;
-    }
+	VerStr::~VerStr() {}
 
-    VerStr::VerStr() : FMajor(0), FMinor(0), FRelease(0), FBuild(0)
-    {
-        makestr();
-    }
+	String VerStr::Shorter(unsigned num)
+	{
+		TStringList* list = new TStringList;
+		String retval;
 
-    VerStr::VerStr(const String &ref) :
-        FMajor(0), FMinor(0), FRelease(0), FBuild(0)
-    {
-        set_string(ref);
-    }
+		list->Delimiter = dot;
 
-    VerStr::~VerStr() {}
+		try {
+			if (num >= 1)
+				list->Add(UIntToStr((unsigned)FMajor));
+			if (num >= 2)
+				list->Add(UIntToStr((unsigned)FMinor));
+			if (num >= 3)
+				list->Add(UIntToStr((unsigned)FRelease));
+			if (num >= 4)
+				list->Add(UIntToStr((unsigned)FBuild));
+			retval = list->DelimitedText;
+		}
 
-    String VerStr::Shorter(unsigned num)
-    {
-        TStringList* list = new TStringList;
-        String retval;
+		catch (EConvertError &e)
+		{
+		}
 
-        list->Delimiter = dot;
+		if (list)
+			delete list;
+		return retval;
+	}
 
-        try {
-            if (num >= 1)
-                list->Add(UIntToStr((unsigned)FMajor));
-            if (num >= 2)
-                list->Add(UIntToStr((unsigned)FMinor));
-            if (num >= 3)
-                list->Add(UIntToStr((unsigned)FRelease));
-            if (num >= 4)
-                list->Add(UIntToStr((unsigned)FBuild));
-            retval = list->DelimitedText;
-        }
+	unsigned __int64 VerStr::AsUnsigned64()
+	{
+		DWORD ms, ls;
 
-        catch (EConvertError &e)
-        {
-        }
+		unsigned __int64 retval;
 
-        if (list)
-            delete list;
-        return retval;
-    }
+		ms = __MAKEDW(FMajor, FMinor);
+		ls = __MAKEDW(FRelease, FBuild);
 
-    unsigned __int64 VerStr::AsUnsigned64()
-    {
-        DWORD ms, ls;
+		retval = (unsigned __int64)ms << 32 | ls;
 
-        unsigned __int64 retval;
+		return retval;
+	}
 
-        ms = __MAKEDW(FMajor, FMinor);
-        ls = __MAKEDW(FRelease, FBuild);
-
-        retval = (unsigned __int64)ms << 32 | ls;
-
-        return retval;
-    }
-
-    VerStr &VerStr::operator=(const String ref)
-    {
-        set_string(ref);
-        return *this;
-    }
+	VerStr &VerStr::operator=(const String ref)
+	{
+		set_string(ref);
+		return *this;
+	}
 } // namespace WG5ENE_Utility
 

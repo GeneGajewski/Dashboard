@@ -34,9 +34,9 @@
 #include "preferences.h"
 #include "Download.h"
 
-//#pragma comment(lib, "CodeSiteExpressPkg.lib")
-//#pragma link "CodeSiteLogging"
-//#include "CodeSiteLogging.hpp"
+#pragma comment(lib, "CodeSiteExpressPkg.lib")
+#pragma link "CodeSiteLogging"
+#include "CodeSiteLogging.hpp"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -108,18 +108,38 @@ retry:
 	FDTable1->EndBatch();
 }
 //---------------------------------------------------------------------------
+
+// *IMPORTANT*
+//
+// Make sure that both FDConection1->Active and FDTable1->Active are set
+// to false in the degsin-time editors BEFORE building a release.
+//
+// Otherwise, the database runtime will throw an exception and die trying to
+// open a database that doesn't yet on a new machine exist!!!
+
+#define LEDFONT "alarm clock.ttf"
+
+
 __fastcall TFormMain::TFormMain(TComponent* Owner)
 	: TForm(Owner)
 {
-	for (int x = 0; x < DBGrid1->Columns->Count; x++) {
-		ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
-	}
-	LoadDefaults();
+	CodeSite->SendMsg(csmInfo,String("Dashboard started:  ") +  TDateTime::CurrentDateTime().DateTimeString() );
+	String filename = TPath::GetAppPath();
+	filename = TPath::Combine(filename,LEDFONT);
+	ledfont.Open(filename);
+
 	OpenDatabase();
 	FDConnection1->Connected = true;
 	FDConnection1->ExecSQL(CreateTable);
 	FDTable1->TableName = TableName;
 	FDTable1->Active = true;
+
+	for (int x = 0; x < DBGrid1->Columns->Count; x++) {
+		DBGrid1->Columns->Items[x]->Width = 64;
+		ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
+	}
+
+	LoadDefaults();
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::MasterTick(TObject* Sender)
@@ -129,138 +149,138 @@ void __fastcall TFormMain::MasterTick(TObject* Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::UpdateClockDisplay()
 {
-    const String DateFormat = "dddd, mmmm, dd, yyyy";
-    const String TimeFormat = AMPM ? "h:mm:ss ampm" : "hh:mm:ss";
-    TTimeSpan offset = UTC ? TTimeZone::Local->UtcOffset : 0;
+	const String DateFormat = "dddd, mmmm, dd, yyyy";
+	const String TimeFormat = AMPM ? "h:mm:ss ampm" : "hh:mm:ss";
+	TTimeSpan offset = UTC ? TTimeZone::Local->UtcOffset : 0;
 
-    TDateTime now = TDateTime::CurrentDateTime();
+	TDateTime now = TDateTime::CurrentDateTime();
 
-    panDate->Caption = (now - offset).FormatString(DateFormat);
-    panClock->Caption = (now - offset).FormatString(TimeFormat);
-    panZone->Caption = UTC ? "Universal Time Coordinated" : TTimeZone::Local->DisplayName;
+	panDate->Caption = (now - offset).FormatString(DateFormat);
+	panClock->Caption = (now - offset).FormatString(TimeFormat);
+	panZone->Caption = UTC ? "Universal Time Coordinated" : TTimeZone::Local->DisplayName;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::StatusBar1DrawPanel(TStatusBar* StatusBar,
-    TStatusPanel* Panel,
-    const TRect& Rect)
+	TStatusPanel* Panel,
+	const TRect& Rect)
 {
-    int index = LEDOn ? 1 : 0;
-    TCanvas* canvas = StatusBar->Canvas;
-    ImageList1->Draw(canvas, Rect.Left, Rect.Top, index);
+	int index = LEDOn ? 1 : 0;
+	TCanvas* canvas = StatusBar->Canvas;
+	ImageList1->Draw(canvas, Rect.Left, Rect.Top, index);
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::LED(bool state)
 {
-    LEDOn = state;
-    StatusBar1->Invalidate();
+	LEDOn = state;
+	StatusBar1->Invalidate();
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::SetGrid(CheckinList* clist)
 {
 
-    if (!clist)
-        return;
+	if (!clist)
+		return;
 
-    auto addrec = [this](const NLCheckin& ck) mutable {
-        FDTable1->Append();
-        FDTable1->Edit();
-        FDTable1->FieldByName("SerialNo")->AsString = ck.SerialNo;
-        FDTable1->FieldByName("CallSign")->AsString = ck.Callsign;
-        FDTable1->FieldByName("State")->AsString = ck.State;
-        FDTable1->FieldByName("Remarks")->AsString = ck.Remarks;
-        FDTable1->FieldByName("QSLInfo")->AsString = ck.QSLInfo;
-        FDTable1->FieldByName("CityCountry")->AsString = ck.CityCountry;
-        FDTable1->FieldByName("FirstName")->AsString = ck.FirstName;
-        FDTable1->FieldByName("Status")->AsString = ck.Status;
-        FDTable1->FieldByName("County")->AsString = ck.County;
-        FDTable1->FieldByName("Grid")->AsString = ck.Grid;
-        FDTable1->FieldByName("Street")->AsString = ck.Street;
-        FDTable1->FieldByName("Zip")->AsString = ck.Zip;
+	auto addrec = [this](const NLCheckin& ck) mutable {
+		FDTable1->Append();
+		FDTable1->Edit();
+		FDTable1->FieldByName("SerialNo")->AsString = ck.SerialNo;
+		FDTable1->FieldByName("CallSign")->AsString = ck.Callsign;
+		FDTable1->FieldByName("State")->AsString = ck.State;
+		FDTable1->FieldByName("Remarks")->AsString = ck.Remarks;
+		FDTable1->FieldByName("QSLInfo")->AsString = ck.QSLInfo;
+		FDTable1->FieldByName("CityCountry")->AsString = ck.CityCountry;
+		FDTable1->FieldByName("FirstName")->AsString = ck.FirstName;
+		FDTable1->FieldByName("Status")->AsString = ck.Status;
+		FDTable1->FieldByName("County")->AsString = ck.County;
+		FDTable1->FieldByName("Grid")->AsString = ck.Grid;
+		FDTable1->FieldByName("Street")->AsString = ck.Street;
+		FDTable1->FieldByName("Zip")->AsString = ck.Zip;
 		FDTable1->FieldByName("MemberID")->AsString = ck.MemberID;
-        FDTable1->FieldByName("Country")->AsString = ck.Country;
-        FDTable1->FieldByName("DXCC")->AsString = ck.DXCC;
-        FDTable1->FieldByName("PreferredName")->AsString = ck.PreferredName;
-        FDTable1->Post();
-        FDTable1->Next();
-    };
+		FDTable1->FieldByName("Country")->AsString = ck.Country;
+		FDTable1->FieldByName("DXCC")->AsString = ck.DXCC;
+		FDTable1->FieldByName("PreferredName")->AsString = ck.PreferredName;
+		FDTable1->Post();
+		FDTable1->Next();
+	};
 
-    FDTable1->BeginBatch(); // prevent gui updating until all done
-    FDTable1->First();
-    int recno = -1;
-    FDTable1->EmptyDataSet();
-    for (auto Item : clist->Checkins) {
-        addrec(Item);
-        if (clist->Pointer == Item.SerialNo) {
-            recno = FDTable1->RecNo;
-        }
-    }
-    if (recno >= 0) {
-        FDTable1->RecNo = recno;
-    }
-    FDTable1->EndBatch();
-    String msg = IntToStr(FDTable1->RecordCount) + " records retrieved.";
-    StatusBar1->Panels->Items[1]->Text = msg;
+	FDTable1->BeginBatch(); // prevent gui updating until all done
+	FDTable1->First();
+	int recno = -1;
+	FDTable1->EmptyDataSet();
+	for (auto Item : clist->Checkins) {
+		addrec(Item);
+		if (clist->Pointer == Item.SerialNo) {
+			recno = FDTable1->RecNo;
+		}
+	}
+	if (recno >= 0) {
+		FDTable1->RecNo = recno;
+	}
+	FDTable1->EndBatch();
+	String msg = IntToStr(FDTable1->RecordCount) + " records retrieved.";
+	StatusBar1->Panels->Items[1]->Text = msg;
 };
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::btnNetsClick(TObject* Sender)
 {
-    RefreshTimer->Enabled = false;
-    int selected;
+	RefreshTimer->Enabled = false;
+	int selected;
 
-    FormSelect->ShowModal();
-    selected = FormSelect->ListBox1->ItemIndex;
+	FormSelect->ShowModal();
+	selected = FormSelect->ListBox1->ItemIndex;
 
-    if (FormSelect->ModalResult == mrOk && selected != -1) {
-        DataUpdate(FormSelect->ListBox1->Items->Strings[selected]);
-    }
+	if (FormSelect->ModalResult == mrOk && selected != -1) {
+		DataUpdate(FormSelect->ListBox1->Items->Strings[selected]);
+	}
 
-    ActiveControl = DBGrid1;
-    RefreshTimer->Enabled = true;
+	ActiveControl = DBGrid1;
+	RefreshTimer->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::Preferences1Click(TObject* Sender)
 {
-    String curstyle = Vcl::Themes::TStyleManager::ActiveStyle->Name;
-    FormPrefs->CSpinEdit1->Value = RefreshRate;
-    if (FormPrefs->ShowModal() == mrOk) {
-        RefreshRate = FormPrefs->CSpinEdit1->Value;
-    } else {
+	String curstyle = Vcl::Themes::TStyleManager::ActiveStyle->Name;
+	FormPrefs->CSpinEdit1->Value = RefreshRate;
+	if (FormPrefs->ShowModal() == mrOk) {
+		RefreshRate = FormPrefs->CSpinEdit1->Value;
+	} else {
 		if (Vcl::Themes::TStyleManager::ActiveStyle->Name != curstyle)
-            Vcl::Themes::TStyleManager::TrySetStyle(curstyle);
-    }
+			Vcl::Themes::TStyleManager::TrySetStyle(curstyle);
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::Help1Click(TObject* Sender)
 {
-    using System::Ioutils::TPath;
-    String Path, Filename;
+	using System::Ioutils::TPath;
+	String Path, Filename;
 
-    // pdf help will be in same dir as executable
-    Path = TPath::GetAppPath();
-    Filename = TPath::Combine(Path, "Dashboard.pdf");
-    Shell(Filename);
+	// pdf help will be in same dir as executable
+	Path = TPath::GetAppPath();
+	Filename = TPath::Combine(Path, "Dashboard.pdf");
+	Shell(Filename);
 }
 
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::DBGrid1DblClick(TObject* Sender)
 {
-    String Callsign, Cmd;
-    if (FDTable1->RecordCount > 0) {
-        Callsign = FDTable1->FieldValues["CallSign"];
+	String Callsign, Cmd;
+	if (FDTable1->RecordCount > 0) {
+		Callsign = FDTable1->FieldValues["CallSign"];
 
-        if (Callsign.IsEmpty())
-            return;
+		if (Callsign.IsEmpty())
+			return;
 
-        Cmd = "https://qrz.com/db/" + Callsign;
-        Shell(Cmd);
-    }
+		Cmd = "https://qrz.com/db/" + Callsign;
+		Shell(Cmd);
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::Shell(String cmd)
 {
-    ShellExecuteW(NULL, L"open", cmd.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteW(NULL, L"open", cmd.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 //---------------------------------------------------------------------------
 //
@@ -271,44 +291,46 @@ static const char* pgmkey = "Software\\WG5ENE\\DASHBOARD";
 
 void __fastcall TFormMain::SaveDefaults()
 {
-    TRegistry* Reg = 0;
-    try {
-        Reg = new TRegistry(KEY_WRITE);
-        Reg->RootKey = HKEY_CURRENT_USER;
-        Reg->OpenKey(fieldkey, true);
+	TRegistry* Reg = 0;
+	try {
+		Reg = new TRegistry(KEY_WRITE);
+		Reg->RootKey = HKEY_CURRENT_USER;
+		Reg->OpenKey(fieldkey, true);
 
-        auto writefield = [this, &Reg](TColumn* col) {
-            Reg->OpenKey(fieldkey, false);
-            Reg->OpenKey(col->FieldName, true);
-            Reg->WriteBool("Visible", col->Visible);
+		auto writefield = [this, &Reg](TColumn* col) {
+			Reg->OpenKey(fieldkey, false);
+			Reg->OpenKey(col->FieldName, true);
+			Reg->WriteBool("Visible", col->Visible);
 
-            col->Visible = true; // need this since col width is reported
-                // as -1 when col not visible
+			col->Visible = true; // need this since col width is reported
+				// as -1 when col not visible
 
-            Reg->WriteInteger("Width", col->Width);
-            Reg->WriteInteger("Index", col->Index);
-            Reg->CloseKey();
-        };
+			Reg->WriteInteger("Width", col->Width);
+			Reg->WriteInteger("Index", col->Index);
+			Reg->CloseKey();
+		};
 
-        for (int x = 0; x < DBGrid1->Columns->Count; x++)
-            writefield(DBGrid1->Columns->Items[x]);
+		for (int x = 0; x < DBGrid1->Columns->Count; x++)
+			writefield(DBGrid1->Columns->Items[x]);
 
-        // save window state
-        Reg->OpenKey(pgmkey, true);
-        Reg->WriteBool("Maximized", WindowState == TWindowState::wsMaximized);
-        Reg->WriteInteger("Top", Top);
-        Reg->WriteInteger("Left", Left);
-        Reg->WriteInteger("Width", Width);
-        Reg->WriteInteger("Height", Height);
-        Reg->WriteBool("UTC", UTC);
-        Reg->WriteBool("AMPM", AMPM);
-        Reg->WriteInteger("PollRate", RefreshRate);
-        Reg->WriteString("Style", Vcl::Themes::TStyleManager::ActiveStyle->Name);
-        Reg->CloseKey();
-    } catch (ERegistryException&) {
-    }
-    if (Reg)
-        delete Reg;
+		// save window state
+		Reg->OpenKey(pgmkey, true);
+		Reg->WriteBool("Maximized", WindowState == TWindowState::wsMaximized);
+		Reg->WriteInteger("Top", Top);
+		Reg->WriteInteger("Left", Left);
+		Reg->WriteInteger("Width", Width);
+		Reg->WriteInteger("Height", Height);
+		Reg->WriteBool("UTC", UTC);
+		Reg->WriteBool("AMPM", AMPM);
+		Reg->WriteInteger("PollRate", RefreshRate);
+		Reg->WriteString("Style", Vcl::Themes::TStyleManager::ActiveStyle->Name);
+		Reg->CloseKey();
+	} catch (Exception *err) {
+
+		CodeSite->SendException("SaveDefaults()",err);
+	}
+	if (Reg)
+		delete Reg;
 }
 
 //
@@ -316,18 +338,18 @@ void __fastcall TFormMain::SaveDefaults()
 //
 void __fastcall TFormMain::LoadDefaults()
 {
-    TRegistry* Reg = NULL;
-    std::map<int, TColumn*> IndexingMap;
+	TRegistry* Reg = NULL;
+	std::map<int, TColumn*> IndexingMap;
 
-    try {
-        Reg = new TRegistry(KEY_READ);
-        Reg->RootKey = HKEY_CURRENT_USER;
-        Reg->OpenKeyReadOnly(fieldkey);
+	try {
+		Reg = new TRegistry(KEY_READ);
+		Reg->RootKey = HKEY_CURRENT_USER;
+		Reg->OpenKeyReadOnly(fieldkey);
 
         // read column data.
 		// save an index/column map for later use in a *second* pass
 
-        auto readfield = [this, &Reg, &IndexingMap](TColumn* Column) {
+		auto readfield = [this, &Reg, &IndexingMap](TColumn* Column) {
             Reg->OpenKeyReadOnly(fieldkey);
             if (!Reg->KeyExists(Column->FieldName)) // unlikely, but
                 return;
@@ -342,7 +364,7 @@ void __fastcall TFormMain::LoadDefaults()
         for (int x = 0; x < DBGrid1->Columns->Count; x++)
             readfield(DBGrid1->Columns->Items[x]);
 
-        // get window state
+		// get window state
 
         if (Reg->OpenKeyReadOnly(pgmkey)) {
 
@@ -361,12 +383,14 @@ void __fastcall TFormMain::LoadDefaults()
 
         // we must set the columns' display order indexes in *ordinal* fashion
         // because of the left to right 'swapping' method Delphi uses to reorder
-        // moved TColumns
+		// moved TColumns
 
         for (auto Item : IndexingMap)
             Item.second->Index = Item.first;
 
-    } catch (ERegistryException& except) {
+	} catch (Exception *err) {
+
+		CodeSite->SendException("LoadDefaults()", err);
     }
     if (Reg)
         delete Reg;
@@ -374,7 +398,9 @@ void __fastcall TFormMain::LoadDefaults()
 
 void __fastcall TFormMain::FormClose(TObject* Sender, TCloseAction& Action)
 {
-    SaveDefaults();
+	CodeSite->SendMsg(csmInfo,String("Dashboard exited:  ") +  TDateTime::CurrentDateTime().DateTimeString() );
+	SaveDefaults();
+
 }
 
 //---------------------------------------------------------------------------
@@ -392,18 +418,18 @@ void __fastcall TFormMain::Exit1Click(TObject* Sender)
 void __fastcall TFormMain::About1Click(TObject* Sender)
 {
     AboutBox->ShowModal();
-	}
+}
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::Export1Click(TObject* Sender)
 {
-    if (FDTable1->RecordCount == 0) {
-        StatusBar1->Panels->Items[1]->Text = "Nothing to export.";
-        return;
-    }
+	if (FDTable1->RecordCount == 0) {
+		StatusBar1->Panels->Items[1]->Text = "Nothing to export.";
+		return;
+	}
 
-    if (SaveDialog1->Execute())
-        ExportCSV(SaveDialog1->FileName);
+	if (SaveDialog1->Execute())
+		ExportCSV(SaveDialog1->FileName);
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::DataUpdate(const String& netname)
@@ -460,7 +486,7 @@ void __fastcall TFormMain::RefreshTimerTimer(TObject* Sender)
 	DataUpdate(CurrentNet);
 }
 //---------------------------------------------------------------------------
-// query the application's web update server
+// query the Dashboard application's web update server
 
 void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 {
@@ -493,7 +519,7 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 		if (Response->StatusCode == 200) {
 			_di_IXMLNode Node;
 
- 			Document->LoadFromXML(Response->Content);
+			Document->LoadFromXML(Response->Content);
 			Document->Active = true;
 			Node = Document->DocumentElement;
 
@@ -511,7 +537,7 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 					String text = "An updated version ";
 					text += Version;
 					text +=	" is available.\nDownload and install this update?";
-                    UpdInfo->Label1->Caption = text;
+					UpdInfo->Label1->Caption = text;
 					UpdInfo->ShowModal();
 
 					if (UpdInfo->ModalResult == mrOk) {
@@ -530,7 +556,9 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 					ShowMessage("You have the latest version.");
 			}
 		}
-	} catch (EXMLDocError &error) {
+	} catch (Exception *err) {
+
+		CodeSite->SendException(err);
 	}
 	if (Response)
 		delete Response;

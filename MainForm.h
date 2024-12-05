@@ -63,6 +63,7 @@
 #include <Vcl.Menus.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <map>
+#include "tempfont.h"
 //---------------------------------------------------------------------------
 class TFormMain : public TForm {
 __published: // IDE-managed Components
@@ -133,7 +134,8 @@ private: // User declarations
     void __fastcall DataUpdate(const String& netname);
     int RefreshRate = 20;
 	void __fastcall Shell(String cmd);
-    void __fastcall ExportCSV(String Filename);
+	void __fastcall ExportCSV(String Filename);
+	Utility::TempFont ledfont;
 
 public: // User declarations
     void __fastcall LED(bool state);

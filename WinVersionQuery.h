@@ -46,7 +46,6 @@ class WinVersionQuery
 	const DWORD magic_number = 0xFEEF04BD;
 	String Query(const String &name);
 	bool GetpBlock(void);
-	void copy(const wchar_t *mname);
 	DWORD GetFlags();
 
 	public:
@@ -86,37 +85,32 @@ class WinVersionQuery
 
 };
 
- // a class to represent Microsoft's quadword version numbers as a string
+ // a class to represent Microsoft's quadword version numbers as
+ // a dotted string and vs/v
 class VerStr
 {
 	private:
 
-	String verstr;
 	const char dot = '.';
 	WORD FMajor, FMinor, FRelease, FBuild;
 
-	void makestr();
-	void set_major(WORD val);
-	void set_minor(WORD val);
-	void set_release(WORD val);
-	void set_build(WORD val);
-	String get_string();
+	String makestr();
 	void set_string(const String &ver);
 
 	public:
 
 	VerStr();
 	VerStr(const String &ref);
-	VerStr &operator = (const String ref);
-	operator String() { return verstr ; }
+    VerStr &operator=(const String ref);
+	operator String() { return makestr(); }
 	~VerStr();
 	String Shorter(unsigned num);   // make a shortened string
 
-	__property String Version 	{ read = get_string, write = set_string };
-	__property WORD Major = 	{ read = FMajor, write = set_major };
-	__property WORD Minor = 	{ read = FMinor, write = set_minor };
-	__property WORD Release = 	{ read = FRelease, write = set_release };
-	__property WORD Build = 	{ read = FBuild, write = set_build };
+	__property String Version 	{ read = makestr, write = set_string };
+	__property WORD Major = 	{ read = FMajor, write = FMajor };
+	__property WORD Minor = 	{ read = FMinor, write = FMinor };
+	__property WORD Release = 	{ read = FRelease, write = FRelease };
+	__property WORD Build = 	{ read = FBuild, write = FBuild };
 	unsigned __int64 AsUnsigned64();
 };
 

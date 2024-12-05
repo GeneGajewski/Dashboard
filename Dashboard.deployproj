@@ -1,0 +1,724 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+    <ProjectExtensions>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <PropertyGroup/>
+    <ItemGroup Condition="'$(Platform)'=='Win64'">
+        <DeployFile Include="$(BDS)\bin64\cc64290.dll" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>cc64290.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin64\cc64290mt.dll" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>cc64290mt.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin64\borlndmm.dll" Condition="'$(UsingDelphiRTL)'=='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>borlndmm.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='Win64x'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win32'">
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclx290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dsnap290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vcl290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>rtl290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclimg290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDACSqliteDriver290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>FireDACSqliteDriver290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDACCommon290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>FireDACCommon290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>rtl290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclimg290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\cc32290.dll" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>cc32290.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcomp290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcomp290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyCore290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>IndyCore290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>xmlrtl290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\VclSmp290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>VclSmp290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcomp290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcomp290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include=".\Win32\Release\Dashboard.exe" Condition="'$(Config)'=='Release'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>Dashboard.exe</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dbrtl290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindengine290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindengine290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\CustomIPTransport290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>CustomIPTransport290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindengine290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindengine290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclFireDAC290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclFireDAC290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dbrtl290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclx290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>rtl290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclimg290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\VclSmp290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>VclSmp290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="Win32\Debug\alarm clock.ttf" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>alarm clock.ttf</RemoteName>
+            <DeployClass>File</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclx290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vcl290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcompvcl290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcompvcl290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>xmlrtl290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dbrtl290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\VclSmp290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>VclSmp290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcompvcl290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcompvcl290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\cc32c290.dll" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>cc32c290.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\cc32290mt.dll" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>cc32290mt.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcldb290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vcldb290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\cc32c290mt.dll" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>cc32c290mt.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcomp290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcomp290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\VclSmp290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>VclSmp290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDAC290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>FireDAC290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndySystem290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>IndySystem290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcompvcl290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcompvcl290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dsnap290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\RESTComponents290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>RESTComponents290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\RESTComponents290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>RESTComponents290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\RESTComponents290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>RESTComponents290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\FireDACCommonDriver290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>FireDACCommonDriver290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include=".\Win32\Debug\Dashboard.tds" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>Dashboard.tds</RemoteName>
+            <DeployClass>DebugSymbols</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="README.md" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>README.md</RemoteName>
+            <DeployClass>ProjectFile</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="README.md" Condition="'$(Config)'=='Release'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>README.md</RemoteName>
+            <DeployClass>ProjectFile</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindengine290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindengine290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="C:\WINDOWS\system32\VCLTeeGrid29.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>VCLTeeGrid29.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\RESTComponents290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>RESTComponents290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\borlndmm.dll" Condition="'$(UsingDelphiRTL)'=='true'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>borlndmm.dll</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include=".\Win32\Debug\Dashboard.exe" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>Dashboard.exe</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclwinx290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclwinx290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\IndyProtocols290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>IndyProtocols290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="C:\Program Files (x86)\Raize\CS5\Deploy\Win32\CodeSiteExpressPkg290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>CodeSiteExpressPkg290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclx290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclx290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dsnap290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcompvcl290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcompvcl290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vcl290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindcomp290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindcomp290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vcl290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vcl290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bcbsmpc290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bcbsmpc290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dbrtl290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dbrtl290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\dsnap290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>dsnap290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl290.fr" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>xmlrtl290.fr</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\bindengine290.ja" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>bindengine290.ja</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\rtl290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>rtl290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\vclimg290.de" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>vclimg290.de</RemoteName>
+            <DeployClass>DependencyPackageResource</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\Win32\xmlrtl290.bpl" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>Dashboard\</RemoteDir>
+            <RemoteName>xmlrtl290.bpl</RemoteName>
+            <DeployClass>DependencyPackage</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+    </ItemGroup>
+</Project>

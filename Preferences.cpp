@@ -27,6 +27,7 @@
 #pragma link "cspin"
 #pragma resource "*.dfm"
 TFormPrefs *FormPrefs;
+
 //---------------------------------------------------------------------------
 __fastcall TFormPrefs::TFormPrefs(TComponent* Owner)
 	: TForm(Owner)

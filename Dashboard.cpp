@@ -3,16 +3,18 @@
 #include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
+#include "CodeSiteLogging.hpp"
 //---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
-USEFORM("MainForm.cpp", FormMain);
 USEFORM("Preferences.cpp", FormPrefs);
-USEFORM("Select.cpp", FormSelect);
+USEFORM("MainForm.cpp", FormMain);
 USEFORM("UpdateInfo.cpp", UpdInfo);
-USEFORM("Download.cpp", DL);
+USEFORM("Select.cpp", FormSelect);
 USEFORM("ABOUT.cpp", AboutBox);
+USEFORM("Download.cpp", DL);
 USEFORM("DataModule.cpp", DMod); /* TDataModule: File Type */
+
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -33,6 +35,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	}
 	catch (Exception &exception)
 	{
+		CodeSite->SendException("_tWinMain()", &exception);
 		Application->ShowException(&exception);
 	}
 	catch (...)
@@ -43,6 +46,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		}
 		catch (Exception &exception)
 		{
+            CodeSite->SendException("_TWinMain(...)",&exception);
 			Application->ShowException(&exception);
 		}
 	}

@@ -606,7 +606,6 @@ object FormMain: TFormMain
       'Database=C:\Users\gajew\OneDrive\Desktop\Dashboard.sdb'
       'OpenMode=CreateUTF16'
       'DriverID=SQLite')
-    Connected = True
     LoginPrompt = False
     Left = 480
     Top = 360
