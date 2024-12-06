@@ -20,32 +20,33 @@
  */
 
 //----------------------------------------------------------------------------
-#include <System.hpp>
-#include <Winapi.Windows.hpp>
-#include <System.SysUtils.hpp>
 #include <System.Classes.hpp>
-#include <Vcl.Graphics.hpp>
-#include <Vcl.Forms.hpp>
-#include <Vcl.Controls.hpp>
-#include <Vcl.StdCtrls.hpp>
+#include <System.SysUtils.hpp>
+#include <System.hpp>
 #include <Vcl.Buttons.hpp>
+#include <Vcl.Controls.hpp>
 #include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.Graphics.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Winapi.Windows.hpp>
 //----------------------------------------------------------------------------
-class TAboutBox : public TForm
-{
+class TAboutBox : public TForm {
 __published:
-	TPanel *Panel1;
-	TImage *ProgramIcon;
-	TLabel *ProductName;
-	TLabel *lblVersion;
-	TButton *OKButton;
-	TLinkLabel *LinkLabel1;
-	void __fastcall LinkLabel1Click(TObject *Sender);
+    TPanel* Panel1;
+    TImage* ProgramIcon;
+    TLabel* ProductName;
+    TLabel* lblVersion;
+    TButton* OKButton;
+    TLinkLabel* LinkLabel1;
+    void __fastcall LinkLabel1Click(TObject* Sender);
+
 private:
 public:
-	virtual __fastcall TAboutBox(TComponent* AOwner);
+    virtual __fastcall TAboutBox(TComponent* AOwner);
 };
 //----------------------------------------------------------------------------
-extern PACKAGE TAboutBox *AboutBox;
+extern PACKAGE TAboutBox* AboutBox;
 //----------------------------------------------------------------------------
-#endif    
+#endif
+

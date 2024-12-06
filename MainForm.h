@@ -122,6 +122,7 @@ __published: // IDE-managed Components
     void __fastcall FormShow(TObject* Sender);
 	void __fastcall RefreshTimerTimer(TObject* Sender);
 	void __fastcall nmUpdatesClick(TObject* Sender);
+	void __fastcall FormCreate(TObject *Sender);
 
 private: // User declarations
 	void __fastcall UpdateClockDisplay();

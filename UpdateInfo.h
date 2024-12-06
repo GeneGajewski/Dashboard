@@ -21,24 +21,25 @@
  */
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
-#include <Vcl.Controls.hpp>
-#include <Vcl.StdCtrls.hpp>
-#include <Vcl.Forms.hpp>
 #include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
-class TUpdInfo : public TForm
-{
-__published:	// IDE-managed Components
-	TButton *Button1;
-	TButton *Button2;
-	TLabel *Label1;
-	TLabel *Label2;
-	TRichEdit *RichEdit1;
-private:	// User declarations
-public:		// User declarations
-	__fastcall TUpdInfo(TComponent* Owner);
+class TUpdInfo : public TForm {
+__published: // IDE-managed Components
+    TButton* Button1;
+    TButton* Button2;
+    TLabel* Label1;
+    TLabel* Label2;
+    TRichEdit* RichEdit1;
+
+private: // User declarations
+public: // User declarations
+    __fastcall TUpdInfo(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TUpdInfo *UpdInfo;
+extern PACKAGE TUpdInfo* UpdInfo;
 //---------------------------------------------------------------------------
 #endif
+

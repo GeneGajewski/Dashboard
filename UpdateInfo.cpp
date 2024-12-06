@@ -24,10 +24,11 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-TUpdInfo *UpdInfo;
+TUpdInfo* UpdInfo;
 //---------------------------------------------------------------------------
 __fastcall TUpdInfo::TUpdInfo(TComponent* Owner)
-	: TForm(Owner)
+    : TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
+

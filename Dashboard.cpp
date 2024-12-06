@@ -1,10 +1,10 @@
-//---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
 #include "CodeSiteLogging.hpp"
-//---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
 USEFORM("Preferences.cpp", FormPrefs);
@@ -15,11 +15,10 @@ USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("Download.cpp", DL);
 USEFORM("DataModule.cpp", DMod); /* TDataModule: File Type */
 
-//---------------------------------------------------------------------------
-int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
-{
-	try
-	{
+// ---------------------------------------------------------------------------
+int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
+
+	try {
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
 		TStyleManager::TrySetStyle("Sky");
@@ -33,23 +32,21 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TDL), &DL);
 		Application->Run();
 	}
-	catch (Exception &exception)
-	{
+
+	catch (Exception &exception) {
 		CodeSite->SendException("_tWinMain()", &exception);
 		Application->ShowException(&exception);
 	}
-	catch (...)
-	{
-		try
-		{
+
+	catch (...) {
+		try {
 			throw Exception("");
 		}
-		catch (Exception &exception)
-		{
-            CodeSite->SendException("_TWinMain(...)",&exception);
+		catch (Exception &exception) {
+			CodeSite->SendException("_TWinMain(...)", &exception);
 			Application->ShowException(&exception);
 		}
 	}
 	return 0;
 }
-//---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------

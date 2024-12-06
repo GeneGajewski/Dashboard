@@ -25,32 +25,30 @@
 
 namespace Utility {
 
-
 // simple class to load/unload a font file for the current process
 //
 // this obviates the need to globally install the font
 
-class TempFont
-{
-	String FName;
-	int num_added;
+class TempFont {
+    String FName;
+    int num_added;
 
-	int open();
-	void close();
+    int open();
+    void close();
 
-	public:
+public:
+    TempFont(const String& name);
+    TempFont();
 
-	TempFont(const String &name);
-	TempFont();
+    // no copy/assign - allocated system resources are used
+    TempFont(const TempFont&) = delete;
+    TempFont& operator=(const TempFont&) = delete;
 
-	// no copy/assign - allocated system resources are used
-	TempFont(const TempFont &) = delete;
-	TempFont& operator=(const TempFont &) = delete;
+    ~TempFont();
 
-	~TempFont();
-
-	bool Open(const String &filename);
+    bool Open(const String& filename);
 };
 
-}   // namespace
+} // namespace
 #endif
+

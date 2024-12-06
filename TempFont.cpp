@@ -20,7 +20,6 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
 #include "TempFont.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -29,34 +28,36 @@ namespace Utility {
 
 int TempFont::open()
 {
-	return num_added = AddFontResourceEx(FName.c_str(), FR_PRIVATE, 0);
+    return num_added = AddFontResourceEx(FName.c_str(), FR_PRIVATE, 0);
 }
 
-TempFont::TempFont() {}
+TempFont::TempFont() { }
 
 void TempFont::close()
 {
-	if(num_added)
-		RemoveFontResourceEx(FName.c_str(), FR_PRIVATE, 0);
+    if (num_added)
+        RemoveFontResourceEx(FName.c_str(), FR_PRIVATE, 0);
 }
 
-bool TempFont::Open(const String &filename)
+bool TempFont::Open(const String& filename)
 {
-	if(num_added)
-		return false;
-	FName = filename;
-	open();
-	return (num_added != 0);
+    if (num_added)
+        return false;
+    FName = filename;
+    open();
+    return (num_added != 0);
 }
 
-TempFont::TempFont(const String &name) : FName(name), num_added(0)
+TempFont::TempFont(const String& name)
+    : FName(name)
+    , num_added(0)
 {
-	open();
+    open();
 }
 
 TempFont::~TempFont()
 {
-	close();
+    close();
 }
 
 }

@@ -28,11 +28,11 @@
 #include <System.ioutils.hpp>
 #include <system.win.registry.hpp>
 
+#include "Download.h"
 #include "Select.h"
 #include "WinVersionQuery.h"
 #include "about.h"
 #include "preferences.h"
-#include "Download.h"
 
 #pragma comment(lib, "CodeSiteExpressPkg.lib")
 #pragma link "CodeSiteLogging"
@@ -47,24 +47,24 @@ const String DBName("Dashboard.sdb");
 const String TableName("NETLOGGER");
 
 const String CreateTable("CREATE TABLE NETLOGGER"
-						 "( SerialNo VARCHAR(255), Callsign VARCHAR(255),"
-						 "State VARCHAR(255), Remarks VARCHAR(255),"
-						 "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
-						 "FirstName VARCHAR(255), Status VARCHAR(255),"
-						 "County VARCHAR(255), Grid VARCHAR(255),"
-						 "Street VARCHAR(255), Zip VARCHAR(255),"
-						 "MemberID VARCHAR(255), Country VARCHAR(255),"
-						 "DXCC VARCHAR(255),PreferredName VARCHAR(255))");
+                         "( SerialNo VARCHAR(255), Callsign VARCHAR(255),"
+                         "State VARCHAR(255), Remarks VARCHAR(255),"
+                         "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
+                         "FirstName VARCHAR(255), Status VARCHAR(255),"
+                         "County VARCHAR(255), Grid VARCHAR(255),"
+                         "Street VARCHAR(255), Zip VARCHAR(255),"
+                         "MemberID VARCHAR(255), Country VARCHAR(255),"
+                         "DXCC VARCHAR(255),PreferredName VARCHAR(255))");
 
 //---------------------------------------------------------------------------
+#include "updateInfo.h"
 #include <fstream>
 #include <iostream>
-#include "updateInfo.h"
 
 void __fastcall TFormMain::ExportCSV(String Filename)
 {
 	const char* comma = ",";
-	const char *quote = "\"";
+	const char* quote = "\"";
 	std::wfstream strm;
 
 	int cur_rec = FDTable1->RecNo;
@@ -115,31 +115,13 @@ retry:
 // to false in the degsin-time editors BEFORE building a release.
 //
 // Otherwise, the database runtime will throw an exception and die trying to
-// open a database that doesn't yet on a new machine exist!!!
+// open a database that doesn't exist yet!
 
 #define LEDFONT "alarm clock.ttf"
-
 
 __fastcall TFormMain::TFormMain(TComponent* Owner)
 	: TForm(Owner)
 {
-	CodeSite->SendMsg(csmInfo,String("Dashboard started:  ") +  TDateTime::CurrentDateTime().DateTimeString() );
-	String filename = TPath::GetAppPath();
-	filename = TPath::Combine(filename,LEDFONT);
-	ledfont.Open(filename);
-
-	OpenDatabase();
-	FDConnection1->Connected = true;
-	FDConnection1->ExecSQL(CreateTable);
-	FDTable1->TableName = TableName;
-	FDTable1->Active = true;
-
-	for (int x = 0; x < DBGrid1->Columns->Count; x++) {
-		DBGrid1->Columns->Items[x]->Width = 64;
-		ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
-	}
-
-	LoadDefaults();
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::MasterTick(TObject* Sender)
@@ -325,12 +307,12 @@ void __fastcall TFormMain::SaveDefaults()
 		Reg->WriteInteger("PollRate", RefreshRate);
 		Reg->WriteString("Style", Vcl::Themes::TStyleManager::ActiveStyle->Name);
 		Reg->CloseKey();
-	} catch (Exception *err) {
+	} catch (Exception* err) {
 
-		CodeSite->SendException("SaveDefaults()",err);
-	}
-	if (Reg)
-		delete Reg;
+		CodeSite->SendException(__FUNC__, err);
+    }
+    if (Reg)
+        delete Reg;
 }
 
 //
@@ -338,86 +320,85 @@ void __fastcall TFormMain::SaveDefaults()
 //
 void __fastcall TFormMain::LoadDefaults()
 {
-	TRegistry* Reg = NULL;
-	std::map<int, TColumn*> IndexingMap;
+    TRegistry* Reg = NULL;
+    std::map<int, TColumn*> IndexingMap;
 
-	try {
-		Reg = new TRegistry(KEY_READ);
-		Reg->RootKey = HKEY_CURRENT_USER;
-		Reg->OpenKeyReadOnly(fieldkey);
+    try {
+        Reg = new TRegistry(KEY_READ);
+        Reg->RootKey = HKEY_CURRENT_USER;
+        Reg->OpenKeyReadOnly(fieldkey);
 
         // read column data.
-		// save an index/column map for later use in a *second* pass
+        // save an index/column map for later use in a *second* pass
 
-		auto readfield = [this, &Reg, &IndexingMap](TColumn* Column) {
+        auto readfield = [this, &Reg, &IndexingMap](TColumn* Column) {
             Reg->OpenKeyReadOnly(fieldkey);
             if (!Reg->KeyExists(Column->FieldName)) // unlikely, but
                 return;
             Reg->OpenKeyReadOnly(Column->FieldName);
             Column->Visible = Reg->ReadInteger("Visible");
             Column->Width = Reg->ReadInteger("Width");
-            int Index = Reg->ReadInteger("Index");
-            IndexingMap[Index] = Column;
-            Reg->CloseKey();
-        };
+			int Index = Reg->ReadInteger("Index");
+			IndexingMap[Index] = Column;
+			Reg->CloseKey();
+		};
 
-        for (int x = 0; x < DBGrid1->Columns->Count; x++)
-            readfield(DBGrid1->Columns->Items[x]);
+		for (int x = 0; x < DBGrid1->Columns->Count; x++)
+			readfield(DBGrid1->Columns->Items[x]);
 
 		// get window state
 
-        if (Reg->OpenKeyReadOnly(pgmkey)) {
+		if (Reg->OpenKeyReadOnly(pgmkey)) {
 
-            Vcl::Themes::TStyleManager::TrySetStyle(Reg->ReadString("Style"));
-            if (Reg->ReadBool("Maximized"))
-                WindowState = TWindowState::wsMaximized;
-            Left = Reg->ReadInteger("Left");
-            Top = Reg->ReadInteger("Top");
-            Height = Reg->ReadInteger("Height");
-            Width = Reg->ReadInteger("Width");
-            UTC = Reg->ReadBool("UTC");
-            AMPM = Reg->ReadBool("AMPM");
-            RefreshRate = Reg->ReadInteger("PollRate");
-        }
-        Reg->CloseKey();
+			Vcl::Themes::TStyleManager::TrySetStyle(Reg->ReadString("Style"));
+			if (Reg->ReadBool("Maximized"))
+				WindowState = TWindowState::wsMaximized;
+			Left = Reg->ReadInteger("Left");
+			Top = Reg->ReadInteger("Top");
+			Height = Reg->ReadInteger("Height");
+			Width = Reg->ReadInteger("Width");
+			UTC = Reg->ReadBool("UTC");
+			AMPM = Reg->ReadBool("AMPM");
+			RefreshRate = Reg->ReadInteger("PollRate");
+		}
+		Reg->CloseKey();
 
-        // we must set the columns' display order indexes in *ordinal* fashion
-        // because of the left to right 'swapping' method Delphi uses to reorder
+		// we must set the columns' display order indexes in *ordinal* fashion
+		// because of the left to right 'swapping' method Delphi uses to reorder
 		// moved TColumns
 
-        for (auto Item : IndexingMap)
-            Item.second->Index = Item.first;
+		for (auto Item : IndexingMap)
+			Item.second->Index = Item.first;
 
-	} catch (Exception *err) {
+	} catch (Exception* err) {
 
-		CodeSite->SendException("LoadDefaults()", err);
-    }
-    if (Reg)
-        delete Reg;
+		CodeSite->SendException(__FUNC__, err);
+	}
+	if (Reg)
+		delete Reg;
 }
 
 void __fastcall TFormMain::FormClose(TObject* Sender, TCloseAction& Action)
 {
-	CodeSite->SendMsg(csmInfo,String("Dashboard exited:  ") +  TDateTime::CurrentDateTime().DateTimeString() );
+	CodeSite->SendMsg(csmInfo, String("Dashboard exited:  ") + TDateTime::CurrentDateTime().DateTimeString());
 	SaveDefaults();
-
 }
 
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::Exit1Click(TObject* Sender)
 {
-    RefreshTimer->Enabled = false;
-    ClockTimer->Enabled = false;
-    FDTable1->Active = false;
-    FDConnection1->Connected = false;
-    Close();
+	RefreshTimer->Enabled = false;
+	ClockTimer->Enabled = false;
+	FDTable1->Active = false;
+	FDConnection1->Connected = false;
+	Close();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::About1Click(TObject* Sender)
 {
-    AboutBox->ShowModal();
+	AboutBox->ShowModal();
 }
 //---------------------------------------------------------------------------
 
@@ -536,7 +517,7 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 
 					String text = "An updated version ";
 					text += Version;
-					text +=	" is available.\nDownload and install this update?";
+					text += " is available.\nDownload and install this update?";
 					UpdInfo->Label1->Caption = text;
 					UpdInfo->ShowModal();
 
@@ -556,9 +537,9 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 					ShowMessage("You have the latest version.");
 			}
 		}
-	} catch (Exception *err) {
+	} catch (Exception* err) {
 
-		CodeSite->SendException(err);
+		CodeSite->SendException(__FUNC__,err);
 	}
 	if (Response)
 		delete Response;
@@ -570,4 +551,36 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 		delete Document;
 }
 
+#define _LOGFILE_
+
+void __fastcall TFormMain::FormCreate(TObject* Sender)
+{
+#ifdef _LOGFILE_
+	TCodeSiteDestination* dest = new TCodeSiteDestination(this);
+	dest->LogFile->Active = true;
+	dest->LogFile->FileName = "DASHBOARD.csl";
+	String fpath = TPath::GetTempPath();
+	dest->LogFile->FilePath = fpath;
+	CodeSite->Destination = dest;
+#endif
+
+	CodeSite->SendMsg(csmInfo, String("Dashboard started:  ") + TDateTime::CurrentDateTime().DateTimeString());
+	String filename = TPath::GetAppPath();
+	filename = TPath::Combine(filename, LEDFONT);
+	ledfont.Open(filename);
+
+	OpenDatabase();
+	FDConnection1->Connected = true;
+	FDConnection1->ExecSQL(CreateTable);
+	FDTable1->TableName = TableName;
+	FDTable1->Active = true;
+
+    for (int x = 0; x < DBGrid1->Columns->Count; x++) {
+        DBGrid1->Columns->Items[x]->Width = 64;
+        ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
+    }
+
+    LoadDefaults();
+}
+//---------------------------------------------------------------------------
 

@@ -14,6 +14,7 @@ object FormMain: TFormMain
   Menu = MainMenu1
   Position = poDesigned
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
   object Panel2: TPanel

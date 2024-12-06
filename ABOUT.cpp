@@ -22,21 +22,21 @@
 
 #include "About.h"
 #include "winversionquery.h"
-//--------------------------------------------------------------------- 
+//---------------------------------------------------------------------
 #pragma resource "*.dfm"
-TAboutBox *AboutBox;
-//--------------------------------------------------------------------- 
+TAboutBox* AboutBox;
+//---------------------------------------------------------------------
 __fastcall TAboutBox::TAboutBox(TComponent* AOwner)
-	: TForm(AOwner)
+    : TForm(AOwner)
 {
-	Utility::WinVersionQuery ver;
-	Utility::VerStr verstr(ver.GetStr("FileVersion"));
-	lblVersion->Caption = "Version " + verstr.Shorter(3);
+    Utility::WinVersionQuery ver;
+    Utility::VerStr verstr(ver.GetStr("FileVersion"));
+    lblVersion->Caption = "Version " + verstr.Shorter(3);
 }
 //---------------------------------------------------------------------
-void __fastcall TAboutBox::LinkLabel1Click(TObject *Sender)
+void __fastcall TAboutBox::LinkLabel1Click(TObject* Sender)
 {
-	ShellExecute(NULL, L"open", L"http://www.gnu.org/licenses/", NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, L"open", L"http://www.gnu.org/licenses/", NULL, NULL, SW_SHOWNORMAL);
 }
 //---------------------------------------------------------------------------
 

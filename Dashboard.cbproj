@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>Dashboard.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">Dashboard</ProjectName>
         <TargetedPlatforms>1048579</TargetedPlatforms>
@@ -187,9 +187,9 @@
         <LinkPackageImports>rtl.bpi;vcl.bpi;xmlrtl.bpi;bindcomp.bpi;dbrtl.bpi;bindengine.bpi;RESTComponents.bpi;CustomIPTransport.bpi;VCLTeeGrid.bpi;vclimg.bpi;vclx.bpi;vcldb.bpi;vclwinx.bpi;dsnap.bpi;bindcompvcl.bpi;VclSmp.bpi;bcbsmp.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;FireDACSqliteDriver.bpi;CodeSiteExpressPkg.bpi;IndyProtocols.bpi;IndyCore.bpi;IndySystem.bpi</LinkPackageImports>
         <LinkPackageStatics>TeeGrid.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;OrpheusCR.lib</LinkPackageStatics>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Release>3</VerInfo_Release>
+        <VerInfo_Release>4</VerInfo_Release>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.0.3.0;InternalName=Dashboard;LegalCopyright=© 2024 WG5ENE;LegalTrademarks=;OriginalFilename=Dashboard.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.0.4.0;InternalName=Dashboard;LegalCopyright=© 2024 WG5ENE;LegalTrademarks=;OriginalFilename=Dashboard.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Icon_MainIcon>Resources\Dashboard.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
