@@ -1,7 +1,7 @@
-# *Dashboard*
+# *Dashboard for Net Logger*
 ---
-<img src="Dashboard.png" alt="drawing" width="200"/>
 
+<img src="Resources/Dashboard.png" alt="drawing" width="200"/>
 
 ---
 
