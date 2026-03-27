@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
-#include "CodeSiteLogging.hpp"
+
 // ---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
@@ -11,18 +11,18 @@ USEFORM("Preferences.cpp", FormPrefs);
 USEFORM("MainForm.cpp", FormMain);
 USEFORM("UpdateInfo.cpp", UpdInfo);
 USEFORM("Select.cpp", FormSelect);
-USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("Download.cpp", DL);
+USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("DataModule.cpp", DMod); /* TDataModule: File Type */
-
-// ---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 
 	try {
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		TStyleManager::TrySetStyle("Sky");
+		TStyleManager::TrySetStyle("Windows11 Modern Light");
 		Application->Title = "Dashboard";
+		Application->HelpFile = "";
 		Application->CreateForm(__classid(TDMod), &DMod);
 		Application->CreateForm(__classid(TFormMain), &FormMain);
 		Application->CreateForm(__classid(TFormPrefs), &FormPrefs);
@@ -34,7 +34,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 	}
 
 	catch (Exception &exception) {
-		CodeSite->SendException("_tWinMain()", &exception);
 		Application->ShowException(&exception);
 	}
 
@@ -43,7 +42,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 			throw Exception("");
 		}
 		catch (Exception &exception) {
-			CodeSite->SendException("_TWinMain(...)", &exception);
 			Application->ShowException(&exception);
 		}
 	}

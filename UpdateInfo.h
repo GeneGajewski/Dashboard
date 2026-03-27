@@ -25,17 +25,21 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.StdCtrls.hpp>
+#include <System.ImageList.hpp>
+#include <Vcl.Buttons.hpp>
+#include <Vcl.ImgList.hpp>
 //---------------------------------------------------------------------------
-class TUpdInfo : public TForm {
-__published: // IDE-managed Components
+class TUpdInfo : public TForm
+{
+  __published: // IDE-managed Components
     TButton* Button1;
     TButton* Button2;
     TLabel* Label1;
     TLabel* Label2;
     TRichEdit* RichEdit1;
-
-private: // User declarations
-public: // User declarations
+	TImageList *ImageList1;
+  private: // User declarations
+  public: // User declarations
     __fastcall TUpdInfo(TComponent* Owner);
 };
 //---------------------------------------------------------------------------

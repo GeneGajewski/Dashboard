@@ -1,9 +1,11 @@
 object FormMain: TFormMain
   Left = 0
-  Top = 0
+  Top = 55
+  HelpKeyword = 'Application'
+  HelpContext = 10
   Caption = 'DASHBOARD'
-  ClientHeight = 624
-  ClientWidth = 976
+  ClientHeight = 689
+  ClientWidth = 1201
   Color = clBtnFace
   Constraints.MinHeight = 400
   Font.Charset = DEFAULT_CHARSET
@@ -13,29 +15,33 @@ object FormMain: TFormMain
   Font.Style = []
   Menu = MainMenu1
   Position = poDesigned
+  WindowMenu = Preferences1
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
-  object Panel2: TPanel
+  object PanelTop: TPanel
     Left = 0
     Top = 0
-    Width = 976
+    Width = 1201
     Height = 193
     Align = alTop
     BevelOuter = bvNone
     Constraints.MinHeight = 193
-    Constraints.MinWidth = 976
+    Constraints.MinWidth = 902
+    ParentShowHint = False
     ShowCaption = False
+    ShowHint = True
     TabOrder = 0
-    object Panel1: TPanel
+    object PanelLeft: TPanel
       Left = 0
       Top = 0
       Width = 553
       Height = 193
       Align = alLeft
       BevelOuter = bvNone
-      Caption = 'Panel1'
+      Caption = 'PanelLeft'
       Constraints.MinHeight = 193
       Constraints.MinWidth = 553
       ShowCaption = False
@@ -136,6 +142,7 @@ object FormMain: TFormMain
         Top = 96
         Width = 81
         Height = 23
+        Hint = 'radio frequency'
         TabStop = False
         ReadOnly = True
         TabOrder = 0
@@ -145,6 +152,7 @@ object FormMain: TFormMain
         Top = 96
         Width = 81
         Height = 23
+        Hint = 'radio band'
         TabStop = False
         ReadOnly = True
         TabOrder = 1
@@ -154,6 +162,7 @@ object FormMain: TFormMain
         Top = 96
         Width = 81
         Height = 23
+        Hint = 'modulation mode'
         TabStop = False
         ReadOnly = True
         TabOrder = 2
@@ -163,6 +172,8 @@ object FormMain: TFormMain
         Top = 96
         Width = 185
         Height = 23
+        Hint = 'Network Controller callsign'
+        HelpKeyword = 'Application'
         TabStop = False
         ReadOnly = True
         TabOrder = 3
@@ -172,8 +183,10 @@ object FormMain: TFormMain
         Top = 144
         Width = 185
         Height = 23
+        Hint = 'net logger and software version'
+        HelpType = htKeyword
+        HelpKeyword = 'LICENSE'
         TabStop = False
-        ReadOnly = True
         TabOrder = 4
       end
       object edSubscribe: TEdit
@@ -181,6 +194,7 @@ object FormMain: TFormMain
         Top = 144
         Width = 81
         Height = 23
+        Hint = 'Number of Netlogger clients'
         TabStop = False
         ReadOnly = True
         TabOrder = 5
@@ -190,7 +204,8 @@ object FormMain: TFormMain
         Top = 39
         Width = 75
         Height = 25
-        Caption = '&Nets'
+        Hint = 'Choose a net to view'
+        Caption = 'Live &Nets'
         TabOrder = 6
         OnClick = btnNetsClick
       end
@@ -199,29 +214,30 @@ object FormMain: TFormMain
         Top = 40
         Width = 416
         Height = 23
+        Hint = 'Selected '#39'net'#39
         TabStop = False
         ReadOnly = True
         TabOrder = 7
       end
     end
-    object Panel4: TPanel
-      Left = 627
+    object PanelRight: TPanel
+      Left = 852
       Top = 0
       Width = 349
       Height = 193
       Align = alRight
       BevelOuter = bvNone
-      Caption = 'Panel4'
+      Caption = 'RightPanel'
       Constraints.MinWidth = 349
       ShowCaption = False
       TabOrder = 1
-      object panDate: TPanel
+      object PanelDate: TPanel
         Left = -2
-        Top = 23
+        Top = 19
         Width = 352
-        Height = 20
+        Height = 30
         BevelOuter = bvNone
-        Caption = 'panDate'
+        Caption = 'PanelDate'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -19
@@ -230,7 +246,7 @@ object FormMain: TFormMain
         ParentFont = False
         TabOrder = 0
       end
-      object panZone: TPanel
+      object PanelZone: TPanel
         Left = -2
         Top = 121
         Width = 353
@@ -256,7 +272,7 @@ object FormMain: TFormMain
         BevelWidth = 4
         Caption = 'panClockBorder'
         TabOrder = 2
-        object panClock: TPanel
+        object PanelClock: TPanel
           Left = 4
           Top = 4
           Width = 244
@@ -284,14 +300,26 @@ object FormMain: TFormMain
     AlignWithMargins = True
     Left = 10
     Top = 196
-    Width = 956
-    Height = 405
+    Width = 1181
+    Height = 471
+    Hint = 'double-click for Qrz.com info'
+    HelpKeyword = 'Application'
+    HelpContext = 10
     Margins.Left = 10
     Margins.Right = 10
     Align = alClient
     DataSource = DataSource1
+    DrawingStyle = gdsClassic
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgTitleClick, dgTitleHotTrack, dgThumbTracking]
+    ParentFont = False
+    ParentShowHint = False
     ReadOnly = True
+    ShowHint = True
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -304,266 +332,191 @@ object FormMain: TFormMain
         Expanded = False
         FieldName = 'SerialNo'
         Title.Caption = 'Serial No'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Callsign'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'State'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Remarks'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'QSLInfo'
         Title.Caption = 'Info'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CityCountry'
         Title.Caption = 'City'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'FirstName'
         Title.Caption = 'Name'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Status'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'County'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Grid'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Street'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Zip'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MemberID'
         Title.Caption = 'Member ID'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Country'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DXCC'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PreferredName'
         Title.Caption = 'Preferred Name'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = []
         Visible = True
       end>
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 604
-    Width = 976
-    Height = 20
-    Panels = <
-      item
-        Alignment = taRightJustify
-        Bevel = pbNone
-        Style = psOwnerDraw
-        Text = 'LED'
-        Width = 24
-      end
-      item
-        Bevel = pbNone
-        Text = 'Ready'
-        Width = 10
-      end>
-    OnDrawPanel = StatusBar1DrawPanel
+    Top = 670
+    Width = 1201
+    Height = 19
+    Panels = <>
+    SimplePanel = True
   end
   object ClockTimer: TTimer
     Enabled = False
     OnTimer = MasterTick
-    Left = 663
-    Top = 140
-  end
-  object ImageList1: TImageList
-    Left = 558
-    Top = 35
-    Bitmap = {
-      494C010102000800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
-      0000000000003600000028000000400000001000000001002000000000000010
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000BABABA68676767E8585858FF585858FE8F8F8FAAF7F7F70C0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000A2A9E568313FC7E81D2EC4FF1D2DC3FE6873D5AAF4F5FC0C0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000C6C6
-      C657595959FF606060FF636363FF656565FF646464FF626262FF5C5C5CFF6B6B
-      6BE100000000000000000000000000000000000000000000000000000000B1B7
-      E9571D2EC7FF1F32D5FF2033DEFF2134E1FF2033E0FF2033D9FF1F2FCDFF3745
-      C8E1000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000A5A5A5885C5C
-      5CFF656565FF6B6B6BFF6F6F6FFF707070FF707070FF6D6D6DFF686868FF6161
-      61FF585858FE0000000000000000000000000000000000000000868FDD881F2F
-      CEFF2134E1FF2337EEFF2439F6FF253AF9FF2439F8FF2338F2FF2235E8FF2032
-      D7FF1D2DC3FE0000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000ECECEC1D5B5B5BFF6666
-      66FF6E6E6EFF757575FF797979FF7B7B7BFF7A7A7AFF777777FF717171FF6A6A
-      6AFF616161FF6B6B6BE1000000000000000000000000E5E7F71D1E2FCCFF2134
-      E3FF2439F6FF293EFEFF3044FFFF3347FFFF3246FFFF2D42FFFF253AFBFF2236
-      ECFF2032D7FF3745C8E100000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000005A5A5AFB636363FF6D6D
-      6DFF777777FF7E7E7EFF808080FF818181FF818181FF7F7F7FFF7B7B7BFF7171
-      71FF686868FF5C5C5CFFF7F7F70C00000000000000002030C3FB2033DDFF2438
-      F3FF2C41FEFF364BFFFF3B4EFFFF3C4FFFFF3C4FFFFF394DFFFF3246FFFF253A
-      FBFF2235E8FF1F2FCDFFF4F5FC0C000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000005C5C5CFF686868FF7272
-      72FF7D7D7DFF818181FF838383FF838383FF838383FF828282FF7F7F7FFF7777
-      77FF6D6D6DFF626262FF8F8F8FAA00000000000000001E2FCCFF2235E8FF263B
-      FDFF3549FFFF3C4FFFFF3F52FFFF4052FFFF3F52FFFF3E51FFFF394DFFFF2D42
-      FFFF2338F2FF2033D9FF6873D5AA000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000E4E4E4295F5F5FFF6B6B6BFF7676
-      76FF7F7F7FFF828282FF838383FF838383FF838383FF838383FF818181FF7A7A
-      7AFF707070FF646464FF585858FE00000000DADDF5291F31D3FF2337EEFF2B3F
-      FEFF384CFFFF3F51FFFF4052FFFF4052FFFF4052FFFF3F52FFFF3C4FFFFF3246
-      FFFF2439F8FF2033E0FF1D2DC3FE000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000D7D7D73C606060FF6C6C6CFF7676
-      76FF7F7F7FFF838383FF838383FF838383FF838383FF838383FF818181FF7B7B
-      7BFF707070FF656565FF585858FF00000000C9CDF03C1F32D4FF2337F0FF2B40
-      FFFF394DFFFF3F52FFFF4052FFFF4052FFFF4052FFFF4052FFFF3C4FFFFF3347
-      FFFF253AF9FF2134E1FF1D2EC4FF000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000F7F7F70B696969FF6A6A6AFF7474
-      74FF7E7E7EFF828282FF838383FF838383FF838383FF838383FF808080FF7979
-      79FF6F6F6FFF646464FF676767E800000000F5F5FC0B2E3ED4FF2236ECFF293E
-      FEFF374BFFFF3E51FFFF4052FFFF4052FFFF4052FFFF3F52FFFF3B4EFFFF3044
-      FFFF2439F6FF2034DEFF313FC7E8000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000737373FF939393FF9A9A
-      9AFF949494FF8C8C8CFF868686FF838383FF838383FF878787FF8D8D8DFF9494
-      94FF979797FF8F8F8FFFBABABA680000000000000000404ED0FF6370ECFF6574
-      FBFF5A6AFFFF4D5FFFFF4456FFFF3F52FFFF4053FFFF4557FFFF4E60FFFF5969
-      FEFF6472F3FF626FE1FFA2A9E568000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000008A8A8AB2A5A5A5FFAAAA
-      AAFFAFAFAFFFB4B4B4FFB6B6B6FFB6B6B6FFB6B6B6FFB5B5B5FFB1B1B1FFADAD
-      ADFFA7A7A7FF7C7C7CFF000000000000000000000000616DD3B2808AE7FF818D
-      F5FF8490FEFF8A96FFFF8D99FFFF8E99FFFF8E99FFFF8C98FFFF8793FEFF828E
-      F9FF808BEEFF4D5AD2FF00000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000747474FFBBBB
-      BBFFBFBFBFFFC1C1C1FFC3C3C3FFC4C4C4FFC4C4C4FFC2C2C2FFC0C0C0FFBDBD
-      BDFFB5B5B5FFC6C6C657000000000000000000000000000000004351CDFF9FA7
-      EFFFA0A8F7FFA1AAFDFFA2ACFEFFA4ADFFFFA3ACFFFFA1AAFEFFA0A9FAFF9FA7
-      F3FF9AA1E8FFB2B8E95700000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000FBFBFB057B7B
-      7BFFCFCFCFFFD1D1D1FFD2D2D2FFD3D3D3FFD3D3D3FFD2D2D2FFD0D0D0FFC0C0
-      C0FFA7A7A7880000000000000000000000000000000000000000FAFAFD054C59
-      D0FFBCC2F3FFBCC2F7FFBDC3F9FFBDC3FAFFBDC3FAFFBDC2F8FFBCC2F4FFA8AE
-      EBFF8890DD880000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00008A8A8AB2A0A0A0FFE2E2E2FFE3E3E3FFE2E2E2FFC8C8C8FF676767FBECEC
-      EC1D000000000000000000000000000000000000000000000000000000000000
-      0000616DD3B27E87DEFFD7DAF6FFD7DAF7FFD7DAF7FFB3B9EDFF3241C7FBE5E7
-      F71D000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000F7F7F70BD7D7D73CE4E4E42900000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000F5F5FC0BCACEF03CDADDF52900000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000424D3E000000000000003E000000
-      2800000040000000100000000100010000000000800000000000000000000000
-      000000000000000000000000FFFFFF00FFFFFFFF00000000F81FF81F00000000
-      E00FE00F00000000C007C0070000000080038003000000008001800100000000
-      8001800100000000000100010000000000010001000000000001000100000000
-      80018001000000008003800300000000C003C00300000000C007C00700000000
-      F00FF00F00000000FC7FFC7F0000000000000000000000000000000000000000
-      000000000000}
+    Left = 983
+    Top = 572
   end
   object DataSource1: TDataSource
     DataSet = FDTable1
-    Left = 103
-    Top = 351
+    Left = 151
+    Top = 295
   end
   object MainMenu1: TMainMenu
-    Left = 574
-    Top = 119
+    Left = 502
+    Top = 295
     object File1: TMenuItem
       Caption = '&File'
       object Preferences1: TMenuItem
@@ -597,10 +550,10 @@ object FormMain: TFormMain
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'csv'
-    Filter = 'Comma delmited|*.csv'
+    Filter = 'comma delimited (*.csv)|*.csv'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 840
-    Top = 137
+    Left = 48
+    Top = 585
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
@@ -608,48 +561,43 @@ object FormMain: TFormMain
       'OpenMode=CreateUTF16'
       'DriverID=SQLite')
     LoginPrompt = False
-    Left = 480
-    Top = 360
-  end
-  object FDCommand1: TFDCommand
-    Connection = FDConnection1
-    CommandKind = skCreate
-    CommandText.Strings = (
-      'CREATE TABLE NETLOGGER'
-      '('
-      'SerialNo VARCHAR(255),'
-      'Callsign VARCHAR(255),'
-      'State VARCHAR(255),'
-      'Remarks VARCHAR(255),'
-      'QSLInfo VARCHAR(255),'
-      'CityCountry VARCHAR(255),'
-      'FirstName VARCHAR(255),'
-      'Status VARCHAR(255),'
-      'County VARCHAR(255),'
-      'Grid VARCHAR(255),'
-      'Street VARCHAR(255),'
-      'Zip VARCHAR(255),'
-      'MemberID VARCHAR(255),'
-      'Country VARCHAR(255),'
-      'DXCC VARCHAR(255),'
-      'PreferredName VARCHAR(255)'
-      ')'
-      ''
-      '')
-    Left = 600
-    Top = 368
+    Left = 56
+    Top = 296
   end
   object RefreshTimer: TTimer
     Enabled = False
     Interval = 20000
     OnTimer = RefreshTimerTimer
-    Left = 120
-    Top = 144
+    Left = 1088
+    Top = 576
   end
   object FDTable1: TFDTable
     Connection = FDConnection1
     TableName = 'NETLOGGER'
-    Left = 760
-    Top = 304
+    Left = 232
+    Top = 296
+  end
+  object RESTClient1: TRESTClient
+    Params = <>
+    SynchronizedEvents = False
+    OnHTTPProtocolError = RESTClient1HTTPProtocolError
+    OnNeedClientCertificate = RESTClient1NeedClientCertificate
+    OnAuthEvent = RESTClient1AuthEvent
+    OnSendData = RESTClient1SendData
+    OnReceiveData = RESTClient1ReceiveData
+    Left = 1112
+    Top = 256
+  end
+  object RESTRequest1: TRESTRequest
+    Client = RESTClient1
+    Params = <>
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 1024
+    Top = 256
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 928
+    Top = 256
   end
 end

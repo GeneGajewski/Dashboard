@@ -25,48 +25,50 @@
 #include "datamodule.h"
 #include "mainform.h"
 
-
 #define NETLIST_SECONDS 60
-
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-TFormSelect *FormSelect;
-//---------------------------------------------------------------------------
-__fastcall TFormSelect::TFormSelect(TComponent* Owner)
-	: TForm(Owner)
-{
-	NetList = new TStringList;
-}
-//---------------------------------------------------------------------------
-void __fastcall TFormSelect::FormShow(TObject *Sender)
-{
-	ModalResult = mrCancel;
+TFormSelect* FormSelect;
 
-	// refreshing the list of active nets is limited to once a minute
-	if(NetList->Count == 0 || SecondsBetween(GetTime(),last_checked) > NETLIST_SECONDS)
-	{
-		FormMain->LED(true);
-		Application->ProcessMessages();
-		FormMain->LED(false);
-
-		DMod->GetNetNames(NetList);
-		last_checked = GetTime();
-	}
-	ListBox1->Items = NetList;
-}
-//---------------------------------------------------------------------------
-void __fastcall TFormSelect::FormDestroy(TObject *Sender)
-{
-	if(NetList)
-		delete NetList;
-}
 //---------------------------------------------------------------------------
 
-void __fastcall TFormSelect::ListBox1DblClick(TObject *Sender)
+__fastcall TFormSelect::TFormSelect(TComponent* Owner) : TForm(Owner)
 {
-        ModalResult = mrOk;
+    NetList = new TStringList;
 }
+
+//---------------------------------------------------------------------------
+
+void __fastcall TFormSelect::FormShow(TObject* Sender)
+{
+    ModalResult = mrCancel;
+
+    // refreshing the list of active nets is limited to once a minute
+
+    if (NetList->Count == 0 || SecondsBetween(GetTime(), last_checked) > NETLIST_SECONDS)
+    {
+        DMod->GetNetNames(NetList);
+        last_checked = GetTime();
+    }
+    ListBox1->Items = NetList;
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TFormSelect::FormDestroy(TObject* Sender)
+{
+    if (NetList)
+        delete NetList;
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TFormSelect::ListBox1DblClick(TObject* Sender)
+{
+    ModalResult = mrOk;
+}
+
 //---------------------------------------------------------------------------
 

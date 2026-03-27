@@ -24,95 +24,123 @@
 
 // a utility class to handle old Windows Version stuff reasonably...
 
-namespace Utility {
-
-class WinVersionQuery
+namespace Utility
 {
-	private:
+    class WinVersionQuery
+    {
+      private:
+        WORD language, codepage;
+        DWORD flags;
+        char* pBlock; // parameter block
+        String modulename;
 
-	WORD language, codepage;
-	DWORD flags;
-	char *pBlock;           // parameter block
-	String modulename;
+        // translation table entry
+        struct LANGANDCODEPAGE
+        {
+            WORD wLanguage;
+            WORD wCodePage;
+        } * lp; // will eventually point to an array[??]
+        UINT lp_size; // of total size of array in bytes
 
-	// translation table entry
-	struct LANGANDCODEPAGE {
-	WORD wLanguage;
-	WORD wCodePage;
-	} *lp;              // will eventually point to an array[??]
-	UINT lp_size;       // of total size of array in bytes
+        const wchar_t* fmt = L"\\StringFileInfo\\%04x%04x\\";
+        const DWORD magic_number = 0xFEEF04BD;
+        String Query(const String &name);
+        bool GetpBlock(void);
+        DWORD GetFlags();
+      public:
+        WinVersionQuery();
+        WinVersionQuery(const wchar_t* module);
 
-	const wchar_t *fmt = L"\\StringFileInfo\\%04x%04x\\";
-	const DWORD magic_number = 0xFEEF04BD;
-	String Query(const String &name);
-	bool GetpBlock(void);
-	DWORD GetFlags();
+        // just avoid copies -> pBlock is alloc'd
+        WinVersionQuery(const WinVersionQuery &) = delete;
+        WinVersionQuery &operator=(const WinVersionQuery &) = delete;
 
-	public:
+        ~WinVersionQuery();
 
+        bool SetModuleName(const wchar_t* _modulename);
+        bool IsValid(void)
+        {
+            return pBlock != NULL;
+        }
+        const String &ModuleName()
+        {
+            return modulename;
+        }
+        // ==== STRINGS YOU CAN QUERY via GetStr ========================
+        //
+        //	 Comments, InternalName, ProductName, CompanyName, LegalCopyright,
+        //	 ProductVersion, FileDescription, LegalTrademarks, PrivateBuild,
+        //	 FileVersion, OriginalFilename,	SpecialBuild
 
-	WinVersionQuery();
-	WinVersionQuery(const wchar_t *module);
+        String GetStr(String name); // query string value
 
-	// just avoid copies -> pBlock is alloc'd
-	WinVersionQuery(const WinVersionQuery&) = delete;
-	WinVersionQuery& operator=(const WinVersionQuery&) = delete;
+        bool SetLCP(unsigned index); // table entry to use
+        unsigned LCPCount(); // number of table entries
+        WORD Language()
+        {
+            return language;
+        } // current language
+        WORD CodePage()
+        {
+            return codepage;
+        } // current codepage
+        const bool GetFixedInfo(VS_FIXEDFILEINFO &info); // get fixed struct
+        bool IsPreRelease()
+        {
+            return flags & VS_FF_PRERELEASE;
+        }
+        bool IsPrivateBuild()
+        {
+            return flags & VS_FF_PRIVATEBUILD;
+        }
+        bool IsSpecialBuild()
+        {
+            return flags & VS_FF_SPECIALBUILD;
+        }
+        bool IsPatched()
+        {
+            return flags & VS_FF_PATCHED;
+        }
+        bool IsInfoInferred()
+        {
+            return flags & VS_FF_INFOINFERRED;
+        }
+        bool IsDebug()
+        {
+            return flags & VS_FF_DEBUG;
+        }
+    };
 
-	~WinVersionQuery();
+    // a class to represent Microsoft's quadword version numbers as
+    // a dotted string and vs/v
 
-	bool SetModuleName(const wchar_t *_modulename);
-	bool IsValid(void) { return pBlock != NULL; }
-	const String &ModuleName() { return modulename; }
-// ==== STRINGS YOU CAN QUERY via GetStr ========================
-//
-//	 Comments, InternalName, ProductName, CompanyName, LegalCopyright,
-//	 ProductVersion, FileDescription, LegalTrademarks, PrivateBuild,
-//	 FileVersion, OriginalFilename,	SpecialBuild
+    class VerStr
+    {
+      private:
+        const char dot = '.';
+        WORD FMajor, FMinor, FRelease, FBuild;
 
-	String GetStr(String name);    // query string value
+        String makestr();
+        void set_string(const String &ver);
+      public:
+        VerStr();
+        VerStr(const String &ref);
+        VerStr &operator=(const String ref);
+        operator String()
+        {
+            return makestr();
+        }
+        ~VerStr();
+        String Shorter(unsigned num); // make a shortened string
 
-	bool SetLCP(unsigned index);    // table entry to use
-	unsigned LCPCount();                 // number of table entries
-	WORD Language() { return language; }    // current language
-	WORD CodePage() { return codepage; }    // current codepage
-	const bool GetFixedInfo(VS_FIXEDFILEINFO &info);    // get fixed struct
-	bool IsPreRelease() { return  flags & VS_FF_PRERELEASE; }
-	bool IsPrivateBuild() { return flags & VS_FF_PRIVATEBUILD; }
-	bool IsSpecialBuild() { return  flags & VS_FF_SPECIALBUILD; }
-	bool IsPatched() { return flags & VS_FF_PATCHED; }
-	bool IsInfoInferred() { return flags & VS_FF_INFOINFERRED; }
-	bool IsDebug() { return flags & VS_FF_DEBUG; }
+        __property String Version { read = makestr, write = set_string };
+        __property WORD Major = { read = FMajor, write = FMajor };
+        __property WORD Minor = { read = FMinor, write = FMinor };
+        __property WORD Release = { read = FRelease, write = FRelease };
+        __property WORD Build = { read = FBuild, write = FBuild };
+        unsigned __int64 AsUnsigned64();
+    };
 
-};
-
- // a class to represent Microsoft's quadword version numbers as
- // a dotted string and vs/v
-class VerStr
-{
-	private:
-
-	const char dot = '.';
-	WORD FMajor, FMinor, FRelease, FBuild;
-
-	String makestr();
-	void set_string(const String &ver);
-
-	public:
-
-	VerStr();
-	VerStr(const String &ref);
-    VerStr &operator=(const String ref);
-	operator String() { return makestr(); }
-	~VerStr();
-	String Shorter(unsigned num);   // make a shortened string
-
-	__property String Version 	{ read = makestr, write = set_string };
-	__property WORD Major = 	{ read = FMajor, write = FMajor };
-	__property WORD Minor = 	{ read = FMinor, write = FMinor };
-	__property WORD Release = 	{ read = FRelease, write = FRelease };
-	__property WORD Build = 	{ read = FBuild, write = FBuild };
-	unsigned __int64 AsUnsigned64();
-};
-
-}//namespace
+} // namespace Utility
 #endif
+

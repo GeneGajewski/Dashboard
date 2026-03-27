@@ -7,6 +7,13 @@ object DMod: TDMod
     BaseURL = 'https://www.netlogger.org/api'
     Params = <>
     SynchronizedEvents = False
+    OnHTTPProtocolError = RESTClient1HTTPProtocolError
+    OnValidateCertificate = RESTClient1ValidateCertificate
+    OnNeedClientCertificate = RESTClient1NeedClientCertificate
+    OnAuthEvent = RESTClient1AuthEvent
+    OnSendData = RESTClient1SendData
+    OnReceiveData = RESTClient1ReceiveData
+    OnReceiveDataEx = RESTClient1ReceiveDataEx
     Left = 40
     Top = 24
   end
@@ -14,7 +21,10 @@ object DMod: TDMod
     Client = RESTClient1
     Params = <>
     Response = RESTResponse1
+    OnBeforeExecute = RESTRequest1BeforeExecute
+    OnAfterExecute = RESTRequest1AfterExecute
     SynchronizedEvents = False
+    OnHTTPProtocolError = RESTRequest1HTTPProtocolError
     Left = 40
     Top = 87
   end
@@ -24,6 +34,12 @@ object DMod: TDMod
     Top = 144
   end
   object XMLDocument1: TXMLDocument
+    BeforeOpen = XMLDocument1BeforeOpen
+    AfterOpen = XMLDocument1AfterOpen
+    BeforeClose = XMLDocument1BeforeClose
+    BeforeNodeChange = XMLDocument1BeforeNodeChange
+    AfterNodeChange = XMLDocument1AfterNodeChange
+    OnAsyncLoad = XMLDocument1AsyncLoad
     Left = 40
     Top = 208
   end

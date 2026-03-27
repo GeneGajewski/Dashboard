@@ -21,7 +21,6 @@
  */
 
 //---------------------------------------------------------------------------
-#include "cspin.h"
 #include <Data.Bind.Components.hpp>
 #include <Data.Bind.DBScope.hpp>
 #include <Data.Bind.EngExt.hpp>
@@ -38,8 +37,9 @@
 #include <Vcl.StdCtrls.hpp>
 #include <map>
 //---------------------------------------------------------------------------
-class TFormPrefs : public TForm {
-__published: // IDE-managed Components
+class TFormPrefs : public TForm
+{
+  __published: // IDE-managed Components
     TGroupBox* GroupBox1;
     TCheckBox* ckbSerialNo;
     TCheckBox* ckbCall;
@@ -65,8 +65,8 @@ __published: // IDE-managed Components
     TButton* btnOk;
     TButton* btnCancel;
     TLabel* label;
-    TCSpinEdit* CSpinEdit1;
     TLabel* Label1;
+    TSpinEdit* SpinEdit1;
     void __fastcall cbStylesChange(TObject* Sender);
     void __fastcall btnOkClick(TObject* Sender);
     void __fastcall btnCancelClick(TObject* Sender);
@@ -74,14 +74,12 @@ __published: // IDE-managed Components
     void __fastcall ckbUTCClick(TObject* Sender);
     void __fastcall rb12Click(TObject* Sender);
     void __fastcall rb24Click(TObject* Sender);
-
-private: // User declarations
+  private: // User declarations
     std::map<TCheckBox*, TColumn*> VisMap;
     bool _utc, _ampm;
     int _styleindex;
     String cur_style;
-
-public: // User declarations
+  public: // User declarations
     __fastcall TFormPrefs(TComponent* Owner);
 };
 //---------------------------------------------------------------------------

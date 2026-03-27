@@ -27,15 +27,21 @@
 #pragma resource "*.dfm"
 TDL* DL;
 //---------------------------------------------------------------------------
+
 __fastcall TDL::TDL(TComponent* Owner)
-    : TForm(Owner)
+	: TForm(Owner)
 {
 }
+
 //---------------------------------------------------------------------------
+
+
+
 bool TDL::GetFile(String& url, String& filename)
 {
-    using System::Ioutils::TPath;
-    ABORT = false;
+	using System::Ioutils::TPath;
+	std::unique_ptr<TFileStream> FDownloadStream;
+	ABORT = false;
 
 	try {
 
@@ -51,16 +57,15 @@ bool TDL::GetFile(String& url, String& filename)
 		ProgressBar1->Position = 0;
 
 		// Create the file that is going to be downloaded
-		FDownloadStream = new TFileStream(filename, fmCreate);
+		FDownloadStream = std::make_unique<TFileStream>(filename, fmCreate);
 		FDownloadStream->Position = 0;
 
 		FGlobalStart = TThread::GetTickCount();
 
 		// synchronous http download
-		FHTTPResponse = FClient->Get(url, FDownloadStream);
+		FHTTPResponse = FClient->Get(url, FDownloadStream.get());
 
 		__int64 fsize = FDownloadStream->Size;
-		FDownloadStream->Free();
 
 		if (FHTTPResponse->StatusCode == 200) {
 			if (fsize == LSize)
@@ -69,55 +74,64 @@ bool TDL::GetFile(String& url, String& filename)
 
 	} catch (...) {
 		// exceptions?
-         /* TODO : Handler */
+		 /* TODO -oGG -clow : Handler */
 	}
 
 	// failed
 
-	if (FileExists(filename))
-		DeleteFile(filename);
 	filename = "";
 	return false;
 }
+
 //---------------------------------------------------------------------------
+
 void TDL::UpdateProgress(int AValue, float ASpeed, bool& Abort)
 {
 	Abort = ABORT;
 	ProgressBar1->Position = AValue;
 	String s;
-    s.sprintf(L"%0.2f MB/s", ASpeed / 1000000.0);
-    Label1->Caption = s;
-    Application->ProcessMessages();
+	s.sprintf(L"%0.2f MB/s", ASpeed / 1000000.0);
+	Label1->Caption = s;
+	Application->ProcessMessages();
 }
-//---------------------------------------------------------------------------
-void __fastcall TDL::ReceiveDataEvent(TObject* const Sender,
-    __int64 AContentLength, __int64 AReadCount, bool& Abort)
-{
-    if (Abort == false) {
-        UInt32 LTime = TThread::GetTickCount() - FGlobalStart;
-        float LSpeed = (AReadCount * 1000) / LTime;
 
-        bool LAbort = Abort;
-        System::Classes::TThread::Synchronize(
-            NULL, SyncLambda<int, float, bool&>(&this->UpdateProgress, AReadCount, LSpeed, LAbort));
-        Abort = LAbort;
-    }
+//---------------------------------------------------------------------------
+
+void __fastcall TDL::ReceiveDataEvent(TObject* const Sender,
+	__int64 AContentLength, __int64 AReadCount, bool& Abort)
+{
+	if (Abort == false) {
+		UInt32 LTime = TThread::GetTickCount() - FGlobalStart;
+		float LSpeed = (AReadCount * 1000) / LTime;
+
+		bool LAbort = Abort;
+		System::Classes::TThread::Synchronize(
+			NULL, SyncLambda<int, float, bool&>(&this->UpdateProgress, AReadCount, LSpeed, LAbort));
+		Abort = LAbort;
+	}
 }
+
 //--------------------------------------------------------------------------
+
 void __fastcall TDL::BtnAbortClick(TObject* Sender)
 {
-    ABORT = true;
+	ABORT = true;
 }
+
 //---------------------------------------------------------------------------
+
 void __fastcall TDL::FormCreate(TObject* Sender)
 {
-    FClient = THTTPClient::Create();
-    FClient->OnReceiveData = ReceiveDataEvent;
+	FClient = THTTPClient::Create();
+	FClient->OnReceiveData = ReceiveDataEvent;
 }
+
 //---------------------------------------------------------------------------
+
 void __fastcall TDL::FormDestroy(TObject* Sender)
 {
-    FClient->Free();
+	FClient->Free();
 }
+
 //---------------------------------------------------------------------------
 

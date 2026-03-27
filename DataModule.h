@@ -29,6 +29,7 @@
 #include <Xml.XMLDoc.hpp>
 #include <Xml.XMLIntf.hpp>
 #include <Xml.xmldom.hpp>
+#include <System.Net.URLClient.hpp>
 
 #include <map>
 #include <vector>
@@ -158,6 +159,34 @@ __published: // IDE-managed Components
     TRESTRequest* RESTRequest1;
     TRESTResponse* RESTResponse1;
     TXMLDocument* XMLDocument1;
+	void __fastcall RESTClient1ReceiveData(TObject * const Sender, __int64 AContentLength,
+          __int64 AReadCount, bool &AAbort);
+	void __fastcall RESTClient1SendData(TObject * const Sender, __int64 AContentLength,
+          __int64 AWriteCount, bool &AAbort);
+	void __fastcall RESTClient1ValidateCertificate(TObject * const Sender, TURLRequest * const ARequest,
+          const TCertificate &Certificate, bool &Accepted);
+	void __fastcall RESTRequest1BeforeExecute(TCustomRESTRequest *Sender);
+	void __fastcall RESTRequest1HTTPProtocolError(TCustomRESTRequest *Sender);
+	void __fastcall XMLDocument1AfterNodeChange(IXMLNode * const Node, TNodeChange ChangeType);
+	void __fastcall XMLDocument1AfterOpen(TObject *Sender);
+	void __fastcall XMLDocument1BeforeClose(TObject *Sender);
+	void __fastcall XMLDocument1AsyncLoad(TObject *Sender, int AsyncLoadState);
+	void __fastcall XMLDocument1BeforeOpen(TObject *Sender);
+	void __fastcall XMLDocument1BeforeNodeChange(IXMLNode * const Node, TNodeChange ChangeType);
+	void __fastcall RESTRequest1AfterExecute(TCustomRESTRequest *Sender);
+	void __fastcall RESTClient1HTTPProtocolError(TCustomRESTClient *Sender);
+	void __fastcall RESTClient1AuthEvent(TObject * const Sender, TAuthTargetType AnAuthTarget,
+          const UnicodeString ARealm, const UnicodeString AURL,
+          UnicodeString &AUserName, UnicodeString &APassword, bool &AbortAuth,
+          TAuthPersistenceType &Persistence);
+	void __fastcall RESTClient1NeedClientCertificate(TObject * const Sender, TURLRequest * const ARequest,
+          TCertificateList * const ACertificateList, int &AnIndex);
+	void __fastcall RESTClient1ReceiveDataEx(TObject * const Sender, __int64 AContentLength,
+          __int64 AReadCount, Pointer AChunk, DWORD AChunkLength, bool &AAbort);
+
+
+
+
 
 private: // User declarations
     NetLoggerXML NL; // holds everything!
