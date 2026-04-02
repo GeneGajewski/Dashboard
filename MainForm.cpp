@@ -62,17 +62,18 @@ TFormMain* FormMain;
 #define LogExcept(ex) CodeSite->SendException(ex);
 
 #define TABLENAME "NETLOGGER"
-const char* TableDef =
-    "CREATE TABLE " TABLENAME "( SerialNo VARCHAR(255), Callsign VARCHAR(255),"
-    "State VARCHAR(255), Remarks VARCHAR(255),"
-    "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
-    "FirstName VARCHAR(255), Status VARCHAR(255),"
-    "County VARCHAR(255), Grid VARCHAR(255),"
-    "Street VARCHAR(255), Zip VARCHAR(255),"
-    "MemberID VARCHAR(255), Country VARCHAR(255),"
-    "DXCC VARCHAR(255),PreferredName VARCHAR(255))";
+
+const char* TableDef = "CREATE TABLE " TABLENAME "( SerialNo VARCHAR(255), Callsign VARCHAR(255),"
+                       "State VARCHAR(255), Remarks VARCHAR(255),"
+                       "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
+                       "FirstName VARCHAR(255), Status VARCHAR(255),"
+                       "County VARCHAR(255), Grid VARCHAR(255),"
+                       "Street VARCHAR(255), Zip VARCHAR(255),"
+                       "MemberID VARCHAR(255), Country VARCHAR(255),"
+                       "DXCC VARCHAR(255),PreferredName VARCHAR(255))";
 
 #define REG_ROOT "Software\\WG5ENE\\DASHBOARD"
+
 static const char* PgmKey = REG_ROOT;
 static const char* FieldKey = REG_ROOT "\\Columns";
 
@@ -119,8 +120,7 @@ retry:
         if (x > 0)
             strm << comma;
 
-        strm << quote << FDTable1->Fields->Fields[x]->FieldName.c_str()
-             << quote;
+        strm << quote << FDTable1->Fields->Fields[x]->FieldName.c_str() << quote;
     }
 
     strm << std::endl;
@@ -141,9 +141,7 @@ retry:
                 strm << comma;
 
             strm << quote
-                 << FDTable1
-                        ->FieldByName(FDTable1->Fields->Fields[y]->FieldName)
-                        ->AsString.c_str()
+                 << FDTable1->FieldByName(FDTable1->Fields->Fields[y]->FieldName)->AsString.c_str()
                  << quote;
         }
 
@@ -179,8 +177,7 @@ void __fastcall TFormMain::UpdateClockDisplay()
 
     PanelDate->Caption = (now - offset).FormatString(DateFormat);
     PanelClock->Caption = (now - offset).FormatString(TimeFormat);
-    PanelZone->Caption =
-        UTC ? "Universal Time Coordinated" : TTimeZone::Local->DisplayName;
+    PanelZone->Caption = UTC ? "Universal Time Coordinated" : TTimeZone::Local->DisplayName;
 }
 
 //---------------------------------------------------------------------------
@@ -234,11 +231,11 @@ void __fastcall TFormMain::SetGrid(const CheckinList* clist)
         { // The NC's currently highlighted record
             recno = FDTable1->RecNo;
         }
-    }
+	}
 
     if (recno >= 0)
     {
-        FDTable1->RecNo = recno;
+		FDTable1->RecNo = recno;
     }
     FDTable1->EndBatch();
 
@@ -330,9 +327,6 @@ void __fastcall TFormMain::Shell(String cmd)
     EXITFUNC;
 }
 
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
 // save each grid column's visibility, width, and index to the Registry
 
 void __fastcall TFormMain::SaveDefaults()
@@ -375,8 +369,7 @@ void __fastcall TFormMain::SaveDefaults()
         Reg->WriteBool("UTC", UTC);
         Reg->WriteBool("AMPM", AMPM);
         Reg->WriteInteger("PollRate", RefreshRate);
-        Reg->WriteString(
-            "Style", Vcl::Themes::TStyleManager::ActiveStyle->Name);
+        Reg->WriteString("Style", Vcl::Themes::TStyleManager::ActiveStyle->Name);
         Reg->CloseKey();
     } catch (Exception* err)
     {
@@ -437,7 +430,7 @@ void __fastcall TFormMain::LoadDefaults()
             Width = Reg->ReadInteger("Width");
             UTC = Reg->ReadBool("UTC");
             AMPM = Reg->ReadBool("AMPM");
-			RefreshRate = Reg->ReadInteger("PollRate");
+            RefreshRate = Reg->ReadInteger("PollRate");
         }
         Reg->CloseKey();
 
@@ -621,8 +614,7 @@ void __fastcall TFormMain::RefreshTimerTimer(TObject* Sender)
 
 //---------------------------------------------------------------------------
 
-bool __fastcall TFormMain::CheckUpdate(
-    String& Url, String& VersionText, String& InfoText)
+bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String& InfoText)
 {
     ENTERFUNC;
 
@@ -640,14 +632,10 @@ bool __fastcall TFormMain::CheckUpdate(
         RESTRequest1->Client = RESTClient1;
         RESTRequest1->Resource = "Dashboard-Update.php";
         RESTRequest1->Response = RESTResponse1;
-        RESTRequest1->Params->AddItem(
-            L"maj", IntToStr(vstr.Major), pkGETorPOST);
-        RESTRequest1->Params->AddItem(
-            L"min", IntToStr(vstr.Minor), pkGETorPOST);
-        RESTRequest1->Params->AddItem(
-            L"rel", IntToStr(vstr.Release), pkGETorPOST);
-        RESTRequest1->Params->AddItem(
-            L"bld", IntToStr(vstr.Build), pkGETorPOST);
+        RESTRequest1->Params->AddItem(L"maj", IntToStr(vstr.Major), pkGETorPOST);
+        RESTRequest1->Params->AddItem(L"min", IntToStr(vstr.Minor), pkGETorPOST);
+        RESTRequest1->Params->AddItem(L"rel", IntToStr(vstr.Release), pkGETorPOST);
+        RESTRequest1->Params->AddItem(L"bld", IntToStr(vstr.Build), pkGETorPOST);
 
         RESTRequest1->Execute();
 
@@ -703,7 +691,7 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
         LogInfo("No update.");
         EXITFUNC;
         return;
-	}
+    }
 
     String text = "An updated version ";
     text += VersionText;
@@ -721,8 +709,7 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
         DL->Close();
         if (!FileName.IsEmpty())
         {
-            ShowMessage(
-                "Download complete. Application will close and update will proceed.");
+            ShowMessage("Download complete. Application will close and update will proceed.");
             ShellExecute(NULL, L"open", FileName.c_str(), NULL, NULL, SW_SHOW);
             Close();
         }
@@ -744,10 +731,8 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
         DWORD font_count;
         std::unique_ptr<TResourceStream> rs;
 
-        rs = std::make_unique<TResourceStream>(
-            THandle(HInstance), FONT_ID, RT_FONT);
-        ClockFontHandle =
-            AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
+        rs = std::make_unique<TResourceStream>(THandle(HInstance), FONT_ID, RT_FONT);
+        ClockFontHandle = AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
         LogInfo("Clock font Loaded.");
 
     } catch (Exception* err)
@@ -762,15 +747,14 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
     for (int x = 0; x < DBGrid1->Columns->Count; x++)
     {
         DBGrid1->Columns->Items[x]->Width = 64;
-        ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName,
-            DBGrid1->Columns->Items[x] });
+        ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
     }
     LoadDefaults();
     EXITFUNC;
 }
 
-void __fastcall BestFitDBGridColumn(TDBGrid* Grid, TColumn* Col,
-    int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/)
+void __fastcall BestFitDBGridColumn(
+    TDBGrid* Grid, TColumn* Col, int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/)
 {
     ENTERFUNC;
     LogInfo(Col->Title->Caption);
@@ -784,78 +768,76 @@ void __fastcall BestFitDBGridColumn(TDBGrid* Grid, TColumn* Col,
 
     TDataSet* DS = Col->Field->DataSet;
     if (!DS || !DS->Active)
-	{
+    {
         LogWarn("No DataSet or not active.");
         EXITFUNC;
         return;
     }
 
-	// Use grid fonts for accurate measurement
-	// Title font may differ from cell font
+    // Use grid fonts for accurate measurement
+    // Title font may differ from cell font
 
-	std::unique_ptr<TFont> oldFont = std::make_unique<TFont>();
+    std::unique_ptr<TFont> oldFont = std::make_unique<TFont>();
 
+    try
+    {
+        oldFont->Assign(Grid->Canvas->Font);
 
-	try
-	{
-		oldFont->Assign(Grid->Canvas->Font);
+        // 1) Measure title/header
+        Grid->Canvas->Font->Assign(Col->Title->Font);
+        int maxW = Grid->Canvas->TextWidth(Col->Title->Caption);
 
-		// 1) Measure title/header
-		Grid->Canvas->Font->Assign(Col->Title->Font);
-		int maxW = Grid->Canvas->TextWidth(Col->Title->Caption);
+        LogInfo("Col Title Font: " + Col->Title->Font->Name);
+        LogInfo("Col Font Size: " + IntToStr(Col->Title->Font->Size));
+        LogInfo("Title Width = " + IntToStr(maxW));
 
-		LogInfo("Col Title Font: " + Col->Title->Font->Name);
-		LogInfo("Col Font Size: " + IntToStr(Col->Title->Font->Size));
-		LogInfo("Title Width = " + IntToStr(maxW));
+        // 2) Measure cell contents (DisplayText = what user sees)
+        Grid->Canvas->Font->Assign(Grid->Font);
 
-		// 2) Measure cell contents (DisplayText = what user sees)
-		Grid->Canvas->Font->Assign(Grid->Font);
+        TBookmark bm = DS->GetBookmark();
+        DS->DisableControls();
+        try
+        {
+            DS->First();
+            int scanned = 0;
 
-		TBookmark bm = DS->GetBookmark();
-		DS->DisableControls();
-		try
-		{
-			DS->First();
-			int scanned = 0;
+            while (!DS->Eof)
+            {
+                UnicodeString s = Col->Field->DisplayText; // formatted display text
+                int w = Grid->Canvas->TextWidth(s);
+                if (w > maxW)
+                    maxW = w;
 
-			while (!DS->Eof)
-			{
-				UnicodeString s =
-					Col->Field->DisplayText; // formatted display text
-				int w = Grid->Canvas->TextWidth(s);
-				if (w > maxW)
-					maxW = w;
+                scanned++;
+                if (MaxRowsToScan > 0 && scanned >= MaxRowsToScan)
+                    break;
 
-				scanned++;
-				if (MaxRowsToScan > 0 && scanned >= MaxRowsToScan)
-					break;
+                DS->Next();
+            }
+        } __finally
+        {
+            if (DS->BookmarkValid(bm))
+                DS->GotoBookmark(bm);
+            DS->FreeBookmark(bm);
+            DS->EnableControls();
+        }
 
-				DS->Next();
-			}
-		} __finally
-		{
-			if (DS->BookmarkValid(bm))
-				DS->GotoBookmark(bm);
-			DS->FreeBookmark(bm);
-			DS->EnableControls();
-		}
-
-		Col->Width = maxW + Padding;
-		LogInfo("New col width  = " + IntToStr(Col->Width));
-	} __finally
-	{
-		Grid->Canvas->Font->Assign(oldFont.get());
-	}
-	EXITFUNC;
+        Col->Width = maxW + Padding;
+        LogInfo("New col width  = " + IntToStr(Col->Width));
+    } __finally
+    {
+        Grid->Canvas->Font->Assign(oldFont.get());
+    }
+    EXITFUNC;
 }
 
 void __fastcall BestFitAll(TDBGrid* Grid, int maxrows = 0, int padding = 0)
 {
-	ENTERFUNC;
+    ENTERFUNC;
 
-	LogInfo("Grid Font: " + Grid->Font->Name);
-	LogInfo("GridFont Size: " + IntToStr(Grid->Font->Size));
-	CodeSite->AddSeparator();
+    LogInfo("Grid Font: " + Grid->Font->Name);
+    LogInfo("GridFont Size: " + IntToStr(Grid->Font->Size));
+    CodeSite->AddSeparator();
 
     for (int x = 0; x < Grid->Columns->Count; x++)
         BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrows, padding);

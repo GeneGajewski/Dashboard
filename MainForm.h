@@ -1,3 +1,4 @@
+
 //---------------------------------------------------------------------------
 
 #ifndef MainFormH
@@ -78,11 +79,12 @@
 #include <System.Net.URLClient.hpp>
 #include <map>
 //---------------------------------------------------------------------------
-class TFormMain : public TForm {
-__published: // IDE-managed Components
-	TTimer *ClockTimer;
-	TPanel *PanelTop;
-	TPanel *PanelLeft;
+class TFormMain : public TForm
+{
+  __published: // IDE-managed Components
+    TTimer* ClockTimer;
+    TPanel* PanelTop;
+    TPanel* PanelLeft;
     TLabel* Label1;
     TLabel* Label2;
     TLabel* Label3;
@@ -106,23 +108,23 @@ __published: // IDE-managed Components
     TMenuItem* Help1;
     TMenuItem* About1;
     TEdit* edNET;
-	TPanel *PanelRight;
-	TPanel *PanelDate;
-	TPanel *PanelZone;
+    TPanel* PanelRight;
+    TPanel* PanelDate;
+    TPanel* PanelZone;
     TMenuItem* Export1;
     TSaveDialog* SaveDialog1;
     TPanel* panClockBorder;
-	TPanel *PanelClock;
+    TPanel* PanelClock;
     TFDConnection* FDConnection1;
-	TTimer *RefreshTimer;
+    TTimer* RefreshTimer;
     TFDTable* FDTable1;
-	TMenuItem *Help2;
-	TMenuItem *Update1;
-	TStatusBar *StatusBar1;
-	TRESTClient *RESTClient1;
-	TRESTRequest *RESTRequest1;
-	TRESTResponse *RESTResponse1;
-	void __fastcall MasterTick(TObject* Sender);
+    TMenuItem* Help2;
+    TMenuItem* Update1;
+    TStatusBar* StatusBar1;
+    TRESTClient* RESTClient1;
+    TRESTRequest* RESTRequest1;
+    TRESTResponse* RESTResponse1;
+    void __fastcall MasterTick(TObject* Sender);
     void __fastcall btnNetsClick(TObject* Sender);
     void __fastcall Preferences1Click(TObject* Sender);
     void __fastcall DBGrid1DblClick(TObject* Sender);
@@ -130,31 +132,28 @@ __published: // IDE-managed Components
     void __fastcall Help1Click(TObject* Sender);
     void __fastcall Exit1Click(TObject* Sender);
     void __fastcall About1Click(TObject* Sender);
-	void __fastcall Export1Click(TObject* Sender);
+    void __fastcall Export1Click(TObject* Sender);
     void __fastcall FormShow(TObject* Sender);
-	void __fastcall RefreshTimerTimer(TObject* Sender);
-	void __fastcall nmUpdatesClick(TObject* Sender);
-	void __fastcall FormCreate(TObject *Sender);
-	void __fastcall Fit1Click(TObject *Sender);
-
-
-private: // User declarations
-	void __fastcall UpdateClockDisplay();
-	bool LEDOn = false;
-	void __fastcall OpenDatabase();
-	String CurrentNet;
+    void __fastcall RefreshTimerTimer(TObject* Sender);
+    void __fastcall nmUpdatesClick(TObject* Sender);
+    void __fastcall FormCreate(TObject* Sender);
+    void __fastcall Fit1Click(TObject* Sender);
+  private: // User declarations
+    void __fastcall UpdateClockDisplay();
+    bool LEDOn = false;
+    void __fastcall OpenDatabase();
+    String CurrentNet;
     void __fastcall SetGrid(const CheckinList* clist);
     void __fastcall SaveDefaults();
     void __fastcall LoadDefaults();
     void __fastcall DataUpdate(const String& netname);
     int RefreshRate = 20;
-	void __fastcall Shell(String cmd);
-	void __fastcall ExportCSV(String Filename);
-	void __fastcall LoadFontFromResource(String ResourceName);
-    bool __fastcall CheckUpdate(String &url, String &versiontext, String &infotext);
+    void __fastcall Shell(String cmd);
+    void __fastcall ExportCSV(String Filename);
+    void __fastcall LoadFontFromResource(String ResourceName);
+    bool __fastcall CheckUpdate(String& url, String& versiontext, String& infotext);
     HANDLE ClockFontHandle;
-
-public: // User declarations
+  public: // User declarations
     __fastcall TFormMain(TComponent* Owner);
     std::map<String, TColumn*> ColMap;
     bool UTC = false;

@@ -25,24 +25,31 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
+#include <Vcl.Buttons.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <System.Skia.hpp>
+#include <Vcl.Skia.hpp>
 //---------------------------------------------------------------------------
 class TFormSelect : public TForm
 {
-__published:	// IDE-managed Components
-	TListBox *ListBox1;
-	TButton *btnOk;
-	void __fastcall FormShow(TObject *Sender);
-	void __fastcall FormDestroy(TObject *Sender);
-	void __fastcall ListBox1DblClick(TObject *Sender);
-private:	// User declarations
-	bool NeedUpdate = true;
-	TStringList *NetList;
-	String Selection;
+  __published: // IDE-managed Components
+    TListBox* ListBox1;
+    TButton* btnOk;
+    TButton* Button1;
+    TSkSvg* SkSvg1;
+    void __fastcall FormShow(TObject* Sender);
+    void __fastcall FormDestroy(TObject* Sender);
+    void __fastcall ListBox1DblClick(TObject* Sender);
+  private: // User declarations
+    bool NeedUpdate = true;
+    TStringList* NetList;
+    String Selection;
     TDateTime last_checked = 0;
-public:		// User declarations
-	__fastcall TFormSelect(TComponent* Owner);
+  public: // User declarations
+    __fastcall TFormSelect(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TFormSelect *FormSelect;
+extern PACKAGE TFormSelect* FormSelect;
 //---------------------------------------------------------------------------
 #endif
+

@@ -26,9 +26,6 @@
 #pragma resource "*.dfm"
 TUpdInfo* UpdInfo;
 //---------------------------------------------------------------------------
-__fastcall TUpdInfo::TUpdInfo(TComponent* Owner)
-    : TForm(Owner)
-{
-}
+__fastcall TUpdInfo::TUpdInfo(TComponent* Owner) : TForm(Owner) {}
 //---------------------------------------------------------------------------
 
