@@ -1,13 +1,18 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{C6F5ECAD-E5CD-467E-9E7D-96056EC2E5A2}</ProjectGuid>
-        <ProjectVersion>20.1</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <AppType>Application</AppType>
         <MainSource>Dashboard.cpp</MainSource>
         <Base>True</Base>
+<<<<<<< Updated upstream
         <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
+=======
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+>>>>>>> Stashed changes
         <ProjectName Condition="'$(ProjectName)'==''">Dashboard</ProjectName>
         <TargetedPlatforms>1048579</TargetedPlatforms>
         <CC_Suffix Condition="'$(CC_Suffix)'==''">c</CC_Suffix>
@@ -88,7 +93,11 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+<<<<<<< Updated upstream
         <AllPackageLibs>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;VCLTeeGrid.lib;TeeGrid.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;OrpheusCR.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;bcbsmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;CodeSiteExpressPkg.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib</AllPackageLibs>
+=======
+        <AllPackageLibs>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib;CodeSiteExpressPkg.lib</AllPackageLibs>
+>>>>>>> Stashed changes
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -132,6 +141,14 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <BCC_PCHName_Clang>DashboardPCH1.h</BCC_PCHName_Clang>
+<<<<<<< Updated upstream
+=======
+        <Icon_MainIcon>$(ProjectName).Artwork\Windows\AppIcon.ico</Icon_MainIcon>
+        <Icns_MainIcns>$(ProjectName).Artwork\Windows\AppIcon.icns</Icns_MainIcns>
+        <UWP_CppLogo44>$(ProjectName).Artwork\Windows\Uwp_44.png</UWP_CppLogo44>
+        <UWP_CppLogo150>$(ProjectName).Artwork\Windows\Uwp_150.png</UWP_CppLogo150>
+        <BCC_EnableBatchCompilation>true</BCC_EnableBatchCompilation>
+>>>>>>> Stashed changes
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -160,7 +177,11 @@
         <LinkPackageImports>rtl.bpi;vcl.bpi;xmlrtl.bpi;bindcomp.bpi;dbrtl.bpi;bindengine.bpi;RESTComponents.bpi;CustomIPTransport.bpi;VCLTeeGrid.bpi;vclimg.bpi;vclx.bpi;vcldb.bpi;vclwinx.bpi;dsnap.bpi;bindcompvcl.bpi;VclSmp.bpi;bcbsmp.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;FireDACSqliteDriver.bpi;CodeSiteExpressPkg.bpi;IndyProtocols.bpi;IndyCore.bpi;IndySystem.bpi</LinkPackageImports>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)$(CC_SUFFIX)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+<<<<<<< Updated upstream
         <LinkPackageStatics>TeeGrid.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;OrpheusCR.lib</LinkPackageStatics>
+=======
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib</LinkPackageStatics>
+>>>>>>> Stashed changes
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Icon_MainIcon>Resources\Dashboard.ico</Icon_MainIcon>
@@ -170,9 +191,22 @@
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.0.3.0;InternalName=Dashboard;LegalCopyright=© 2024 WG5ENE;LegalTrademarks=;OriginalFilename=Dashboard.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Release>3</VerInfo_Release>
+        <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
+        <UWP_CppLogo44>Resources\PC.ico</UWP_CppLogo44>
+        <UWP_CppLogo150>Resources\PC.ico</UWP_CppLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+<<<<<<< Updated upstream
+=======
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib;CodeSiteExpressPkg.lib</LinkPackageStatics>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
+        <UWP_CppLogo44>Resources\PC.ico</UWP_CppLogo44>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <UWP_CppLogo150>Resources\PC.ico</UWP_CppLogo150>
+>>>>>>> Stashed changes
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64x)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -190,7 +224,15 @@
         <VerInfo_Release>4</VerInfo_Release>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.0.4.0;InternalName=Dashboard;LegalCopyright=© 2024 WG5ENE;LegalTrademarks=;OriginalFilename=Dashboard.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+<<<<<<< Updated upstream
         <Icon_MainIcon>Resources\Dashboard.ico</Icon_MainIcon>
+=======
+        <UsePackages>true</UsePackages>
+        <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;xmlrtl.bpi;bindcomp.bpi;dbrtl.bpi;bindengine.bpi;RESTComponents.bpi;CustomIPTransport.bpi;vclimg.bpi;vclx.bpi;vcldb.bpi;vclwinx.bpi;dsnap.bpi;bindcompvcl.bpi;VclSmp.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;FireDACSqliteDriver.bpi;IndyProtocols.bpi;IndyCore.bpi;IndySystem.bpi;vclactnband.bpi;vcledge.bpi;vclie.bpi;soaprtl.bpi;inet.bpi;soapserver.bpi</LinkPackageImports>
+        <UWP_CppLogo44>Resources\PC.ico</UWP_CppLogo44>
+        <UWP_CppLogo150>Resources\PC.ico</UWP_CppLogo150>
+>>>>>>> Stashed changes
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -293,10 +335,13 @@
                     <Source Name="MainSource">Dashboard.cpp</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k290.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp290.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
+<<<<<<< Updated upstream
             <Deployment Version="4">
                 <DeployFile LocalName="$(BDS)\Redist\Win32\CustomIPTransport290.bpl" Configuration="Debug" Class="DependencyPackage">
                     <Platform Name="Win32">
@@ -634,6 +679,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+=======
+            <Deployment Version="5">
+>>>>>>> Stashed changes
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -649,13 +697,25 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64290.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64290.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64290mt.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64370.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64290mt.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64370mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\bin64\libc++-370.dll" Class="DependencyModule">
+                    <Platform Name="Win64x">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\bin64\libunwind-370.dll" Class="DependencyModule">
+                    <Platform Name="Win64x">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -664,32 +724,62 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32290.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32290.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32290mt.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32370.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32290mt.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32370mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c290.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c290.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c290mt.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c370.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c290mt.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c370mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\Dashboard.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>Dashboard.exe</RemoteName>
+                <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\binarm64ec\borlndmm.dll" Class="DependencyModule">
+                    <Platform Name="WinARM64EC">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\binarm64ec\cc64370.dll" Class="DependencyModule">
+                    <Platform Name="WinARM64EC">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\binarm64ec\cc64370mt.dll" Class="DependencyModule">
+                    <Platform Name="WinARM64EC">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Win32\Debug\Dashboard.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName=".\Win32\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName=".\Win64\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName=".\Win64x\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName=".clang-format" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="README.md" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="README.md" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="Resources\Dashboard.png" Configuration="Debug" Class="UWP_CppLogo44"/>
+                <DeployFile LocalName="Resources\Logo.png" Configuration="Release" Class="UWP_CppLogo44"/>
+                <DeployFile LocalName="Resources\PC.ico" Configuration="Debug" Class="UWP_CppLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+<<<<<<< Updated upstream
                 <DeployFile LocalName=".\Win32\Debug\Dashboard.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>Dashboard.tds</RemoteName>
@@ -721,6 +811,19 @@
                 <DeployFile LocalName="README.md" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+=======
+                <DeployFile LocalName="Resources\PC.ico" Configuration="Debug" Class="UWP_CppLogo44">
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Resources\PC.ico" Configuration="Release" Class="UWP_CppLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
+>>>>>>> Stashed changes
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -730,6 +833,11 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+<<<<<<< Updated upstream
+=======
+                <DeployFile LocalName="alarm clock - Copy.ttf_font" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="alarm clock - Copy.ttf_font" Configuration="Release" Class="ProjectFile"/>
+>>>>>>> Stashed changes
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
@@ -740,16 +848,6 @@
                     </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidClasses">
-                    <Platform Name="Android">
-                        <RemoteDir>classes</RemoteDir>
-                        <Operation>64</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>classes</RemoteDir>
-                        <Operation>64</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="AndroidFileProvider">
@@ -851,6 +949,16 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV35">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v35</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v35</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -1387,6 +1495,9 @@
                     <Platform Name="Win64x">
                         <Operation>1</Operation>
                     </Platform>
+                    <Platform Name="WinARM64EC">
+                        <Operation>1</Operation>
+                    </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectiOSDeviceDebug">
                     <Platform Name="iOSDevice32">
@@ -1461,6 +1572,10 @@
                         <RemoteDir>Assets</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
+                    <Platform Name="WinARM64EC">
+                        <RemoteDir>Assets</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
                 </DeployClass>
                 <DeployClass Name="UWP_CppLogo44">
                     <Platform Name="Win32">
@@ -1472,6 +1587,10 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win64x">
+                        <RemoteDir>Assets</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="WinARM64EC">
                         <RemoteDir>Assets</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -1688,6 +1807,7 @@
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64x" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="WinARM64EC" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

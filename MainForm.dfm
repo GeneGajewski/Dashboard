@@ -13,6 +13,10 @@ object FormMain: TFormMain
   Font.Style = []
   Menu = MainMenu1
   Position = poDesigned
+<<<<<<< Updated upstream
+=======
+  WindowMenu = Preferences1
+>>>>>>> Stashed changes
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -150,7 +154,7 @@ object FormMain: TFormMain
         TabOrder = 1
       end
       object edMode: TEdit
-        Left = 208
+        Left = 199
         Top = 96
         Width = 81
         Height = 23
@@ -295,7 +299,7 @@ object FormMain: TFormMain
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -12
+    TitleFont.Height = -13
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
     OnDblClick = DBGrid1DblClick
@@ -304,6 +308,10 @@ object FormMain: TFormMain
         Expanded = False
         FieldName = 'SerialNo'
         Title.Caption = 'Serial No'
+<<<<<<< Updated upstream
+=======
+        Width = 147
+>>>>>>> Stashed changes
         Visible = True
       end
       item
@@ -324,7 +332,11 @@ object FormMain: TFormMain
       item
         Expanded = False
         FieldName = 'QSLInfo'
+<<<<<<< Updated upstream
         Title.Caption = 'Info'
+=======
+        Title.Caption = 'QSL'
+>>>>>>> Stashed changes
         Visible = True
       end
       item
@@ -336,7 +348,10 @@ object FormMain: TFormMain
       item
         Expanded = False
         FieldName = 'FirstName'
+<<<<<<< Updated upstream
         Title.Caption = 'Name'
+=======
+>>>>>>> Stashed changes
         Visible = True
       end
       item
@@ -562,8 +577,13 @@ object FormMain: TFormMain
     Top = 351
   end
   object MainMenu1: TMainMenu
+<<<<<<< Updated upstream
     Left = 574
     Top = 119
+=======
+    Left = 590
+    Top = 311
+>>>>>>> Stashed changes
     object File1: TMenuItem
       Caption = '&File'
       object Preferences1: TMenuItem
@@ -594,6 +614,10 @@ object FormMain: TFormMain
         OnClick = nmUpdatesClick
       end
     end
+    object Fit1: TMenuItem
+      Caption = 'Fit'
+      OnClick = Fit1Click
+    end
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'csv'
@@ -607,6 +631,7 @@ object FormMain: TFormMain
       'Database=C:\Users\gajew\OneDrive\Desktop\Dashboard.sdb'
       'OpenMode=CreateUTF16'
       'DriverID=SQLite')
+    Connected = True
     LoginPrompt = False
     Left = 480
     Top = 360
@@ -648,8 +673,32 @@ object FormMain: TFormMain
   end
   object FDTable1: TFDTable
     Connection = FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'NETLOGGER'
+<<<<<<< Updated upstream
     Left = 760
     Top = 304
+=======
+    Left = 232
+    Top = 296
+  end
+  object RESTClient1: TRESTClient
+    Params = <>
+    SynchronizedEvents = False
+    Left = 1112
+    Top = 256
+  end
+  object RESTRequest1: TRESTRequest
+    Client = RESTClient1
+    Params = <>
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 1024
+    Top = 256
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 928
+    Top = 256
+>>>>>>> Stashed changes
   end
 end

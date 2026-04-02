@@ -62,8 +62,24 @@
 #include <Vcl.ImgList.hpp>
 #include <Vcl.Menus.hpp>
 #include <Vcl.StdCtrls.hpp>
+<<<<<<< Updated upstream
+=======
+#include <Vcl.WinXCtrls.hpp>
+#include <Data.Bind.Components.hpp>
+#include <Data.Bind.ObjectScope.hpp>
+#include <REST.Client.hpp>
+#include <REST.Types.hpp>
+#include <Soap.WebServExp.hpp>
+#include <Soap.WSDLBind.hpp>
+#include <Soap.WSDLPub.hpp>
+#include <System.TypInfo.hpp>
+#include <Xml.XMLSchema.hpp>
+#include <System.Skia.hpp>
+#include <Vcl.Skia.hpp>
+#include <System.Net.HttpClient.hpp>
+#include <System.Net.URLClient.hpp>
+>>>>>>> Stashed changes
 #include <map>
-#include "tempfont.h"
 //---------------------------------------------------------------------------
 class TFormMain : public TForm {
 __published: // IDE-managed Components
@@ -108,9 +124,18 @@ __published: // IDE-managed Components
     TFDTable* FDTable1;
 	TMenuItem *Help2;
 	TMenuItem *Update1;
+<<<<<<< Updated upstream
     void __fastcall MasterTick(TObject* Sender);
     void __fastcall StatusBar1DrawPanel(TStatusBar* StatusBar, TStatusPanel* Panel,
         const TRect& Rect);
+=======
+	TStatusBar *StatusBar1;
+	TRESTClient *RESTClient1;
+	TRESTRequest *RESTRequest1;
+	TRESTResponse *RESTResponse1;
+	TMenuItem *Fit1;
+	void __fastcall MasterTick(TObject* Sender);
+>>>>>>> Stashed changes
     void __fastcall btnNetsClick(TObject* Sender);
     void __fastcall Preferences1Click(TObject* Sender);
     void __fastcall DBGrid1DblClick(TObject* Sender);
@@ -123,6 +148,10 @@ __published: // IDE-managed Components
 	void __fastcall RefreshTimerTimer(TObject* Sender);
 	void __fastcall nmUpdatesClick(TObject* Sender);
 	void __fastcall FormCreate(TObject *Sender);
+<<<<<<< Updated upstream
+=======
+	void __fastcall Fit1Click(TObject *Sender);
+>>>>>>> Stashed changes
 
 private: // User declarations
 	void __fastcall UpdateClockDisplay();
