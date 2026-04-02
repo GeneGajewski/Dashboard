@@ -47,10 +47,6 @@ void __fastcall TFormSelect::FormShow(TObject *Sender)
 	// refreshing the list of active nets is limited to once a minute
 	if(NetList->Count == 0 || SecondsBetween(GetTime(),last_checked) > NETLIST_SECONDS)
 	{
-		FormMain->LED(true);
-		Application->ProcessMessages();
-		FormMain->LED(false);
-
 		DMod->GetNetNames(NetList);
 		last_checked = GetTime();
 	}

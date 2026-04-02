@@ -62,8 +62,6 @@
 #include <Vcl.ImgList.hpp>
 #include <Vcl.Menus.hpp>
 #include <Vcl.StdCtrls.hpp>
-<<<<<<< Updated upstream
-=======
 #include <Vcl.WinXCtrls.hpp>
 #include <Data.Bind.Components.hpp>
 #include <Data.Bind.ObjectScope.hpp>
@@ -78,14 +76,13 @@
 #include <Vcl.Skia.hpp>
 #include <System.Net.HttpClient.hpp>
 #include <System.Net.URLClient.hpp>
->>>>>>> Stashed changes
 #include <map>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm {
 __published: // IDE-managed Components
 	TTimer *ClockTimer;
-    TPanel* Panel2;
-    TPanel* Panel1;
+	TPanel *PanelTop;
+	TPanel *PanelLeft;
     TLabel* Label1;
     TLabel* Label2;
     TLabel* Label3;
@@ -101,8 +98,6 @@ __published: // IDE-managed Components
     TEdit* edSubscribe;
     TButton* btnNets;
     TDBGrid* DBGrid1;
-    TImageList* ImageList1;
-    TStatusBar* StatusBar1;
     TDataSource* DataSource1;
     TMainMenu* MainMenu1;
     TMenuItem* File1;
@@ -111,31 +106,23 @@ __published: // IDE-managed Components
     TMenuItem* Help1;
     TMenuItem* About1;
     TEdit* edNET;
-    TPanel* Panel4;
-    TPanel* panDate;
-    TPanel* panZone;
+	TPanel *PanelRight;
+	TPanel *PanelDate;
+	TPanel *PanelZone;
     TMenuItem* Export1;
     TSaveDialog* SaveDialog1;
     TPanel* panClockBorder;
-    TPanel* panClock;
+	TPanel *PanelClock;
     TFDConnection* FDConnection1;
-    TFDCommand* FDCommand1;
 	TTimer *RefreshTimer;
     TFDTable* FDTable1;
 	TMenuItem *Help2;
 	TMenuItem *Update1;
-<<<<<<< Updated upstream
-    void __fastcall MasterTick(TObject* Sender);
-    void __fastcall StatusBar1DrawPanel(TStatusBar* StatusBar, TStatusPanel* Panel,
-        const TRect& Rect);
-=======
 	TStatusBar *StatusBar1;
 	TRESTClient *RESTClient1;
 	TRESTRequest *RESTRequest1;
 	TRESTResponse *RESTResponse1;
-	TMenuItem *Fit1;
 	void __fastcall MasterTick(TObject* Sender);
->>>>>>> Stashed changes
     void __fastcall btnNetsClick(TObject* Sender);
     void __fastcall Preferences1Click(TObject* Sender);
     void __fastcall DBGrid1DblClick(TObject* Sender);
@@ -148,27 +135,26 @@ __published: // IDE-managed Components
 	void __fastcall RefreshTimerTimer(TObject* Sender);
 	void __fastcall nmUpdatesClick(TObject* Sender);
 	void __fastcall FormCreate(TObject *Sender);
-<<<<<<< Updated upstream
-=======
 	void __fastcall Fit1Click(TObject *Sender);
->>>>>>> Stashed changes
+
 
 private: // User declarations
 	void __fastcall UpdateClockDisplay();
 	bool LEDOn = false;
 	void __fastcall OpenDatabase();
 	String CurrentNet;
-    void __fastcall SetGrid(CheckinList* clist);
+    void __fastcall SetGrid(const CheckinList* clist);
     void __fastcall SaveDefaults();
     void __fastcall LoadDefaults();
     void __fastcall DataUpdate(const String& netname);
     int RefreshRate = 20;
 	void __fastcall Shell(String cmd);
 	void __fastcall ExportCSV(String Filename);
-	Utility::TempFont ledfont;
+	void __fastcall LoadFontFromResource(String ResourceName);
+    bool __fastcall CheckUpdate(String &url, String &versiontext, String &infotext);
+    HANDLE ClockFontHandle;
 
 public: // User declarations
-    void __fastcall LED(bool state);
     __fastcall TFormMain(TComponent* Owner);
     std::map<String, TColumn*> ColMap;
     bool UTC = false;

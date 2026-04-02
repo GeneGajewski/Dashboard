@@ -24,7 +24,6 @@
 #include "mainform.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "cspin"
 #pragma resource "*.dfm"
 TFormPrefs* FormPrefs;
 

@@ -243,14 +243,14 @@ object FormPrefs: TFormPrefs
     TabOrder = 4
     OnClick = btnCancelClick
   end
-  object CSpinEdit1: TCSpinEdit
+  object SpinEdit1: TSpinEdit
     Left = 280
-    Top = 241
+    Top = 248
     Width = 169
     Height = 24
-    MaxValue = 180
-    MinValue = 20
+    MaxValue = 0
+    MinValue = 0
     TabOrder = 5
-    Value = 20
+    Value = 0
   end
 end

@@ -20,7 +20,7 @@
 #pragma hdrstop
 
 #include "DataModule.h"
-#include "CodeSiteLogging.hpp"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -28,16 +28,10 @@
 TDMod* DMod;
 
 // log any nodes unknown to use
-void Unknown(String which_func, _di_IXMLNode node)
-{
-    CodeSite->SendMsg(csmWarning, which_func + ": " + node->NodeName);
-}
+void Unknown(String which_func, _di_IXMLNode node) {}
 
 //---------------------------------------------------------------------------
-__fastcall TDMod::TDMod(TComponent* Owner)
-    : TDataModule(Owner)
-{
-}
+__fastcall TDMod::TDMod(TComponent* Owner) : TDataModule(Owner) {}
 
 //
 // perform an XML REST query and parse the results into the netlogger structure
@@ -48,11 +42,12 @@ bool TDMod::DoQuery(NetLoggerXML& nl)
     _di_IXMLNode Node, Child;
     nl.Error = "";
 
-    try {
-
+    try
+    {
         RESTRequest1->Execute();
 
-        if (RESTResponse1->StatusCode == 200) {
+        if (RESTResponse1->StatusCode == 200)
+        {
             String Name;
 
             XMLDocument1->LoadFromXML(DMod->RESTResponse1->Content);
@@ -60,13 +55,15 @@ bool TDMod::DoQuery(NetLoggerXML& nl)
             Node = XMLDocument1->DocumentElement;
 
             // parse all document child nodes
-            for (int x = 0; x < Node->ChildNodes->Count; x++) {
+            for (int x = 0; x < Node->ChildNodes->Count; x++)
+            {
                 Child = Node->ChildNodes->Nodes[x];
                 Name = Child->NodeName;
 
                 if (Name == "Header")
                     Retval = ReadHeader(Child, nl.header);
-                else if (Name == "Error") {
+                else if (Name == "Error")
+                {
                     nl.Error = GetValue(Child);
                     Retval = false;
                     break;
@@ -76,15 +73,15 @@ bool TDMod::DoQuery(NetLoggerXML& nl)
                     Retval = ReadServerList(Child, nl.serverlist);
                 else if (Name == "CheckinList")
                     Retval = ReadCheckinList(Child, nl.checkinlist);
-                else {
+                else
+                {
                     Unknown(__FUNC__, Child);
                 }
             }
         }
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
 
@@ -99,9 +96,10 @@ bool TDMod::ReadHeader(_di_IXMLNode& Head, NLHeader& Header)
     String Name;
     _di_IXMLNode Child;
 
-    try {
-
-        for (int x = 0; x < Head->ChildNodes->Count; x++) {
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
             Child = Head->ChildNodes->Nodes[x];
             Name = Child->NodeName;
             if (Name == "CreationDateUTC")
@@ -112,14 +110,14 @@ bool TDMod::ReadHeader(_di_IXMLNode& Head, NLHeader& Header)
                 Header.APIVersion = GetValue(Child);
             else if (Name == "TimeZone")
                 Header.TimeZone = GetValue(Child);
-            else {
+            else
+            {
                 Unknown(__FUNC__, Child);
             }
         }
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
     return true;
@@ -133,13 +131,13 @@ bool TDMod::ReadServerList(_di_IXMLNode& Head, ServerList& List)
     String Name;
     _di_IXMLNode Child;
 
-    try {
-
+    try
+    {
         List.Servers.clear();
         List.NetServerMap.clear();
 
-        for (int x = 0; x < Head->ChildNodes->Count; x++) {
-
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
             Child = Head->ChildNodes->Nodes[x];
             Name = Child->NodeName;
 
@@ -147,14 +145,14 @@ bool TDMod::ReadServerList(_di_IXMLNode& Head, ServerList& List)
                 List.ResponseCode = GetValue(Child);
             else if (Name == "Server")
                 ReadServer(Child, List);
-            else {
+            else
+            {
                 Unknown(__FUNC__, Child);
             }
         }
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
 
@@ -172,10 +170,10 @@ bool TDMod::ReadServer(_di_IXMLNode& Head, ServerList& List)
     NLServer Server;
     bool Retval = true;
 
-    try {
-
-        for (int x = 0; x < Head->ChildNodes->Count; x++) {
-
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
             Child = Head->ChildNodes->Nodes[x];
             Name = Child->NodeName;
 
@@ -183,12 +181,15 @@ bool TDMod::ReadServer(_di_IXMLNode& Head, ServerList& List)
                 Server.ServerName = GetValue(Child);
             else if (Name == "ServerActiveNetCount")
                 Server.ServerActiveNetCount = GetValue(Child);
-            else if (Name == "Net") {
-                if (!ReadNet(Child, Server)) {
+            else if (Name == "Net")
+            {
+                if (!ReadNet(Child, Server))
+                {
                     Retval = false;
                     break;
                 }
-            } else {
+            } else
+            {
                 Unknown(__FUNC__, Child);
             }
         }
@@ -200,9 +201,8 @@ bool TDMod::ReadServer(_di_IXMLNode& Head, ServerList& List)
         // add server to Serrverlist
         List.Servers.insert(List.Servers.end(), { Server.ServerName, Server });
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
 
@@ -219,10 +219,10 @@ bool TDMod::ReadNet(_di_IXMLNode& Head, NLServer& Server)
     _di_IXMLNode Child;
     NLNet Net;
 
-    try {
-
-        for (int x = 0; x < Head->ChildNodes->Count; x++) {
-
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
             Child = Head->ChildNodes->Nodes[x];
             Name = Child->NodeName;
 
@@ -262,16 +262,16 @@ bool TDMod::ReadNet(_di_IXMLNode& Head, NLServer& Server)
                 Net.ClosedAt = GetValue(Child);
             else if (Name == "Asassinated")
                 Net.Asassinated = GetValue(Child);
-            else {
+            else
+            {
                 Unknown(__FUNC__, Child);
             }
         }
 
         Server.Nets.insert(Server.Nets.end(), { Net.NetName, Net });
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
 
@@ -287,11 +287,12 @@ bool TDMod::ReadCheckinList(_di_IXMLNode& Head, CheckinList& List)
     String Name;
     _di_IXMLNode Child;
 
-    try {
-
+    try
+    {
         List.Checkins.clear();
 
-        for (int x = 0; x < Head->ChildNodes->Count; x++) {
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
             Child = Head->ChildNodes->Nodes[x];
             Name = Child->NodeName;
             if (Name == "ServerName")
@@ -306,14 +307,14 @@ bool TDMod::ReadCheckinList(_di_IXMLNode& Head, CheckinList& List)
                 List.Pointer = GetValue(Child);
             else if (Name == "Checkin")
                 ReadCheckin(Child, List);
-            else {
+            else
+            {
                 Unknown(__FUNC__, Child);
             }
         }
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
     return true;
@@ -328,9 +329,10 @@ bool TDMod::ReadCheckin(_di_IXMLNode& Head, CheckinList& List)
     _di_IXMLNode Child;
     NLCheckin Chk;
 
-    try {
-
-        for (int x = 0; x < Head->ChildNodes->Count; x++) {
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
             Child = Head->ChildNodes->Nodes[x];
             Name = Child->NodeName;
 
@@ -366,16 +368,16 @@ bool TDMod::ReadCheckin(_di_IXMLNode& Head, CheckinList& List)
                 Chk.DXCC = GetValue(Child);
             else if (Name == "PreferredName")
                 Chk.PreferredName = GetValue(Child);
-            else {
+            else
+            {
                 Unknown(__FUNC__, Child);
             }
         }
 
         List.Checkins.insert(List.Checkins.end(), Chk);
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
     return true;
@@ -390,19 +392,17 @@ String TDMod::GetValue(const _di_IXMLNode& Node)
 {
     String retval;
 
-    try {
-
+    try
+    {
         if (Node->IsTextElement)
             retval = Node->Text;
-        else {
+        else
+        {
             retval = ""; // empty node ...
         }
 
     } catch (Exception* e) // just in case...
     {
-        CodeSite->SendMsg(csmWarning, Node->NodeName);
-        CodeSite->SendException(__FUNC__, e);
-
         retval = "";
     }
     return retval;
@@ -414,13 +414,13 @@ String TDMod::GetValue(const _di_IXMLNode& Node)
 
 bool TDMod::GetNetData(const String& Name, NLNet& Net)
 {
-    try {
+    try
+    {
+        Net =
+            NL.serverlist.Servers[NL.serverlist.NetServerMap[Name]].Nets[Name];
 
-        Net = NL.serverlist.Servers[NL.serverlist.NetServerMap[Name]].Nets[Name];
-
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
     return true;
@@ -434,8 +434,8 @@ bool TDMod::GetNetNames(TStringList* List)
 {
     bool Retval;
 
-    try {
-
+    try
+    {
         List->Clear();
 
         NL.serverlist.Servers.clear();
@@ -448,9 +448,8 @@ bool TDMod::GetNetNames(TStringList* List)
         for (auto Item : NL.serverlist.NetServerMap)
             List->Add(Item.first);
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
         return false;
     }
     return Retval;
@@ -464,8 +463,8 @@ CheckinList* TDMod::GetCheckins(const String Netname)
 {
     bool Retval = false;
 
-    try {
-
+    try
+    {
         String Servername = NL.serverlist.NetServerMap[Netname];
 
         // XML query
@@ -478,9 +477,8 @@ CheckinList* TDMod::GetCheckins(const String Netname)
         if (Retval)
             return &NL.checkinlist;
 
-    } catch (Exception* e) {
-
-        CodeSite->SendException(__FUNC__, e);
+    } catch (Exception* e)
+    {
     }
 
     return NULL;
