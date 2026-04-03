@@ -247,45 +247,14 @@ void __fastcall TFormMain::btnNetsClick(TObject* Sender)
 
     if (FormSelect->ModalResult == mrOk && selected != -1)
     {
-        DataUpdate(FormSelect->ListBox1->Items->Strings[selected]);
-    }
+		DataUpdate(FormSelect->ListBox1->Items->Strings[selected]);
+	}
 
     ActiveControl = DBGrid1;
     RefreshTimer->Enabled = true;
     EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-
-void __fastcall TFormMain::Preferences1Click(TObject* Sender)
-{
-    ENTERFUNC;
-    String curstyle = Vcl::Themes::TStyleManager::ActiveStyle->Name;
-    FormPrefs->SpinEdit1->Value = RefreshRate;
-
-    if (FormPrefs->ShowModal() == mrOk)
-    {
-        RefreshRate = FormPrefs->SpinEdit1->Value;
-
-    } else
-    {
-        if (Vcl::Themes::TStyleManager::ActiveStyle->Name != curstyle)
-            Vcl::Themes::TStyleManager::TrySetStyle(curstyle);
-    }
-    EXITFUNC;
-}
-
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::Help1Click(TObject* Sender)
-{
-    ENTERFUNC;
-    Application->HelpKeyword("Introduction");
-    EXITFUNC;
-}
-
-//---------------------------------------------------------------------------
-
 void __fastcall TFormMain::DBGrid1DblClick(TObject* Sender)
 {
     ENTERFUNC;
@@ -301,260 +270,185 @@ void __fastcall TFormMain::DBGrid1DblClick(TObject* Sender)
             return;
         }
 
-        Cmd = "https://qrz.com/db/" + Callsign;
-        Shell(Cmd);
-    }
+		Cmd = "https://qrz.com/db/" + Callsign;
+		Shell(Cmd);
+	}
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::Shell(String cmd)
 {
-    ENTERFUNC;
-    LogInfo("Shell: " + cmd);
-    ShellExecuteW(NULL, L"open", cmd.c_str(), NULL, NULL, SW_SHOWNORMAL);
-    EXITFUNC;
+	ENTERFUNC;
+	LogInfo("Shell: " + cmd);
+	ShellExecuteW(NULL, L"open", cmd.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	EXITFUNC;
 }
-
-// save each grid column's visibility, width, and index to the Registry
-
+//---------------------------------------------------------------------------
 void __fastcall TFormMain::SaveDefaults()
 {
-    ENTERFUNC;
-    std::unique_ptr<TRegistry> Reg;
+	ENTERFUNC;
+	std::unique_ptr<TRegistry> Reg;
 
-    try
-    {
-        Reg = std::make_unique<TRegistry>(KEY_WRITE);
-        Reg->RootKey = HKEY_CURRENT_USER;
-        Reg->OpenKey(FieldKey, true);
+	try
+	{
+		Reg = std::make_unique<TRegistry>(KEY_WRITE);
+		Reg->RootKey = HKEY_CURRENT_USER;
+		Reg->OpenKey(FieldKey, true);
 
-        // lambda to write out a data column's particulars
+		// lambda to write out a data column's particulars
 
-        auto writefield = [this, &Reg](TColumn* col) {
-            Reg->OpenKey(FieldKey, false);
-            Reg->OpenKey(col->FieldName, true);
-            Reg->WriteBool("Visible", col->Visible);
+		auto writefield = [this, &Reg](TColumn* col) {
+			Reg->OpenKey(FieldKey, false);
+			Reg->OpenKey(col->FieldName, true);
+			Reg->WriteBool("Visible", col->Visible);
 
-            col->Visible = true; // need  to do this here since the col width is
-            // incorrectly reported as -1 when col is not visible
+			col->Visible = true; // need  to do this here since the col width is
+			// incorrectly reported as -1 when col is not visible
 
-            Reg->WriteInteger("Width", col->Width);
-            Reg->WriteInteger("Index", col->Index);
-            Reg->CloseKey();
-        };
+			Reg->WriteInteger("Width", col->Width);
+			Reg->WriteInteger("Index", col->Index);
+			Reg->CloseKey();
+		};
 
-        for (int x = 0; x < DBGrid1->Columns->Count; x++)
-            writefield(DBGrid1->Columns->Items[x]);
+		for (int x = 0; x < DBGrid1->Columns->Count; x++)
+			writefield(DBGrid1->Columns->Items[x]);
 
-        // save window state
+		// save window state
 
-        Reg->OpenKey(PgmKey, true);
-        Reg->WriteBool("Maximized", WindowState == TWindowState::wsMaximized);
-        Reg->WriteInteger("Top", Top);
-        Reg->WriteInteger("Left", Left);
-        Reg->WriteInteger("Width", Width);
-        Reg->WriteInteger("Height", Height);
-        Reg->WriteBool("UTC", UTC);
-        Reg->WriteBool("AMPM", AMPM);
-        Reg->WriteInteger("PollRate", RefreshRate);
-        Reg->WriteString("Style", Vcl::Themes::TStyleManager::ActiveStyle->Name);
-        Reg->CloseKey();
-    } catch (Exception* err)
-    {
-        LogExcept(err);
-        // do nothing
-    }
-    EXITFUNC;
+		Reg->OpenKey(PgmKey, true);
+		Reg->WriteBool("Maximized", WindowState == TWindowState::wsMaximized);
+		Reg->WriteInteger("Top", Top);
+		Reg->WriteInteger("Left", Left);
+		Reg->WriteInteger("Width", Width);
+		Reg->WriteInteger("Height", Height);
+		Reg->WriteBool("UTC", UTC);
+		Reg->WriteBool("AMPM", AMPM);
+		Reg->WriteInteger("PollRate", RefreshRate);
+		Reg->WriteString("Style", Vcl::Themes::TStyleManager::ActiveStyle->Name);
+		Reg->CloseKey();
+	} catch (Exception* err)
+	{
+		LogExcept(err);
+		// do nothing
+	}
+	EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-// restore saved columns order and widths from registry
-
 void __fastcall TFormMain::LoadDefaults()
 {
-    ENTERFUNC;
-    std::unique_ptr<TRegistry> Reg;
-    std::map<int, TColumn*> IndexingMap;
+	ENTERFUNC;
+	std::unique_ptr<TRegistry> Reg;
+	std::map<int, TColumn*> IndexingMap;
 
-    try
-    {
-        Reg = std::make_unique<TRegistry>(KEY_READ);
-        Reg->RootKey = HKEY_CURRENT_USER;
-        Reg->OpenKeyReadOnly(FieldKey);
+	try
+	{
+		Reg = std::make_unique<TRegistry>(KEY_READ);
+		Reg->RootKey = HKEY_CURRENT_USER;
+		Reg->OpenKeyReadOnly(FieldKey);
 
-        // lambda to read column data and update an index/column map for
-        // later use in a *second* pass
+		// lambda to read column data and update an index/column map for
+		// later use in a *second* pass
 
-        auto readfield = [this, &Reg, &IndexingMap](TColumn* Column) {
-            Reg->OpenKeyReadOnly(FieldKey);
+		auto readfield = [this, &Reg, &IndexingMap](TColumn* Column) {
+			Reg->OpenKeyReadOnly(FieldKey);
 
-            if (!Reg->KeyExists(Column->FieldName)) // unlikely, but
-                return;
+			if (!Reg->KeyExists(Column->FieldName)) // unlikely, but
+				return;
 
-            Reg->OpenKeyReadOnly(Column->FieldName);
-            Column->Visible = Reg->ReadInteger("Visible");
-            Column->Width = Reg->ReadInteger("Width");
-            int Index = Reg->ReadInteger("Index");
+			Reg->OpenKeyReadOnly(Column->FieldName);
+			Column->Visible = Reg->ReadInteger("Visible");
+			Column->Width = Reg->ReadInteger("Width");
+			int Index = Reg->ReadInteger("Index");
 
-            IndexingMap[Index] = Column;
-            Reg->CloseKey();
-        };
+			IndexingMap[Index] = Column;
+			Reg->CloseKey();
+		};
 
-        for (int x = 0; x < DBGrid1->Columns->Count; x++)
-            readfield(DBGrid1->Columns->Items[x]);
+		for (int x = 0; x < DBGrid1->Columns->Count; x++)
+			readfield(DBGrid1->Columns->Items[x]);
 
-        // get stored window state
+		// get stored window state
 
-        if (Reg->OpenKeyReadOnly(PgmKey))
-        {
-            Vcl::Themes::TStyleManager::TrySetStyle(Reg->ReadString("Style"));
+		if (Reg->OpenKeyReadOnly(PgmKey))
+		{
+			Vcl::Themes::TStyleManager::TrySetStyle(Reg->ReadString("Style"));
 
-            if (Reg->ReadBool("Maximized"))
-                WindowState = TWindowState::wsMaximized;
+			if (Reg->ReadBool("Maximized"))
+				WindowState = TWindowState::wsMaximized;
 
-            Left = Reg->ReadInteger("Left");
-            Top = Reg->ReadInteger("Top");
-            Height = Reg->ReadInteger("Height");
-            Width = Reg->ReadInteger("Width");
-            UTC = Reg->ReadBool("UTC");
-            AMPM = Reg->ReadBool("AMPM");
-            RefreshRate = Reg->ReadInteger("PollRate");
-        }
-        Reg->CloseKey();
+			Left = Reg->ReadInteger("Left");
+			Top = Reg->ReadInteger("Top");
+			Height = Reg->ReadInteger("Height");
+			Width = Reg->ReadInteger("Width");
+			UTC = Reg->ReadBool("UTC");
+			AMPM = Reg->ReadBool("AMPM");
+			RefreshRate = Reg->ReadInteger("PollRate");
+		}
+		Reg->CloseKey();
 
-        // we must set the columns' display order indexes in an *ordinal* fashion
-        // because of the 'swapping' method Delphi uses to reorder TColumns
+		// we must set the columns' display order indexes in an *ordinal* fashion
+		// because of the 'swapping' method Delphi uses to reorder TColumns
 
-        for (auto Item : IndexingMap)
-            Item.second->Index = Item.first;
+		for (auto Item : IndexingMap)
+			Item.second->Index = Item.first;
 
-    } catch (Exception* err)
-    {
-        LogExcept(err);
-        // do nothing
-    }
-    EXITFUNC;
+	} catch (Exception* err)
+	{
+		LogExcept(err);
+		// do nothing
+	}
+	EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::FormClose(TObject* Sender, TCloseAction& Action)
 {
-    ENTERFUNC;
-    SaveDefaults();
+	ENTERFUNC;
+	SaveDefaults();
 
-    // don't leave font resource hanging..
+	// don't leave font resource hanging..
 
-    if (ClockFontHandle != INVALID_HANDLE_VALUE)
-        RemoveFontMemResourceEx(ClockFontHandle);
-    EXITFUNC;
+	if (ClockFontHandle != INVALID_HANDLE_VALUE)
+		RemoveFontMemResourceEx(ClockFontHandle);
+	EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-
-void __fastcall TFormMain::Exit1Click(TObject* Sender)
-{
-    ENTERFUNC;
-    RefreshTimer->Enabled = false;
-    ClockTimer->Enabled = false;
-    FDTable1->Active = false;
-    FDConnection1->Connected = false;
-    Close();
-    EXITFUNC;
-}
-
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::About1Click(TObject* Sender)
-{
-    ENTERFUNC;
-    AboutBox->ShowModal();
-    EXITFUNC;
-}
-
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::Export1Click(TObject* Sender)
-{
-    ENTERFUNC;
-    // empty table?
-
-    if (FDTable1->RecordCount == 0)
-    {
-        StatusBar1->SimpleText = "Nothing to export.";
-        Beep();
-        LogInfo(" 0 recs");
-        EXITFUNC;
-        return;
-    }
-
-    // lambda to create and sanitize a suggested filename
-
-    auto Legalize = [](String& ref) {
-        using System::Ioutils::TPath;
-
-        // pascal objects use 1-based indexes..
-
-        for (int x = 1; x <= ref.Length(); x++)
-        {
-            if (!TPath::IsValidFileNameChar(ref[x]))
-                ref[x] = ' ';
-        }
-        ref.Trim();
-    };
-
-    String fname = edNET->Text;
-    Legalize(fname);
-
-    SaveDialog1->FileName = fname;
-
-    if (SaveDialog1->Execute())
-        ExportCSV(SaveDialog1->FileName);
-    EXITFUNC;
-}
-
-//---------------------------------------------------------------------------
-
 void __fastcall TFormMain::DataUpdate(const String& netname)
 {
-    ENTERFUNC;
-    CheckinList* CList = NULL;
-    NLNet net;
+	ENTERFUNC;
+	CheckinList* CList = NULL;
+	NLNet net;
 
-    if (!netname.IsEmpty())
-    {
-        LogInfo(netname);
-        Application->ProcessMessages();
-        CurrentNet = netname;
-        if (DMod->GetNetData(netname, net))
-        {
-            CList = DMod->GetCheckins(netname);
-            if (CList != NULL)
-            {
-                edNET->Text = net.NetName;
-                edFreq->Text = net.Frequency;
-                edBand->Text = net.Band;
-                edMode->Text = net.Mode;
-                edNetControl->Text = net.NetControl;
-                edLogger->Text = net.Logger;
-                edSubscribe->Text = net.SubscriberCount;
-                SetGrid(CList);
-            } else
-            {
-                StatusBar1->SimpleText = CurrentNet + " is now closed.";
-                CurrentNet = "";
-                LogInfo(StatusBar1->SimpleText);
-            }
-        } else
-            LogInfo("Failed to get net data.");
-    } else
-        LogInfo("No net.");
-    EXITFUNC;
+	if (!netname.IsEmpty())
+	{
+		LogInfo(netname);
+		Application->ProcessMessages();
+		CurrentNet = netname;
+		if (DMod->GetNetData(netname, net))
+		{
+			CList = DMod->GetCheckins(netname);
+			if (CList != NULL)
+			{
+				ActionExportCSV->Enabled = true;
+				edNET->Text = net.NetName;
+				edFreq->Text = net.Frequency;
+				edBand->Text = net.Band;
+				edMode->Text = net.Mode;
+				edNetControl->Text = net.NetControl;
+				edLogger->Text = net.Logger;
+				edSubscribe->Text = net.SubscriberCount;
+				SetGrid(CList);
+			} else
+			{
+				StatusBar1->SimpleText = CurrentNet + " is now closed.";
+				CurrentNet = "";
+				LogInfo(StatusBar1->SimpleText);
+			}
+		} else
+			LogInfo("Failed to get net data.");
+	} else
+		LogInfo("No net.");
+	EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::FormShow(TObject* Sender)
 {
     ENTERFUNC;
@@ -806,25 +700,96 @@ void __fastcall BestFitDBGridColumn(
     }
     EXITFUNC;
 }
-
+//---------------------------------------------------------------------------
 void __fastcall BestFitAll(TDBGrid* Grid, int maxrows = 0, int padding = 0)
 {
     ENTERFUNC;
 
-    LogInfo("Grid Font: " + Grid->Font->Name);
-    LogInfo("GridFont Size: " + IntToStr(Grid->Font->Size));
-    CodeSite->AddSeparator();
+	LogInfo("Grid Font: " + Grid->Font->Name);
+	LogInfo("GridFont Size: " + IntToStr(Grid->Font->Size));
+	CodeSite->AddSeparator();
 
-    for (int x = 0; x < Grid->Columns->Count; x++)
-        BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrows, padding);
-    EXITFUNC;
-}
-
-void __fastcall TFormMain::Fit1Click(TObject* Sender)
-{
-    ENTERFUNC;
-    BestFitAll(DBGrid1, 0, 10);
-    EXITFUNC;
+	for (int x = 0; x < Grid->Columns->Count; x++)
+		BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrows, padding);
+	EXITFUNC;
 }
 //---------------------------------------------------------------------------
+void __fastcall TFormMain::ActionExport(TObject* Sender)
+{
+	ENTERFUNC;
+
+	// empty table?
+
+	if (FDTable1->RecordCount == 0)
+	{
+		StatusBar1->SimpleText = "Nothing to export.";
+		Beep();
+		LogInfo(" 0 recs");
+		EXITFUNC;
+		return;
+	}
+
+	// lambda to create and sanitize a suggested filename
+
+	auto Legalize = [](String& ref) {
+		using System::Ioutils::TPath;
+
+		// pascal objects use 1-based indexes..
+
+		for (int x = 1; x <= ref.Length(); x++)
+		{
+			if (!TPath::IsValidFileNameChar(ref[x]))
+				ref[x] = ' ';
+		}
+		ref.Trim();
+	};
+
+	String fname = edNET->Text;
+	Legalize(fname);
+
+	SaveDialog1->FileName = fname;
+
+	if (SaveDialog1->Execute())
+		ExportCSV(SaveDialog1->FileName);
+	EXITFUNC;
+}
+//---------------------------------------------------------------------------
+void __fastcall TFormMain::ActionAbout(TObject *Sender)
+{
+	ENTERFUNC;
+	AboutBox->ShowModal();
+	EXITFUNC;
+}
+//---------------------------------------------------------------------------
+void __fastcall TFormMain::ActionPreferences(TObject *Sender)
+{
+	ENTERFUNC;
+	String curstyle = Vcl::Themes::TStyleManager::ActiveStyle->Name;
+	FormPrefs->SpinEdit1->Value = RefreshRate;
+
+	if (FormPrefs->ShowModal() == mrOk)
+	{
+		RefreshRate = FormPrefs->SpinEdit1->Value;
+
+	} else
+	{
+		if (Vcl::Themes::TStyleManager::ActiveStyle->Name != curstyle)
+			Vcl::Themes::TStyleManager::TrySetStyle(curstyle);
+	}
+	EXITFUNC;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::ActionAutoFit(TObject *Sender)
+{
+	ENTERFUNC;
+	BestFitAll(DBGrid1, 0, 10);
+	EXITFUNC;
+}
+//---------------------------------------------------------------------------
+
+
+
+
+
 

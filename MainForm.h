@@ -77,87 +77,93 @@
 #include <Vcl.Skia.hpp>
 #include <System.Net.HttpClient.hpp>
 #include <System.Net.URLClient.hpp>
+#include <System.Actions.hpp>
+#include <Vcl.ActnList.hpp>
+#include <Vcl.ActnMan.hpp>
+#include <Vcl.PlatformDefaultStyleActnCtrls.hpp>
+#include <Vcl.ActnCtrls.hpp>
+#include <Vcl.ActnMenus.hpp>
+#include <Vcl.ToolWin.hpp>
+#include <Vcl.StdActns.hpp>
 #include <map>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm
 {
   __published: // IDE-managed Components
-    TTimer* ClockTimer;
-    TPanel* PanelTop;
-    TPanel* PanelLeft;
-    TLabel* Label1;
-    TLabel* Label2;
-    TLabel* Label3;
-    TLabel* Label4;
-    TLabel* Label5;
-    TLabel* Label6;
-    TLabel* Label7;
-    TEdit* edFreq;
-    TEdit* edBand;
-    TEdit* edMode;
-    TEdit* edNetControl;
-    TEdit* edLogger;
-    TEdit* edSubscribe;
-    TButton* btnNets;
-    TDBGrid* DBGrid1;
-    TDataSource* DataSource1;
-    TMainMenu* MainMenu1;
-    TMenuItem* File1;
-    TMenuItem* Preferences1;
-    TMenuItem* Exit1;
-    TMenuItem* Help1;
-    TMenuItem* About1;
-    TEdit* edNET;
-    TPanel* PanelRight;
-    TPanel* PanelDate;
-    TPanel* PanelZone;
-    TMenuItem* Export1;
-    TSaveDialog* SaveDialog1;
-    TPanel* panClockBorder;
-    TPanel* PanelClock;
-    TFDConnection* FDConnection1;
-    TTimer* RefreshTimer;
-    TFDTable* FDTable1;
-    TMenuItem* Help2;
-    TMenuItem* Update1;
-    TStatusBar* StatusBar1;
-    TRESTClient* RESTClient1;
-    TRESTRequest* RESTRequest1;
-    TRESTResponse* RESTResponse1;
-    void __fastcall MasterTick(TObject* Sender);
-    void __fastcall btnNetsClick(TObject* Sender);
-    void __fastcall Preferences1Click(TObject* Sender);
-    void __fastcall DBGrid1DblClick(TObject* Sender);
-    void __fastcall FormClose(TObject* Sender, TCloseAction& Action);
-    void __fastcall Help1Click(TObject* Sender);
-    void __fastcall Exit1Click(TObject* Sender);
-    void __fastcall About1Click(TObject* Sender);
-    void __fastcall Export1Click(TObject* Sender);
-    void __fastcall FormShow(TObject* Sender);
-    void __fastcall RefreshTimerTimer(TObject* Sender);
-    void __fastcall nmUpdatesClick(TObject* Sender);
-    void __fastcall FormCreate(TObject* Sender);
-    void __fastcall Fit1Click(TObject* Sender);
+	TTimer* ClockTimer;
+	TPanel* PanelTop;
+	TPanel* PanelLeft;
+	TLabel* Label1;
+	TLabel* Label2;
+	TLabel* Label3;
+	TLabel* Label4;
+	TLabel* Label5;
+	TLabel* Label6;
+	TLabel* Label7;
+	TEdit* edFreq;
+	TEdit* edBand;
+	TEdit* edMode;
+	TEdit* edNetControl;
+	TEdit* edLogger;
+	TEdit* edSubscribe;
+	TButton* btnNets;
+	TDBGrid* DBGrid1;
+	TDataSource* DataSource1;
+	TEdit* edNET;
+	TPanel* PanelRight;
+	TPanel* PanelDate;
+	TPanel* PanelZone;
+	TSaveDialog* SaveDialog1;
+	TPanel* panClockBorder;
+	TPanel* PanelClock;
+	TFDConnection* FDConnection1;
+	TTimer* RefreshTimer;
+	TFDTable* FDTable1;
+	TStatusBar* StatusBar1;
+	TRESTClient* RESTClient1;
+	TRESTRequest* RESTRequest1;
+	TRESTResponse* RESTResponse1;
+	TActionMainMenuBar *ActionMainMenuBar1;
+	TActionManager *ActionManager1;
+	TAction *ActionExportCSV;
+	TAction *ActAbout;
+	TAction *ActPrefs;
+	TAction *ActFit;
+	THelpContents *HelpContents1;
+	TFileExit *ActionFileExit1;
+	THelpOnHelp *HelpOnHelp1;
+	void __fastcall MasterTick(TObject* Sender);
+	void __fastcall btnNetsClick(TObject* Sender);
+	void __fastcall DBGrid1DblClick(TObject* Sender);
+	void __fastcall FormClose(TObject* Sender, TCloseAction& Action);
+	void __fastcall FormShow(TObject* Sender);
+	void __fastcall RefreshTimerTimer(TObject* Sender);
+	void __fastcall nmUpdatesClick(TObject* Sender);
+	void __fastcall FormCreate(TObject* Sender);
+	void __fastcall ActionExport(TObject *Sender);
+	void __fastcall ActionAbout(TObject *Sender);
+	void __fastcall ActionPreferences(TObject *Sender);
+	void __fastcall ActionAutoFit(TObject *Sender);
   private: // User declarations
-    void __fastcall UpdateClockDisplay();
-    bool LEDOn = false;
-    void __fastcall OpenDatabase();
-    String CurrentNet;
-    void __fastcall SetGrid(const CheckinList* clist);
-    void __fastcall SaveDefaults();
-    void __fastcall LoadDefaults();
-    void __fastcall DataUpdate(const String& netname);
-    int RefreshRate = 20;
-    void __fastcall Shell(String cmd);
-    void __fastcall ExportCSV(String Filename);
-    void __fastcall LoadFontFromResource(String ResourceName);
-    bool __fastcall CheckUpdate(String& url, String& versiontext, String& infotext);
-    HANDLE ClockFontHandle;
+	void __fastcall UpdateClockDisplay();
+	bool LEDOn = false;
+	void __fastcall OpenDatabase();
+	String CurrentNet;
+	void __fastcall SetGrid(const CheckinList* clist);
+	void __fastcall SaveDefaults();
+	void __fastcall LoadDefaults();
+	void __fastcall DataUpdate(const String& netname);
+	int RefreshRate = 20;
+	void __fastcall Shell(String cmd);
+	void __fastcall ExportCSV(String Filename);
+	void __fastcall LoadFontFromResource(String ResourceName);
+	bool __fastcall CheckUpdate(String& url, String& versiontext, String& infotext);
+	HANDLE ClockFontHandle;
   public: // User declarations
-    __fastcall TFormMain(TComponent* Owner);
-    std::map<String, TColumn*> ColMap;
-    bool UTC = false;
-    bool AMPM = false;
+	__fastcall TFormMain(TComponent* Owner);
+	std::map<String, TColumn*> ColMap;
+	bool UTC = false;
+	bool AMPM = false;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormMain* FormMain;

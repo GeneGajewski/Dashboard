@@ -58,38 +58,20 @@ Coordinates=234,377,79,51
 [FormPrefs.BindSourceDB1]
 Coordinates=10,10,147,357
 
-[Preferences1]
-Coordinates=663,105,79,33
-
 [DMod.RESTRequest1]
 Coordinates=305,10,119,87
 
 [(TMenuItem)]
 Coordinates=663,313,75,33
 
-[MainMenu1]
-Coordinates=663,209,70,33
-
-[Exit1]
-Coordinates=315,1,40,33
-
 [DMod.RESTResponse1]
 Coordinates=167,10,128,303
-
-[About1]
-Coordinates=315,471,49,33
 
 [DMod.RESTClient1]
 Coordinates=434,10,107,69
 
-[File1]
-Coordinates=315,53,40,33
-
-[Help1]
-Coordinates=315,105,42,33
-
 []
-Coordinates=130,1,87,33
+Coordinates=315,105,42,33
 Visible=False
 
 [edSubscribe]
