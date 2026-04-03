@@ -58,15 +58,14 @@ __published: // IDE-managed Components
     TCheckBox* ckbGrid;
     TCheckBox* ckbCounty;
     TComboBox* cbStyles;
-    TGroupBox* GroupBox2;
-    TRadioButton* rb12;
-    TRadioButton* rb24;
-    TCheckBox* ckbUTC;
     TButton* btnOk;
     TButton* btnCancel;
     TLabel* label;
     TLabel* Label1;
 	TSpinEdit *SpinEdit1;
+	TRadioButton *rb24;
+	TRadioButton *rb12;
+	TCheckBox *ckbUTC;
     void __fastcall cbStylesChange(TObject* Sender);
     void __fastcall btnOkClick(TObject* Sender);
     void __fastcall btnCancelClick(TObject* Sender);

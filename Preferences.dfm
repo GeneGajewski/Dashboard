@@ -4,8 +4,8 @@ object FormPrefs: TFormPrefs
   HelpType = htKeyword
   HelpKeyword = 'Preferences'
   Caption = 'Preferences'
-  ClientHeight = 315
-  ClientWidth = 479
+  ClientHeight = 360
+  ClientWidth = 329
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -566,25 +566,26 @@ object FormPrefs: TFormPrefs
   OnShow = FormShow
   TextHeight = 15
   object label: TLabel
-    Left = 280
-    Top = 23
+    Left = 8
+    Top = 8
     Width = 72
     Height = 15
     Caption = 'Window &Style'
   end
   object Label1: TLabel
-    Left = 280
-    Top = 224
+    Left = 8
+    Top = 63
     Width = 129
     Height = 15
     Caption = 'Data &Refresh Time (secs)'
   end
   object GroupBox1: TGroupBox
-    Left = 16
-    Top = 16
-    Width = 225
+    Left = 8
+    Top = 125
+    Width = 209
     Height = 249
     Caption = 'Visible Fields'
+    ShowFrame = False
     TabOrder = 0
     object ckbSerialNo: TCheckBox
       Left = 24
@@ -731,9 +732,9 @@ object FormPrefs: TFormPrefs
     end
   end
   object cbStyles: TComboBox
-    Left = 280
-    Top = 44
-    Width = 169
+    Left = 8
+    Top = 29
+    Width = 145
     Height = 23
     AutoCloseUp = True
     Style = csDropDownList
@@ -742,68 +743,63 @@ object FormPrefs: TFormPrefs
     TabStop = False
     OnChange = cbStylesChange
   end
-  object GroupBox2: TGroupBox
-    Left = 280
-    Top = 86
-    Width = 136
-    Height = 115
-    Caption = 'Clock'
-    TabOrder = 2
-    object rb12: TRadioButton
-      Left = 24
-      Top = 32
-      Width = 113
-      Height = 17
-      Caption = '12 Hour'
-      TabOrder = 0
-      OnClick = rb12Click
-    end
-    object rb24: TRadioButton
-      Left = 24
-      Top = 55
-      Width = 113
-      Height = 17
-      Caption = '24 Hour'
-      TabOrder = 1
-      OnClick = rb24Click
-    end
-    object ckbUTC: TCheckBox
-      Left = 24
-      Top = 78
-      Width = 97
-      Height = 17
-      Caption = 'UTC'
-      TabOrder = 2
-      OnClick = ckbUTCClick
-    end
-  end
   object btnOk: TButton
-    Left = 122
-    Top = 279
+    Left = 246
+    Top = 297
     Width = 75
     Height = 25
-    Caption = '&Ok'
-    TabOrder = 3
+    Caption = 'OK'
+    Default = True
+    ModalResult = 1
+    TabOrder = 2
     OnClick = btnOkClick
   end
   object btnCancel: TButton
-    Left = 282
-    Top = 279
+    Left = 246
+    Top = 328
     Width = 75
     Height = 25
     Cancel = True
-    Caption = 'C&ancel'
-    TabOrder = 4
+    Caption = 'Cancel'
+    ModalResult = 2
+    TabOrder = 3
     OnClick = btnCancelClick
   end
   object SpinEdit1: TSpinEdit
-    Left = 280
-    Top = 241
-    Width = 169
+    Left = 8
+    Top = 80
+    Width = 145
     Height = 24
     MaxValue = 180
     MinValue = 20
-    TabOrder = 5
+    TabOrder = 4
     Value = 20
+  end
+  object rb24: TRadioButton
+    Left = 180
+    Top = 52
+    Width = 113
+    Height = 17
+    Caption = '24 Hour'
+    TabOrder = 5
+    OnClick = rb24Click
+  end
+  object rb12: TRadioButton
+    Left = 180
+    Top = 29
+    Width = 113
+    Height = 17
+    Caption = '12 Hour'
+    TabOrder = 6
+    OnClick = rb12Click
+  end
+  object ckbUTC: TCheckBox
+    Left = 180
+    Top = 84
+    Width = 97
+    Height = 17
+    Caption = 'UTC'
+    TabOrder = 7
+    OnClick = ckbUTCClick
   end
 end
