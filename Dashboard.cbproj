@@ -266,10 +266,10 @@
             <BuildOrder>8</BuildOrder>
         </CppCompile>
         <FormResources Include="Preferences.dfm"/>
-        <FormResources Include="Select.dfm"/>
         <FormResources Include="UpdateInfo.dfm"/>
-        <FormResources Include="ABOUT.dfm"/>
+        <FormResources Include="Select.dfm"/>
         <FormResources Include="MainForm.dfm"/>
+        <FormResources Include="ABOUT.dfm"/>
         <FormResources Include="Download.dfm"/>
         <FormResources Include="DataModule.dfm"/>
         <BuildConfiguration Include="Base">
