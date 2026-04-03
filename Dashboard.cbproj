@@ -159,10 +159,9 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;xmlrtl.bpi;bindcomp.bpi;dbrtl.bpi;bindengine.bpi;RESTComponents.bpi;CustomIPTransport.bpi;vclimg.bpi;vclx.bpi;vcldb.bpi;vclwinx.bpi;dsnap.bpi;bindcompvcl.bpi;VclSmp.bpi;bcbsmp.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;FireDACSqliteDriver.bpi;CodeSiteExpressPkg.bpi;IndyProtocols.bpi;IndyCore.bpi;IndySystem.bpi;soaprtl.bpi;inet.bpi;soapserver.bpi;vclactnband.bpi</LinkPackageImports>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)$(CC_SUFFIX)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <LinkPackageStatics>Skia.Package.VCL.lib;Skia.Package.RTL.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;bcbsmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;CodeSiteExpressPkg.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;soaprtl.lib;inet.lib;soapserver.lib;vclactnband.lib</LinkPackageStatics>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Icon_MainIcon>Resources\Dashboard.ico</Icon_MainIcon>
@@ -172,6 +171,7 @@
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.0.3.0;InternalName=Dashboard;LegalCopyright=© 2024 WG5ENE;LegalTrademarks=;OriginalFilename=Dashboard.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Release>3</VerInfo_Release>
+        <UsePackages>false</UsePackages>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
