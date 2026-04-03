@@ -16,21 +16,34 @@
     along with GUP.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Get a 64-bit integer, MS style - easier to just simply compare versions that way
 
+function bigNum($maj, $min, $rel, $bld) {
+	$result   = ((int)$maj) << 48;
+	$result  |= ((int)$min) << 32;
+	$result  |= ((int)$rel) << 16;
+	$result  |= ((int)$bld);
 
-$DLURL = "https://www.gajewski.net/update/Dashboard.1.0.1.msi";
+	return $result;
+}    
 
-$major = $_GET["maj"]; 
-$minor = $_GET["min"]; 
+$DLURL = "https://www.gajewski.net/update/Dashboard Installer.exe";
+
+$major   = $_GET["maj"]; 
+$minor   = $_GET["min"]; 
 $release = $_GET["rel"]; 
-$build = $_GET["bld"]; 
+$build   = $_GET["bld"]; 
 
-$Ver = array( 1, 0, 1, 0);
-$VersionStr = "1.0.1.0"; // X.Y.Z
+$VersionStr = "1.1.0.0"; 
 
-$Info = "This is Dashboard version 1.0.1
 
-Removed a stray control from the preferences dialog.
+$Info = "This is Dashboard version 1.1.0.0
+
+Minor cosmetic and program changes. 
+CHM-based help file - not really needed 
+but why not.
+
+ WG5ENE
 ";
 
 $major = (int) $major;
@@ -38,7 +51,7 @@ $minor = (int) $minor;
 $release = (int) $release;
 $build = (int) $build;
 
-if ( $Ver[0] <= $major and $Ver[1] <= $minor and $Ver[2] <= $release and $Ver[3] <= $build)
+if ( bigNum(1,1,0,0) <= bigNum ($major, $minor, $release, $build))
 	echo 
 "<?xml version=\"1.0\"?>
 <GUP>
