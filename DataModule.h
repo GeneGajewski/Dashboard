@@ -20,15 +20,19 @@
 
 #ifndef DataModuleH
 #define DataModuleH
+
 //---------------------------------------------------------------------------
 #include <Data.Bind.Components.hpp>
 #include <Data.Bind.ObjectScope.hpp>
 #include <REST.Client.hpp>
 #include <REST.Types.hpp>
 #include <System.Classes.hpp>
+#include <System.hpp>
 #include <Xml.XMLDoc.hpp>
 #include <Xml.XMLIntf.hpp>
 #include <Xml.xmldom.hpp>
+#include <System.Net.HttpClient.hpp>
+#include <System.Net.URLClient.hpp>
 
 #include <map>
 #include <vector>
