@@ -568,23 +568,23 @@ object FormPrefs: TFormPrefs
   object label: TLabel
     Left = 280
     Top = 23
-    Width = 25
+    Width = 72
     Height = 15
-    Caption = '&Style'
+    Caption = 'Window &Style'
   end
   object Label1: TLabel
     Left = 280
     Top = 224
-    Width = 39
+    Width = 129
     Height = 15
-    Caption = '&Refresh'
+    Caption = 'Data &Refresh Time (secs)'
   end
   object GroupBox1: TGroupBox
     Left = 16
     Top = 16
     Width = 225
     Height = 249
-    Caption = 'Fields'
+    Caption = 'Visible Fields'
     TabOrder = 0
     object ckbSerialNo: TCheckBox
       Left = 24
@@ -747,7 +747,7 @@ object FormPrefs: TFormPrefs
     Top = 86
     Width = 136
     Height = 115
-    Caption = 'Time'
+    Caption = 'Clock'
     TabOrder = 2
     object rb12: TRadioButton
       Left = 24
