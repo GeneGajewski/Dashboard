@@ -13,17 +13,14 @@ object FormMain: TFormMain
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  Menu = MainMenu1
   Position = poDesigned
-  WindowMenu = Preferences1
-  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
   object PanelTop: TPanel
     Left = 0
-    Top = 0
+    Top = 25
     Width = 1201
     Height = 193
     Align = alTop
@@ -158,7 +155,7 @@ object FormMain: TFormMain
         TabOrder = 1
       end
       object edMode: TEdit
-        Left = 208
+        Left = 199
         Top = 96
         Width = 81
         Height = 23
@@ -299,9 +296,9 @@ object FormMain: TFormMain
   object DBGrid1: TDBGrid
     AlignWithMargins = True
     Left = 10
-    Top = 196
+    Top = 221
     Width = 1181
-    Height = 471
+    Height = 446
     Hint = 'double-click for Qrz.com info'
     HelpKeyword = 'Application'
     HelpContext = 10
@@ -503,6 +500,29 @@ object FormMain: TFormMain
     Panels = <>
     SimplePanel = True
   end
+  object ActionMainMenuBar1: TActionMainMenuBar
+    Left = 0
+    Top = 0
+    Width = 1201
+    Height = 25
+    HelpType = htKeyword
+    UseSystemFont = False
+    ActionManager = ActionManager1
+    Caption = 'ActionMainMenuBar1'
+    Color = clMenuBar
+    ColorMap.DisabledFontColor = 10461087
+    ColorMap.HighlightColor = clWhite
+    ColorMap.BtnSelectedFont = clBlack
+    ColorMap.UnusedColor = clWhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentShowHint = False
+    ShowHint = False
+    Spacing = 0
+  end
   object ClockTimer: TTimer
     Enabled = False
     OnTimer = MasterTick
@@ -513,40 +533,6 @@ object FormMain: TFormMain
     DataSet = FDTable1
     Left = 151
     Top = 295
-  end
-  object MainMenu1: TMainMenu
-    Left = 502
-    Top = 295
-    object File1: TMenuItem
-      Caption = '&File'
-      object Preferences1: TMenuItem
-        Caption = '&Preferences'
-        OnClick = Preferences1Click
-      end
-      object Export1: TMenuItem
-        Caption = '&Export'
-        OnClick = Export1Click
-      end
-      object Exit1: TMenuItem
-        Caption = 'E&xit'
-        OnClick = Exit1Click
-      end
-    end
-    object Help1: TMenuItem
-      Caption = '&Help'
-      object Help2: TMenuItem
-        Caption = '&Help'
-        OnClick = Help1Click
-      end
-      object About1: TMenuItem
-        Caption = '&About'
-        OnClick = About1Click
-      end
-      object Update1: TMenuItem
-        Caption = '&Update'
-        OnClick = nmUpdatesClick
-      end
-    end
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'csv'
@@ -580,11 +566,6 @@ object FormMain: TFormMain
   object RESTClient1: TRESTClient
     Params = <>
     SynchronizedEvents = False
-    OnHTTPProtocolError = RESTClient1HTTPProtocolError
-    OnNeedClientCertificate = RESTClient1NeedClientCertificate
-    OnAuthEvent = RESTClient1AuthEvent
-    OnSendData = RESTClient1SendData
-    OnReceiveData = RESTClient1ReceiveData
     Left = 1112
     Top = 256
   end
@@ -599,5 +580,88 @@ object FormMain: TFormMain
   object RESTResponse1: TRESTResponse
     Left = 928
     Top = 256
+  end
+  object ActionManager1: TActionManager
+    ActionBars = <
+      item
+        BackgroundLayout = blLeftBanner
+        Items = <
+          item
+            Items = <
+              item
+                Action = ActionExportCSV
+              end
+              item
+                Action = ActionFileExit1
+                ImageIndex = 43
+              end>
+            Caption = '&File'
+          end
+          item
+            Action = ActPrefs
+          end
+          item
+            Action = ActFit
+            Caption = '&AutoFit'
+          end
+          item
+            Items = <
+              item
+                Action = ActAbout
+              end
+              item
+                Action = HelpContents1
+                ImageIndex = 40
+              end
+              item
+                Action = HelpOnHelp1
+              end>
+            Caption = '&Help'
+          end>
+        ActionBar = ActionMainMenuBar1
+      end>
+    Left = 592
+    Top = 360
+    StyleName = 'Platform Default'
+    object ActionExportCSV: TAction
+      Category = 'File'
+      Caption = 'Export &CSV'
+      Enabled = False
+      Hint = 'Export data to file'
+      OnExecute = ActionExport
+    end
+    object ActAbout: TAction
+      Category = 'Help'
+      Caption = '&About'
+      Hint = 'About this program'
+      OnExecute = ActionAbout
+    end
+    object ActPrefs: TAction
+      Caption = '&Preferences'
+      OnExecute = ActionPreferences
+    end
+    object ActFit: TAction
+      Caption = 'Auto&Fit'
+      OnExecute = ActionAutoFit
+    end
+    object HelpContents1: THelpContents
+      Category = 'Help'
+      Caption = '&Contents'
+      HelpKeyword = 'Introduction'
+      Hint = 'Help Contents'
+      ImageIndex = 40
+    end
+    object ActionFileExit1: TFileExit
+      Category = 'File'
+      Caption = 'E&xit'
+      Hint = 'Exit|Quits the application'
+      ImageIndex = 43
+    end
+    object HelpOnHelp1: THelpOnHelp
+      Category = 'Help'
+      Caption = '&Help on Help'
+      Enabled = False
+      Hint = 'Help on help'
+    end
   end
 end

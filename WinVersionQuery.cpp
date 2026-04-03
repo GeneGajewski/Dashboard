@@ -26,7 +26,6 @@
 namespace Utility
 {
     // ctor for default executing module
-
     WinVersionQuery::WinVersionQuery() : pBlock(NULL), lp_size(0), lp(NULL)
     {
         const size_t MAXBUF = 1024;
@@ -39,7 +38,6 @@ namespace Utility
     }
 
     // ctor for a specifically named file
-
     WinVersionQuery::WinVersionQuery(const wchar_t* _modulename) :
         pBlock(NULL), lp_size(0), lp(NULL)
     {
@@ -51,17 +49,19 @@ namespace Utility
     bool WinVersionQuery::GetpBlock(void)
     {
         DWORD block_size, dummy;
-        block_size = GetFileVersionInfoSizeEx(
-            FILE_VER_GET_NEUTRAL, modulename.c_str(), &dummy);
-        if (block_size) {
+        block_size = GetFileVersionInfoSizeEx(FILE_VER_GET_NEUTRAL, modulename.c_str(), &dummy);
+        if (block_size)
+        {
             pBlock = new char[block_size];
-            BOOL retval = GetFileVersionInfoEx(FILE_VER_GET_NEUTRAL,
-                modulename.c_str(), NULL, block_size, pBlock);
-            if (retval) {
+            BOOL retval = GetFileVersionInfoEx(
+                FILE_VER_GET_NEUTRAL, modulename.c_str(), NULL, block_size, pBlock);
+            if (retval)
+            {
                 // get ptr to translation block array
-                HRESULT result = VerQueryValue(pBlock,
-                    L"\\VarFileInfo\\Translation", (LPVOID*)&lp, &lp_size);
-                if (SUCCEEDED(result)) {
+                HRESULT result =
+                    VerQueryValue(pBlock, L"\\VarFileInfo\\Translation", (LPVOID*)&lp, &lp_size);
+                if (SUCCEEDED(result))
+                {
                     SetLCP(0); // default
                     flags = GetFlags();
                     return true;
@@ -75,17 +75,15 @@ namespace Utility
         }
         return false;
     }
-
     // return a string value for current lang/codepge/stringname
-
     String WinVersionQuery::GetStr(String name)
     {
-        if (pBlock) {
+        if (pBlock)
+        {
             UINT str_size;
             _TCHAR* str;
 
-            HRESULT result = VerQueryValue(
-                pBlock, Query(name).c_str(), (LPVOID*)&str, &str_size);
+            HRESULT result = VerQueryValue(pBlock, Query(name).c_str(), (LPVOID*)&str, &str_size);
             if (SUCCEEDED(result) && str_size)
                 return String(str);
         }
@@ -93,12 +91,12 @@ namespace Utility
     }
 
     // select lang/codepage array entry  0-based
-
     bool WinVersionQuery::SetLCP(unsigned index)
     {
         int count = LCPCount();
 
-        if (count && index < count) {
+        if (count && index < count)
+        {
             language = lp[index].wLanguage;
             codepage = lp[index].wCodePage;
             return true;
@@ -107,7 +105,6 @@ namespace Utility
     }
 
     // number of language/codepage entries
-
     unsigned WinVersionQuery::LCPCount()
     {
         return lp != NULL ? lp_size / sizeof(LANGANDCODEPAGE) : 0;
@@ -115,14 +112,13 @@ namespace Utility
 
     // return windows fixedfileinfo struct. Struct contents not valid if
     // return result is false
-
-    const bool WinVersionQuery::GetFixedInfo(VS_FIXEDFILEINFO &info)
+    const bool WinVersionQuery::GetFixedInfo(VS_FIXEDFILEINFO& info)
     {
-        if (pBlock) {
+        if (pBlock)
+        {
             UINT size;
             VS_FIXEDFILEINFO* vsfixed;
-            HRESULT result =
-                VerQueryValueW(pBlock, L"\\", (LPVOID*)&vsfixed, &size);
+            HRESULT result = VerQueryValueW(pBlock, L"\\", (LPVOID*)&vsfixed, &size);
 
             if (SUCCEEDED(result) && vsfixed->dwSignature == magic_number)
                 info = *vsfixed;
@@ -132,7 +128,6 @@ namespace Utility
     }
 
     // dtor
-
     WinVersionQuery::~WinVersionQuery()
     {
         if (pBlock)
@@ -140,15 +135,15 @@ namespace Utility
     }
 
     // build string for VerQueryValue string-value query
-
-    String WinVersionQuery::Query(const String &name)
+    String WinVersionQuery::Query(const String& name)
     {
         return String().sprintf(fmt, language, codepage) + name;
     }
 
     DWORD WinVersionQuery::GetFlags()
     {
-        if (pBlock) {
+        if (pBlock)
+        {
             VS_FIXEDFILEINFO info;
             if (GetFixedInfo(info))
                 return (info.dwFileFlags & info.dwFileFlagsMask);
@@ -161,12 +156,11 @@ namespace Utility
     String VerStr::makestr()
     {
         String s;
-        s = String(FMajor) + dot + String(FMinor) + dot + String(FRelease) +
-            dot + String(FBuild);
+        s = String(FMajor) + dot + String(FMinor) + dot + String(FRelease) + dot + String(FBuild);
         return s;
     }
 
-    void VerStr::set_string(const String &ver)
+    void VerStr::set_string(const String& ver)
     {
         //	FMajor = FMinor = FRelease = FBuild = 0;
         TStringList* list = new TStringList;
@@ -179,7 +173,8 @@ namespace Utility
 
         int cnt = list->Count;
 
-        try {
+        try
+        {
             if (list->Count >= 1)
                 maj = StrToUInt(list->Strings[0]);
 
@@ -196,7 +191,8 @@ namespace Utility
             FMinor = min;
             FRelease = rel;
             FBuild = bld;
-        } catch (EConvertError &e) {
+        } catch (EConvertError& e)
+        {
             // bad string conversion - do nothing
         }
         if (list)
@@ -205,8 +201,7 @@ namespace Utility
 
     VerStr::VerStr() : FMajor(0), FMinor(0), FRelease(0), FBuild(0) {}
 
-    VerStr::VerStr(const String &ref) :
-        FMajor(0), FMinor(0), FRelease(0), FBuild(0)
+    VerStr::VerStr(const String& ref) : FMajor(0), FMinor(0), FRelease(0), FBuild(0)
     {
         set_string(ref);
     }
@@ -220,7 +215,8 @@ namespace Utility
 
         list->Delimiter = dot;
 
-        try {
+        try
+        {
             if (num >= 1)
                 list->Add(UIntToStr((unsigned)FMajor));
             if (num >= 2)
@@ -232,7 +228,7 @@ namespace Utility
             retval = list->DelimitedText;
         }
 
-        catch (EConvertError &e)
+        catch (EConvertError& e)
         {
         }
 
@@ -255,7 +251,7 @@ namespace Utility
         return retval;
     }
 
-    VerStr &VerStr::operator=(const String ref)
+    VerStr& VerStr::operator=(const String ref)
     {
         set_string(ref);
         return *this;

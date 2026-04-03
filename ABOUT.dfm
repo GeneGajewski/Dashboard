@@ -1,10 +1,10 @@
 object AboutBox: TAboutBox
   Left = 200
   Top = 108
-  BorderStyle = bsToolWindow
+  BorderStyle = bsDialog
   Caption = 'About'
   ClientHeight = 310
-  ClientWidth = 307
+  ClientWidth = 302
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -10186,8 +10186,6 @@ object AboutBox: TAboutBox
       Width = 250
       Height = 194
       AutoSize = False
-      BevelInner = bvNone
-      BevelOuter = bvNone
       Caption = 
         'Copyright (C) 2023 WG5ENE. This program is free software: you ca' +
         'n redistribute it and/or modify it under the terms of the GNU Ge' +
@@ -10207,10 +10205,9 @@ object AboutBox: TAboutBox
   end
   object OKButton: TButton
     Left = 113
-    Top = 279
+    Top = 280
     Width = 75
     Height = 25
-    Cancel = True
     Caption = 'OK'
     Default = True
     ModalResult = 1

@@ -13,9 +13,6 @@ Coordinates=647,498,79,58
 [ckbMemberID]
 Coordinates=754,430,114,58
 
-[ckbUTC]
-Coordinates=506,430,114,58
-
 [label]
 Coordinates=736,498,49,58
 
@@ -31,9 +28,6 @@ Coordinates=755,10,114,58
 [ckbDXCC]
 Coordinates=10,430,114,58
 
-[rb12]
-Coordinates=184,566,40,36
-
 [btnOk]
 Coordinates=506,498,49,58
 
@@ -47,9 +41,6 @@ LayerNames=
 
 [cbStyles]
 Coordinates=183,10,101,124
-
-[GroupBox2]
-Coordinates=294,10,79,58
 
 [ckbPreferred]
 Coordinates=10,566,114,58
@@ -66,9 +57,6 @@ ExplicitSubNodes=CheckedState(Self)
 Coordinates=382,498,114,58
 Visible=True
 
-[rb24]
-Coordinates=134,566,40,36
-
 [ckbCall]
 Coordinates=10,498,114,58
 
@@ -79,7 +67,7 @@ Coordinates=134,430,114,58
 Coordinates=258,498,114,58
 
 []
-Coordinates=153,134,91,36
+Coordinates=294,10,79,58
 
 [Module Settings]
 ModelLayerNames=

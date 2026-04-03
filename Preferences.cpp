@@ -28,53 +28,45 @@
 TFormPrefs* FormPrefs;
 
 //---------------------------------------------------------------------------
-
-__fastcall TFormPrefs::TFormPrefs(TComponent* Owner) : TForm(Owner)
+__fastcall TFormPrefs::TFormPrefs(TComponent* Owner)
+    : TForm(Owner)
 {
     // combobox is sorted!!
-
     for (unsigned x = 0; x < Vcl::Themes::TStyleManager::StyleNames.Length; x++)
         cbStyles->Items->Add(Vcl::Themes::TStyleManager::StyleNames[x]);
 
     // set combobox to show current system theme
-
     for (int x = 0; x < cbStyles->Items->Count; x++)
-        if (cbStyles->Items->Strings[x] ==
-            Vcl::Themes::TStyleManager::ActiveStyle->Name)
-        {
+        if (cbStyles->Items->Strings[x] == Vcl::Themes::TStyleManager::ActiveStyle->Name) {
             cbStyles->ItemIndex = x;
             break;
         }
 
     // map checkboxes to their respective columns
-
-    VisMap.insert({ { ckbSerialNo, FormMain->ColMap["SerialNo"] },
-        { ckbCall, FormMain->ColMap["Callsign"] },
-        { ckbState, FormMain->ColMap["State"] },
-        { ckbRemarks, FormMain->ColMap["Remarks"] },
-        { ckbInfo, FormMain->ColMap["QSLInfo"] },
-        { ckbCity, FormMain->ColMap["CityCountry"] },
-        { ckbName, FormMain->ColMap["FirstName"] },
-        { ckbStatus, FormMain->ColMap["Status"] },
-        { ckbCounty, FormMain->ColMap["County"] },
-        { ckbGrid, FormMain->ColMap["Grid"] },
-        { ckbStreet, FormMain->ColMap["Street"] },
-        { ckbZip, FormMain->ColMap["Zip"] },
-        { ckbMemberID, FormMain->ColMap["MemberID"] },
-        { ckbCountry, FormMain->ColMap["Country"] },
-        { ckbDXCC, FormMain->ColMap["DXCC"] },
-        { ckbPreferred, FormMain->ColMap["PreferredName"] } });
+    VisMap.insert(
+        { { ckbSerialNo, FormMain->ColMap["SerialNo"] },
+            { ckbCall, FormMain->ColMap["Callsign"] },
+            { ckbState, FormMain->ColMap["State"] },
+            { ckbRemarks, FormMain->ColMap["Remarks"] },
+            { ckbInfo, FormMain->ColMap["QSLInfo"] },
+            { ckbCity, FormMain->ColMap["CityCountry"] },
+            { ckbName, FormMain->ColMap["FirstName"] },
+            { ckbStatus, FormMain->ColMap["Status"] },
+            { ckbCounty, FormMain->ColMap["County"] },
+            { ckbGrid, FormMain->ColMap["Grid"] },
+            { ckbStreet, FormMain->ColMap["Street"] },
+            { ckbZip, FormMain->ColMap["Zip"] },
+            { ckbMemberID, FormMain->ColMap["MemberID"] },
+            { ckbCountry, FormMain->ColMap["Country"] },
+            { ckbDXCC, FormMain->ColMap["DXCC"] },
+            { ckbPreferred, FormMain->ColMap["PreferredName"] } });
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormPrefs::cbStylesChange(TObject* Sender)
 {
     Vcl::Themes::TStyleManager::TrySetStyle(cbStyles->Text);
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormPrefs::btnOkClick(TObject* Sender)
 {
     for (auto Item : VisMap)
@@ -82,20 +74,17 @@ void __fastcall TFormPrefs::btnOkClick(TObject* Sender)
 
     ModalResult = mrOk;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormPrefs::btnCancelClick(TObject* Sender)
 {
     FormMain->UTC = _utc;
     FormMain->AMPM = _ampm;
     ModalResult = mrCancel;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormPrefs::FormShow(TObject* Sender)
 {
+
     for (auto Item : VisMap)
         Item.first->Checked = Item.second->Visible;
 
@@ -109,21 +98,16 @@ void __fastcall TFormPrefs::FormShow(TObject* Sender)
 
     ckbUTC->Checked = _utc;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormPrefs::ckbUTCClick(TObject* Sender)
 {
     FormMain->UTC = ((TCheckBox*)Sender)->Checked;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormPrefs::rb12Click(TObject* Sender)
 {
     FormMain->AMPM = true;
 }
-
 //---------------------------------------------------------------------------
 void __fastcall TFormPrefs::rb24Click(TObject* Sender)
 {
