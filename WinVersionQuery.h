@@ -26,6 +26,7 @@
 
 namespace Utility
 {
+
     class WinVersionQuery
     {
       private:
@@ -39,12 +40,12 @@ namespace Utility
         {
             WORD wLanguage;
             WORD wCodePage;
-        } * lp; // will eventually point to an array[??]
+        }* lp; // will eventually point to an array[??]
         UINT lp_size; // of total size of array in bytes
 
         const wchar_t* fmt = L"\\StringFileInfo\\%04x%04x\\";
         const DWORD magic_number = 0xFEEF04BD;
-        String Query(const String &name);
+        String Query(const String& name);
         bool GetpBlock(void);
         DWORD GetFlags();
       public:
@@ -52,8 +53,8 @@ namespace Utility
         WinVersionQuery(const wchar_t* module);
 
         // just avoid copies -> pBlock is alloc'd
-        WinVersionQuery(const WinVersionQuery &) = delete;
-        WinVersionQuery &operator=(const WinVersionQuery &) = delete;
+        WinVersionQuery(const WinVersionQuery&) = delete;
+        WinVersionQuery& operator=(const WinVersionQuery&) = delete;
 
         ~WinVersionQuery();
 
@@ -62,7 +63,7 @@ namespace Utility
         {
             return pBlock != NULL;
         }
-        const String &ModuleName()
+        const String& ModuleName()
         {
             return modulename;
         }
@@ -84,7 +85,7 @@ namespace Utility
         {
             return codepage;
         } // current codepage
-        const bool GetFixedInfo(VS_FIXEDFILEINFO &info); // get fixed struct
+        const bool GetFixedInfo(VS_FIXEDFILEINFO& info); // get fixed struct
         bool IsPreRelease()
         {
             return flags & VS_FF_PRERELEASE;
@@ -113,7 +114,6 @@ namespace Utility
 
     // a class to represent Microsoft's quadword version numbers as
     // a dotted string and vs/v
-
     class VerStr
     {
       private:
@@ -121,11 +121,11 @@ namespace Utility
         WORD FMajor, FMinor, FRelease, FBuild;
 
         String makestr();
-        void set_string(const String &ver);
+        void set_string(const String& ver);
       public:
         VerStr();
-        VerStr(const String &ref);
-        VerStr &operator=(const String ref);
+        VerStr(const String& ref);
+        VerStr& operator=(const String ref);
         operator String()
         {
             return makestr();

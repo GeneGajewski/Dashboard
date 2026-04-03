@@ -25,9 +25,6 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.StdCtrls.hpp>
-#include <System.ImageList.hpp>
-#include <Vcl.Buttons.hpp>
-#include <Vcl.ImgList.hpp>
 //---------------------------------------------------------------------------
 class TUpdInfo : public TForm
 {
@@ -37,7 +34,6 @@ class TUpdInfo : public TForm
     TLabel* Label1;
     TLabel* Label2;
     TRichEdit* RichEdit1;
-	TImageList *ImageList1;
   private: // User declarations
   public: // User declarations
     __fastcall TUpdInfo(TComponent* Owner);

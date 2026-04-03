@@ -25,13 +25,7 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TUpdInfo* UpdInfo;
-
 //---------------------------------------------------------------------------
-
-__fastcall TUpdInfo::TUpdInfo(TComponent* Owner)
-	: TForm(Owner)
-{
-}
-
+__fastcall TUpdInfo::TUpdInfo(TComponent* Owner) : TForm(Owner) {}
 //---------------------------------------------------------------------------
 
