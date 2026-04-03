@@ -37,9 +37,10 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
 TFormMain* FormMain;
 
-//---------------------------------------------------------------------------
+
 #include <Vcl.HtmlHelpViewer.hpp>
 #include <cctype>
 #include <fstream>
@@ -49,7 +50,7 @@ TFormMain* FormMain;
 #pragma link "vcl.HtmlHelpViewer"
 
 #ifdef _WIN64
-    #pragma comment(lib, "CodeSiteExpressPkg.a")
+	#pragma comment(lib, "CodeSiteExpressPkg.a")
 #endif
 
 #pragma link "CodeSiteLogging"
@@ -64,13 +65,13 @@ TFormMain* FormMain;
 #define TABLENAME "NETLOGGER"
 
 const char* TableDef = "CREATE TABLE " TABLENAME "( SerialNo VARCHAR(255), Callsign VARCHAR(255),"
-                       "State VARCHAR(255), Remarks VARCHAR(255),"
-                       "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
-                       "FirstName VARCHAR(255), Status VARCHAR(255),"
-                       "County VARCHAR(255), Grid VARCHAR(255),"
-                       "Street VARCHAR(255), Zip VARCHAR(255),"
-                       "MemberID VARCHAR(255), Country VARCHAR(255),"
-                       "DXCC VARCHAR(255),PreferredName VARCHAR(255))";
+					   "State VARCHAR(255), Remarks VARCHAR(255),"
+					   "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
+					   "FirstName VARCHAR(255), Status VARCHAR(255),"
+					   "County VARCHAR(255), Grid VARCHAR(255),"
+					   "Street VARCHAR(255), Zip VARCHAR(255),"
+					   "MemberID VARCHAR(255), Country VARCHAR(255),"
+					   "DXCC VARCHAR(255),PreferredName VARCHAR(255))";
 
 #define REG_ROOT "Software\\WG5ENE\\DASHBOARD"
 
@@ -80,26 +81,24 @@ static const char* FieldKey = REG_ROOT "\\Columns";
 #define FONT_ID 1
 
 //---------------------------------------------------------------------------
-// Save the grid table to a comma delimited file
-
 void __fastcall TFormMain::ExportCSV(String Filename)
 {
-    ENTERFUNC;
+	ENTERFUNC;
 
-    const char* comma = ",";
-    const char* quote = "\"";
-    std::wfstream strm;
+	const char* comma = ",";
+	const char* quote = "\"";
+	std::wfstream strm;
 
-    int cur_rec = FDTable1->RecNo;
+	int cur_rec = FDTable1->RecNo;
 
-    // retry in case some other application has the file open in some non-shared
-    // mode
+	// retry in case some other application has the file open in some non-shared
+	// mode
 
 retry:
-    strm.open(Filename.c_str(), strm.binary | strm.trunc | strm.in | strm.out);
-    if (!strm.is_open())
-    {
-        LogWarn("Failed to open: " + Filename);
+	strm.open(Filename.c_str(), strm.binary | strm.trunc | strm.in | strm.out);
+	if (!strm.is_open())
+	{
+		LogWarn("Failed to open: " + Filename);
         String msg = "Unable to open file \"" + Filename + "\".";
         int result = MessageDlg(msg, mtError, mbAbortRetryIgnore, 0);
 
@@ -154,19 +153,13 @@ retry:
     EXITFUNC;
 }
 //---------------------------------------------------------------------------
-
 __fastcall TFormMain::TFormMain(TComponent* Owner) : TForm(Owner) {}
-
 //---------------------------------------------------------------------------
-// Clock Tick
-
 void __fastcall TFormMain::MasterTick(TObject* Sender)
 {
-    UpdateClockDisplay();
+	UpdateClockDisplay();
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::UpdateClockDisplay()
 {
     const String DateFormat = "dddd, mmmm, dd, yyyy";
@@ -179,9 +172,7 @@ void __fastcall TFormMain::UpdateClockDisplay()
     PanelClock->Caption = (now - offset).FormatString(TimeFormat);
     PanelZone->Caption = UTC ? "Universal Time Coordinated" : TTimeZone::Local->DisplayName;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::SetGrid(const CheckinList* clist)
 {
     ENTERFUNC;
@@ -231,11 +222,11 @@ void __fastcall TFormMain::SetGrid(const CheckinList* clist)
         { // The NC's currently highlighted record
             recno = FDTable1->RecNo;
         }
-	}
+    }
 
     if (recno >= 0)
     {
-		FDTable1->RecNo = recno;
+        FDTable1->RecNo = recno;
     }
     FDTable1->EndBatch();
 
@@ -244,12 +235,10 @@ void __fastcall TFormMain::SetGrid(const CheckinList* clist)
     StatusBar1->SimpleText = msg;
     EXITFUNC;
 };
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::btnNetsClick(TObject* Sender)
 {
-    ENTERFUNC;
+	ENTERFUNC;
     RefreshTimer->Enabled = false;
     int selected;
 
@@ -573,12 +562,7 @@ void __fastcall TFormMain::FormShow(TObject* Sender)
     ClockTimer->Enabled = true;
     EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-//
-// open a datase for use by the grid
-//
-
 void __fastcall TFormMain::OpenDatabase()
 {
     ENTERFUNC;
@@ -602,18 +586,14 @@ void __fastcall TFormMain::OpenDatabase()
 
     EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::RefreshTimerTimer(TObject* Sender)
 {
     ENTERFUNC;
     DataUpdate(CurrentNet);
     EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-
 bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String& InfoText)
 {
     ENTERFUNC;
@@ -665,7 +645,7 @@ bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String&
                     LogInfo(InfoText);
                     return true;
                 }
-            } else
+			} else
                 LogWarn("Bad Node: " + Node->NodeName);
         } else
             LogWarn("Bad Status Code: " + IntToStr(RESTResponse1->StatusCode));
@@ -677,8 +657,6 @@ bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String&
     return false;
 }
 //---------------------------------------------------------------------------
-// check Dashboard application's web update server
-
 void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
 {
     ENTERFUNC;
@@ -705,7 +683,7 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
     {
         LogInfo("Will install updated program using: " + FileName);
         DL->Show();
-        DL->GetFile(Url, FileName);
+		DL->GetFile(Url, FileName);
         DL->Close();
         if (!FileName.IsEmpty())
         {
@@ -718,15 +696,13 @@ void __fastcall TFormMain::nmUpdatesClick(TObject* Sender)
         LogInfo("Choose not to unstall update.");
     EXITFUNC;
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TFormMain::FormCreate(TObject* Sender)
 {
     CodeSite->Clear();
     ENTERFUNC;
 
-    try
+	try
     {
         DWORD font_count;
         std::unique_ptr<TResourceStream> rs;
@@ -752,7 +728,7 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
     LoadDefaults();
     EXITFUNC;
 }
-
+//---------------------------------------------------------------------------
 void __fastcall BestFitDBGridColumn(
     TDBGrid* Grid, TColumn* Col, int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/)
 {
@@ -769,7 +745,7 @@ void __fastcall BestFitDBGridColumn(
     TDataSet* DS = Col->Field->DataSet;
     if (!DS || !DS->Active)
     {
-        LogWarn("No DataSet or not active.");
+		LogWarn("No DataSet or not active.");
         EXITFUNC;
         return;
     }
@@ -787,7 +763,7 @@ void __fastcall BestFitDBGridColumn(
         Grid->Canvas->Font->Assign(Col->Title->Font);
         int maxW = Grid->Canvas->TextWidth(Col->Title->Caption);
 
-        LogInfo("Col Title Font: " + Col->Title->Font->Name);
+		LogInfo("Col Title Font: " + Col->Title->Font->Name);
         LogInfo("Col Font Size: " + IntToStr(Col->Title->Font->Size));
         LogInfo("Title Width = " + IntToStr(maxW));
 

@@ -7,11 +7,11 @@
 // ---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
-USEFORM("Select.cpp", FormSelect);
 USEFORM("Preferences.cpp", FormPrefs);
+USEFORM("Select.cpp", FormSelect);
 USEFORM("UpdateInfo.cpp", UpdInfo);
-USEFORM("MainForm.cpp", FormMain);
 USEFORM("ABOUT.cpp", AboutBox);
+USEFORM("MainForm.cpp", FormMain);
 USEFORM("Download.cpp", DL);
 USEFORM("DataModule.cpp", DMod); /* TDataModule: File Type */
 //---------------------------------------------------------------------------

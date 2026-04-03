@@ -251,10 +251,6 @@
             <DependentOn>Select.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
-        <CppCompile Include="TempFont.cpp">
-            <DependentOn>TempFont.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
         <CppCompile Include="UpdateInfo.cpp">
             <Form>UpdInfo</Form>
             <FormType>dfm</FormType>
