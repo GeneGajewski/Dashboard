@@ -31,8 +31,9 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Winapi.Windows.hpp>
 //----------------------------------------------------------------------------
-class TAboutBox : public TForm {
-__published:
+class TAboutBox : public TForm
+{
+  __published:
     TPanel* Panel1;
     TImage* ProgramIcon;
     TLabel* ProductName;
@@ -40,9 +41,8 @@ __published:
     TButton* OKButton;
     TLinkLabel* LinkLabel1;
     void __fastcall LinkLabel1Click(TObject* Sender);
-
-private:
-public:
+  private:
+  public:
     virtual __fastcall TAboutBox(TComponent* AOwner);
 };
 //----------------------------------------------------------------------------

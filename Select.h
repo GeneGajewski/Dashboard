@@ -35,8 +35,8 @@ class TFormSelect : public TForm
   __published: // IDE-managed Components
     TListBox* ListBox1;
     TButton* btnOk;
-	TButton *Button1;
-	TSkSvg *SkSvg1;
+    TButton* Button1;
+    TSkSvg* SkSvg1;
     void __fastcall FormShow(TObject* Sender);
     void __fastcall FormDestroy(TObject* Sender);
     void __fastcall ListBox1DblClick(TObject* Sender);
