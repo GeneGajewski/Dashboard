@@ -8,10 +8,10 @@
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
 USEFORM("Preferences.cpp", FormPrefs);
-USEFORM("Select.cpp", FormSelect);
-USEFORM("UpdateInfo.cpp", UpdInfo);
-USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("MainForm.cpp", FormMain);
+USEFORM("UpdateInfo.cpp", UpdInfo);
+USEFORM("Select.cpp", FormSelect);
+USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("Download.cpp", DL);
 USEFORM("DataModule.cpp", DMod); /* TDataModule: File Type */
 //---------------------------------------------------------------------------
@@ -22,7 +22,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 		Application->MainFormOnTaskBar = true;
 		TStyleManager::TrySetStyle("Windows11 Modern Light");
 		Application->Title = "Dashboard";
-		Application->HelpFile = "C:\\Projects\\C++Builder\\Dashboard\\Win64\\Release\\Dashboard.chm";
+		Application->HelpFile = "C:\\Projects\\C++Builder\\Dashboard\\Resources\\Dashboard.chm";
 		Application->CreateForm(__classid(TDMod), &DMod);
 		Application->CreateForm(__classid(TFormMain), &FormMain);
 		Application->CreateForm(__classid(TFormPrefs), &FormPrefs);

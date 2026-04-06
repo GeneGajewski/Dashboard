@@ -3,9 +3,10 @@ object FormPrefs: TFormPrefs
   Top = 0
   HelpType = htKeyword
   HelpKeyword = 'Preferences'
+  BorderIcons = [biHelp]
   Caption = 'Preferences'
-  ClientHeight = 360
-  ClientWidth = 329
+  ClientHeight = 257
+  ClientWidth = 433
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -581,9 +582,9 @@ object FormPrefs: TFormPrefs
   end
   object GroupBox1: TGroupBox
     Left = 8
-    Top = 125
-    Width = 209
-    Height = 249
+    Top = 110
+    Width = 417
+    Height = 123
     Caption = 'Visible Fields'
     ShowFrame = False
     TabOrder = 0
@@ -624,8 +625,8 @@ object FormPrefs: TFormPrefs
     end
     object ckbInfo: TCheckBox
       Tag = 4
-      Left = 24
-      Top = 128
+      Left = 225
+      Top = 32
       Width = 97
       Height = 17
       Caption = 'Info'
@@ -633,8 +634,8 @@ object FormPrefs: TFormPrefs
     end
     object ckbCity: TCheckBox
       Tag = 5
-      Left = 24
-      Top = 151
+      Left = 224
+      Top = 55
       Width = 97
       Height = 17
       Caption = 'City'
@@ -642,8 +643,8 @@ object FormPrefs: TFormPrefs
     end
     object ckbName: TCheckBox
       Tag = 6
-      Left = 24
-      Top = 176
+      Left = 224
+      Top = 80
       Width = 97
       Height = 17
       Caption = 'Name'
@@ -651,8 +652,8 @@ object FormPrefs: TFormPrefs
     end
     object ckbStatus: TCheckBox
       Tag = 7
-      Left = 24
-      Top = 199
+      Left = 224
+      Top = 103
       Width = 97
       Height = 17
       Caption = 'Status'
@@ -660,8 +661,8 @@ object FormPrefs: TFormPrefs
     end
     object ckbPreferred: TCheckBox
       Tag = 15
-      Left = 127
-      Top = 199
+      Left = 326
+      Top = 104
       Width = 97
       Height = 17
       Caption = 'Preferred'
@@ -669,8 +670,8 @@ object FormPrefs: TFormPrefs
     end
     object ckbDXCC: TCheckBox
       Tag = 14
-      Left = 127
-      Top = 176
+      Left = 326
+      Top = 81
       Width = 97
       Height = 17
       Caption = 'DXCC'
@@ -678,8 +679,8 @@ object FormPrefs: TFormPrefs
     end
     object ckbCountry: TCheckBox
       Tag = 13
-      Left = 127
-      Top = 150
+      Left = 326
+      Top = 55
       Width = 97
       Height = 17
       Caption = 'Country'
@@ -687,9 +688,9 @@ object FormPrefs: TFormPrefs
     end
     object ckbMemberID: TCheckBox
       Tag = 12
-      Left = 127
-      Top = 127
-      Width = 90
+      Left = 326
+      Top = 32
+      Width = 97
       Height = 17
       Caption = 'Member ID'
       TabOrder = 11
@@ -744,8 +745,8 @@ object FormPrefs: TFormPrefs
     OnChange = cbStylesChange
   end
   object btnOk: TButton
-    Left = 246
-    Top = 297
+    Left = 350
+    Top = 25
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -755,8 +756,8 @@ object FormPrefs: TFormPrefs
     OnClick = btnOkClick
   end
   object btnCancel: TButton
-    Left = 246
-    Top = 328
+    Left = 350
+    Top = 56
     Width = 75
     Height = 25
     Cancel = True

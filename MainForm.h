@@ -21,6 +21,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+
 //---------------------------------------------------------------------------
 #include "datamodule.h"
 #include <Data.DB.hpp>
@@ -125,31 +126,33 @@ class TFormMain : public TForm
 	TRESTResponse* RESTResponse1;
 	TActionMainMenuBar *ActionMainMenuBar1;
 	TActionManager *ActionManager1;
-	TAction *ActionExportCSV;
-	TAction *ActAbout;
-	TAction *ActPrefs;
-	TAction *ActFit;
-	THelpContents *HelpContents1;
-	TFileExit *ActionFileExit1;
-	THelpOnHelp *HelpOnHelp1;
+	TAction *actExportCSV;
+	TAction *actAbout;
+	TAction *actPreferences;
+	TAction *actAutoFit;
+	THelpContents *actContents;
+	TFileExit *actExit;
+	THelpOnHelp *actHelpOnHelp;
+	TAction *actCheckUpdates;
+	TAction *actLiveNet;
 	void __fastcall MasterTick(TObject* Sender);
-	void __fastcall btnNetsClick(TObject* Sender);
 	void __fastcall DBGrid1DblClick(TObject* Sender);
 	void __fastcall FormClose(TObject* Sender, TCloseAction& Action);
 	void __fastcall FormShow(TObject* Sender);
 	void __fastcall RefreshTimerTimer(TObject* Sender);
-	void __fastcall nmUpdatesClick(TObject* Sender);
 	void __fastcall FormCreate(TObject* Sender);
 	void __fastcall ActionExport(TObject *Sender);
 	void __fastcall ActionAbout(TObject *Sender);
 	void __fastcall ActionPreferences(TObject *Sender);
 	void __fastcall ActionAutoFit(TObject *Sender);
+	void __fastcall actCheckUpdatesExecute(TObject *Sender);
+	void __fastcall ActionLiveNet(TObject *Sender);
   private: // User declarations
 	void __fastcall UpdateClockDisplay();
 	bool LEDOn = false;
 	void __fastcall OpenDatabase();
 	String CurrentNet;
-	void __fastcall SetGrid(const CheckinList* clist);
+	void __fastcall SetGrid(CheckinList* clist);
 	void __fastcall SaveDefaults();
 	void __fastcall LoadDefaults();
 	void __fastcall DataUpdate(const String& netname);

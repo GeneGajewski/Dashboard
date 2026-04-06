@@ -201,10 +201,8 @@ object FormMain: TFormMain
         Top = 39
         Width = 75
         Height = 25
-        Hint = 'Choose a net to view'
-        Caption = 'Live &Nets'
+        Action = actLiveNet
         TabOrder = 6
-        OnClick = btnNetsClick
       end
       object edNET: TEdit
         Left = 16
@@ -589,79 +587,100 @@ object FormMain: TFormMain
           item
             Items = <
               item
-                Action = ActionExportCSV
+                Action = actExportCSV
               end
               item
-                Action = ActionFileExit1
+                Action = actExit
                 ImageIndex = 43
               end>
             Caption = '&File'
           end
           item
-            Action = ActPrefs
+            Action = actPreferences
           end
           item
-            Action = ActFit
+            Action = actAutoFit
             Caption = '&AutoFit'
           end
           item
             Items = <
               item
-                Action = ActAbout
+                Action = actAbout
               end
               item
-                Action = HelpContents1
+                Action = actContents
                 ImageIndex = 40
               end
               item
-                Action = HelpOnHelp1
+                Action = actHelpOnHelp
+              end
+              item
+                Action = actCheckUpdates
+                Caption = 'Ch&eck Updates'
               end>
             Caption = '&Help'
+          end
+          item
+            Items = <
+              item
+                Action = actLiveNet
+              end>
+            Caption = '&Nets'
           end>
         ActionBar = ActionMainMenuBar1
       end>
-    Left = 592
-    Top = 360
+    Left = 680
+    Top = 88
     StyleName = 'Platform Default'
-    object ActionExportCSV: TAction
+    object actExportCSV: TAction
       Category = 'File'
       Caption = 'Export &CSV'
       Enabled = False
       Hint = 'Export data to file'
       OnExecute = ActionExport
     end
-    object ActAbout: TAction
+    object actAbout: TAction
       Category = 'Help'
       Caption = '&About'
       Hint = 'About this program'
       OnExecute = ActionAbout
     end
-    object ActPrefs: TAction
+    object actPreferences: TAction
       Caption = '&Preferences'
       OnExecute = ActionPreferences
     end
-    object ActFit: TAction
+    object actAutoFit: TAction
       Caption = 'Auto&Fit'
       OnExecute = ActionAutoFit
     end
-    object HelpContents1: THelpContents
+    object actContents: THelpContents
       Category = 'Help'
       Caption = '&Contents'
       HelpKeyword = 'Introduction'
       Hint = 'Help Contents'
       ImageIndex = 40
     end
-    object ActionFileExit1: TFileExit
+    object actExit: TFileExit
       Category = 'File'
       Caption = 'E&xit'
       Hint = 'Exit|Quits the application'
       ImageIndex = 43
     end
-    object HelpOnHelp1: THelpOnHelp
+    object actHelpOnHelp: THelpOnHelp
       Category = 'Help'
       Caption = '&Help on Help'
       Enabled = False
       Hint = 'Help on help'
+    end
+    object actCheckUpdates: TAction
+      Category = 'Help'
+      Caption = 'Check Updates'
+      OnExecute = actCheckUpdatesExecute
+    end
+    object actLiveNet: TAction
+      Category = 'Nets'
+      Caption = '&Live Net'
+      OnExecute = ActionLiveNet
     end
   end
 end

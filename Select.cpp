@@ -43,16 +43,18 @@ __fastcall TFormSelect::TFormSelect(TComponent* Owner) : TForm(Owner)
 
 void __fastcall TFormSelect::FormShow(TObject* Sender)
 {
-    ModalResult = mrCancel;
 
-    // refreshing the list of active nets is limited to once a minute
+	ModalResult = mrCancel;
 
-    if (NetList->Count == 0 || SecondsBetween(GetTime(), last_checked) > NETLIST_SECONDS)
-    {
-        DMod->GetNetNames(NetList);
-        last_checked = GetTime();
-    }
-    ListBox1->Items = NetList;
+	// refreshing the list of active nets is limited to once a minute
+
+	if (NetList->Count == 0 || SecondsBetween(GetTime(), last_checked) > NETLIST_SECONDS)
+	{
+		NetList->Clear();
+		DMod->GetLiveNetNames(NetList);
+		last_checked = GetTime();
+	}
+	ListBox1->Items = NetList;
 }
 
 //---------------------------------------------------------------------------
@@ -67,7 +69,7 @@ void __fastcall TFormSelect::FormDestroy(TObject* Sender)
 
 void __fastcall TFormSelect::ListBox1DblClick(TObject* Sender)
 {
-    ModalResult = mrOk;
+	ModalResult = mrOk;
 }
 
 //---------------------------------------------------------------------------

@@ -48,7 +48,7 @@ bool TDL::GetFile(String& url, String& filename)
         __int64 LSize = LResponse->ContentLength;
 
         ProgressBar1->Max = LSize;
-        ProgressBar1->Min = 0;
+		ProgressBar1->Min = 0;
         ProgressBar1->Position = 0;
 
         // Create the file that is going to be downloaded
