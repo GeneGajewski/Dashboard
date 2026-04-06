@@ -1,5 +1,5 @@
 
-#XML Mapper Nested DataSets
+# XML Mapper Nested DataSets
 
 The RAD Studio XML Mapper handles nested datasets by identifying repeating nodes within an XML document and mapping them to Nested DataSets (represented as  objects) in a data packet. This process allows a hierarchical XML structure to be transformed into a master-detail relationship within a single . [1, 2, 3]
 Key Mechanisms
@@ -25,8 +25,8 @@ To use these mappings in your application:
 
 ### Advantages
 
-• Master-Detail Efficiency: All related data (master and details) is packaged into a single unit, which is ideal for cached updates.
-• Transactional Updates: When applying updates, the master and all nested records are processed in an "all or nothing" fashion within a single transaction. [3]
+â€¢ Master-Detail Efficiency: All related data (master and details) is packaged into a single unit, which is ideal for cached updates.
+â€¢ Transactional Updates: When applying updates, the master and all nested records are processed in an "all or nothing" fashion within a single transaction. [3]
 
 ## AI responses may include mistakes.
 
