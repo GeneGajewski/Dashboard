@@ -371,7 +371,8 @@ bool TDMod::GetNetData(const String& Name, Vpairs& Net)
     {
         LogExcept(e);
         Retval = false;
-    }
+	}
+    EXITFUNC;
     return Retval;
 }
 
@@ -384,7 +385,7 @@ bool TDMod::GetLiveNetNames(TStringList* List)
     bool Retval;
     ENTERFUNC;
     try
-    {
+	{
         List->Clear();
 
         RESTRequest1->Resource = "GetActiveNets.php";
@@ -396,11 +397,11 @@ bool TDMod::GetLiveNetNames(TStringList* List)
 
     } catch (Exception* e)
     {
-        LogExcept(e);
-        return false;
-    }
-    return Retval;
-    EXITFUNC;
+		LogExcept(e);
+		Retval = false;
+	}
+	EXITFUNC;
+	return Retval;
 }
 
 //
@@ -410,31 +411,31 @@ bool TDMod::GetLiveNetNames(TStringList* List)
 CheckinList* TDMod::GetLiveCheckins(const String Netname)
 {
     ENTERFUNC;
-    bool Retval = false;
-    try
-    {
-        Vpairs& list = NL.Servers.Nets[Netname];
-        String _netname = list[ND_NETNAME];
-        String _servername = list[ND_SRVNAME];
+	bool Retval = true;
+	try
+	{
+		Vpairs& list = NL.Servers.Nets[Netname];
+		String _netname = list[ND_NETNAME];
+		String _servername = list[ND_SRVNAME];
 
-        RESTRequest1->Resource = "GetCheckins.php";
-        RESTRequest1->Params->Clear();
-        RESTRequest1->Params->AddItem("ServerName", _servername, pkGETorPOST);
-        RESTRequest1->Params->AddItem("NetName", _netname, pkGETorPOST);
+		RESTRequest1->Resource = "GetCheckins.php";
+		RESTRequest1->Params->Clear();
+		RESTRequest1->Params->AddItem("ServerName", _servername, pkGETorPOST);
+		RESTRequest1->Params->AddItem("NetName", _netname, pkGETorPOST);
 		Retval = DoQuery(NL);
 
 		if (Retval)
 		{
 			LogInfo("chkins count: " + IntToStr( (int) NL.ChkList.Checkins.size()));
-			return &(NL.ChkList);
 		}
 
-    } catch (Exception* e)
-    {
-        LogExcept(e);
-    }
-    EXITFUNC;
-    return nullptr;
+	} catch (Exception* e)
+	{
+		LogExcept(e);
+		Retval = false;
+	}
+	EXITFUNC;
+	return Retval ? &NL.ChkList : nullptr;
 }
 
 //
@@ -448,7 +449,7 @@ const String TDMod::ErrorMessage()
     } catch (Exception* e)
     {
         LogExcept(e);
-    }
+	}
     return "";
 }
 //---------------------------------------------------------------------------
