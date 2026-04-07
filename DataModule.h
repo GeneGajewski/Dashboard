@@ -33,6 +33,7 @@
 #include <Xml.xmldom.hpp>
 #include <System.Net.HttpClient.hpp>
 #include <System.Net.URLClient.hpp>
+#include <CodeSiteLogging.hpp>
 
 #include "DashTypes.h"
 
@@ -49,7 +50,9 @@ class TDMod : public TDataModule
     TRESTRequest* RESTRequest1;
     TRESTResponse* RESTResponse1;
     TXMLDocument* XMLDocument1;
+	void __fastcall DataModuleCreate(TObject *Sender);
   private: // User declarations
+     TCodeSiteLogger* Log;
     NLData NL; // holds everything!
 
     bool ReadHeader(_di_IXMLNode& Head, NLData& nl);
@@ -66,6 +69,7 @@ class TDMod : public TDataModule
     bool GetLiveNetNames(TStringList* List);
     CheckinList* GetLiveCheckins(const String NetName);
     const String ErrorMessage();
+    void LogEnable(bool onoff);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TDMod* DMod;

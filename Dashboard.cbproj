@@ -7,10 +7,9 @@
         <MainSource>Dashboard.cpp</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">Dashboard</ProjectName>
         <TargetedPlatforms>1048579</TargetedPlatforms>
-        <CC_Suffix Condition="'$(CC_Suffix)'==''">c</CC_Suffix>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -79,7 +78,6 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
-        <UsePackages>true</UsePackages>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
         <FinalOutputDir>.\$(Platform)\$(Config)</FinalOutputDir>
         <BCC_wpar>false</BCC_wpar>
@@ -88,7 +86,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;bcbsmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;CodeSiteExpressPkg.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;soaprtl.lib;inet.lib;soapserver.lib;vclactnband.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib;CodeSiteExpressPkg.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -97,7 +95,7 @@
         <IncludePath>D:\Projects\Dashboard\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>D:\Projects\Dashboard\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>Dashboard</SanitizedProjectName>
-        <Custom_Styles>&quot;Aqua Light Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AquaLightSlate.vsf&quot;;Glow|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glow.vsf;&quot;Iceberg Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\IcebergClassico.vsf&quot;;&quot;Lavender Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\LavenderClassico.vsf&quot;;Sky|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sky.vsf;&quot;Slate Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SlateClassico.vsf&quot;;&quot;Tablet Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TabletDark.vsf&quot;;&quot;Tablet Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TabletLight.vsf&quot;;&quot;Windows Modern|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModern.vsf&quot;;&quot;Windows Modern Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModernBlue.vsf&quot;;&quot;Windows Modern Green|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModernGreen.vsf&quot;;&quot;Windows Modern MountainMist|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModernMountainMist.vsf&quot;;&quot;Windows Modern Purple|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModernPurple.vsf&quot;;&quot;Windows Modern SlateGray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModernSlateGray.vsf&quot;;Windows10|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10.vsf;&quot;Windows10 Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Blue.vsf&quot;;&quot;Windows10 Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Dark.vsf&quot;;&quot;Windows10 Green|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Green.vsf&quot;;&quot;Windows10 Purple|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Purple.vsf&quot;;&quot;Windows10 SlateGray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10SlateGray.vsf&quot;;&quot;Windows11 Impressive Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Impressive_Dark.vsf&quot;;&quot;Windows11 Impressive Dark SE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Impressive_Dark_SE.vsf&quot;;&quot;Windows11 Impressive Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Impressive_Light.vsf&quot;;&quot;Windows11 Impressive Light SE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Impressive_Light_SE.vsf&quot;;&quot;Windows11 MineShaft|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_MineShaft.vsf&quot;;&quot;Windows11 Modern Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Modern_Dark.vsf&quot;;&quot;Windows11 Modern Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Modern_Light.vsf&quot;;&quot;Windows11 Polar Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Polar_Dark.vsf&quot;;&quot;Windows11 Polar Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Polar_Light.vsf&quot;;&quot;Windows11 White Smoke|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_WhiteSmoke.vsf&quot;;Amakrits|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Amakrits.vsf;&quot;Amethyst Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AmethystKamri.vsf&quot;;&quot;Aqua Graphite|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AquaGraphite.vsf&quot;;Auric|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Auric.vsf;Carbon|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Carbon.vsf;&quot;Charcoal Dark Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CharcoalDarkSlate.vsf&quot;;&quot;Cobalt XEMedia|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CobaltXEMedia.vsf&quot;;Copper|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Copper.vsf;CopperDark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CopperDark.vsf;Coral|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Coral.vsf;&quot;Cyan Dusk|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CyanDusk.vsf&quot;;&quot;Cyan Night|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CyanNight.vsf&quot;;Diamond|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Diamond.vsf;Emerald|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Emerald.vsf;&quot;Emerald Light Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\EmeraldLightSlate.vsf&quot;;&quot;Golden Graphite|VCLSTYLE|$(BDSCOMMONDIR)\Styles\GoldenGraphite.vsf&quot;;Jet|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Jet.vsf;Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Light.vsf;Luna|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Luna.vsf;Obsidian|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Obsidian.vsf;&quot;Onyx Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\OnyxBlue.vsf&quot;;Radiant|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Radiant.vsf;&quot;Ruby Graphite|VCLSTYLE|$(BDSCOMMONDIR)\Styles\RubyGraphite.vsf&quot;;&quot;Sapphire Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SapphireKamri.vsf&quot;;Silver|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Silver.vsf;&quot;Smokey Quartz Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SmokeyQuartzKamri.vsf&quot;;Sterling|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sterling.vsf;&quot;Turquoise Gray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TurquoiseGray.vsf&quot;;Vapor|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Vapor.vsf;Calypso|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Calypso.vsf;Glossy|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glossy.vsf;&quot;Lucky Point|VCLSTYLE|$(BDSCOMMONDIR)\Styles\LuckyPoint.vsf&quot;;&quot;Material Oxford Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\MaterialOxfordBlue.vsf&quot;;&quot;Material Pattens Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\MaterialPattensBlue.vsf&quot;;&quot;Puerto Rico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\PuertoRico.vsf&quot;;Stellar|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Stellar.vsf;&quot;Stellar Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\StellarDark.vsf&quot;;&quot;Wedgewood Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WedgewoodLight.vsf&quot;;&quot;Windows10 BlackPearl|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10BlackPearl.vsf&quot;;&quot;Windows10 Blue Whale|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10BlueWhale.vsf&quot;;&quot;Windows10 Blue Whale LE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10BlueWhaleLE.vsf&quot;;&quot;Windows10 Clear Day|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10ClearDay.vsf&quot;;&quot;Windows10 Malibu|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Malibu.vsf&quot;;Zircon|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Zircon.vsf</Custom_Styles>
+        <Custom_Styles>&quot;Aqua Light Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AquaLightSlate.vsf&quot;;Glow|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glow.vsf;&quot;Iceberg Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\IcebergClassico.vsf&quot;;&quot;Lavender Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\LavenderClassico.vsf&quot;;Sky|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sky.vsf;&quot;Slate Classico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SlateClassico.vsf&quot;;&quot;Tablet Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TabletDark.vsf&quot;;&quot;Tablet Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TabletLight.vsf&quot;;Windows10|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10.vsf;&quot;Windows10 Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Blue.vsf&quot;;&quot;Windows10 Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Dark.vsf&quot;;&quot;Windows10 Green|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Green.vsf&quot;;&quot;Windows10 Purple|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Purple.vsf&quot;;&quot;Windows10 SlateGray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10SlateGray.vsf&quot;;&quot;Windows11 MineShaft|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_MineShaft.vsf&quot;;&quot;Windows11 Modern Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Modern_Dark.vsf&quot;;&quot;Windows11 Modern Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Modern_Light.vsf&quot;;&quot;Windows11 Polar Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Polar_Dark.vsf&quot;;&quot;Windows11 Polar Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Polar_Light.vsf&quot;;&quot;Windows11 White Smoke|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_WhiteSmoke.vsf&quot;;Amakrits|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Amakrits.vsf;&quot;Amethyst Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AmethystKamri.vsf&quot;;&quot;Aqua Graphite|VCLSTYLE|$(BDSCOMMONDIR)\Styles\AquaGraphite.vsf&quot;;Auric|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Auric.vsf;Carbon|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Carbon.vsf;&quot;Charcoal Dark Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CharcoalDarkSlate.vsf&quot;;&quot;Cobalt XEMedia|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CobaltXEMedia.vsf&quot;;Copper|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Copper.vsf;CopperDark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CopperDark.vsf;Coral|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Coral.vsf;&quot;Cyan Dusk|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CyanDusk.vsf&quot;;&quot;Cyan Night|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CyanNight.vsf&quot;;Diamond|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Diamond.vsf;Emerald|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Emerald.vsf;&quot;Emerald Light Slate|VCLSTYLE|$(BDSCOMMONDIR)\Styles\EmeraldLightSlate.vsf&quot;;&quot;Golden Graphite|VCLSTYLE|$(BDSCOMMONDIR)\Styles\GoldenGraphite.vsf&quot;;Jet|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Jet.vsf;Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Light.vsf;Luna|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Luna.vsf;Obsidian|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Obsidian.vsf;&quot;Onyx Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\OnyxBlue.vsf&quot;;Radiant|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Radiant.vsf;&quot;Ruby Graphite|VCLSTYLE|$(BDSCOMMONDIR)\Styles\RubyGraphite.vsf&quot;;&quot;Sapphire Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SapphireKamri.vsf&quot;;Silver|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Silver.vsf;&quot;Smokey Quartz Kamri|VCLSTYLE|$(BDSCOMMONDIR)\Styles\SmokeyQuartzKamri.vsf&quot;;Sterling|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sterling.vsf;&quot;Turquoise Gray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TurquoiseGray.vsf&quot;;Vapor|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Vapor.vsf;Calypso|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Calypso.vsf;&quot;Calypso LE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CalypsoLE.vsf&quot;;&quot;Calypso SE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CalypsoSE.vsf&quot;;&quot;Calypso SLE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\CalypsoSLE.vsf&quot;;&quot;Flat UI Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\FlatUILight.vsf&quot;;Glossy|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glossy.vsf;&quot;Material Oxford Blue|VCLSTYLE|$(BDSCOMMONDIR)\Styles\MaterialOxfordBlue.vsf&quot;;&quot;Material Oxford Blue SE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\MaterialOxfordBlueSE.vsf&quot;;&quot;Puerto Rico|VCLSTYLE|$(BDSCOMMONDIR)\Styles\PuertoRico.vsf&quot;;Stellar|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Stellar.vsf;&quot;Stellar Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\StellarDark.vsf&quot;;&quot;Wedgewood Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WedgewoodLight.vsf&quot;;&quot;Windows10 BlackPearl|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10BlackPearl.vsf&quot;;&quot;Windows10 Blue Whale|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10BlueWhale.vsf&quot;;&quot;Windows10 Blue Whale LE|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10BlueWhaleLE.vsf&quot;;&quot;Windows10 Clear Day|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10ClearDay.vsf&quot;;&quot;Windows10 Malibu|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Malibu.vsf&quot;</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindcompvclsmp;bindcompvclwinx;bindengine;CloudService;CodeSiteExpressPkg;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FMXTeeGrid;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;Skia;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vcledge;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;VCLTeeGrid;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -111,9 +109,13 @@
         <BCC_PCHName_Clang>DashboardPCH1.h</BCC_PCHName_Clang>
         <VerInfo_Release>3</VerInfo_Release>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
+        <Icon_MainIcon>$(ProjectName).Artwork\Windows\AppIcon.ico</Icon_MainIcon>
+        <Icns_MainIcns>$(ProjectName).Artwork\Windows\AppIcon.icns</Icns_MainIcns>
+        <UWP_CppLogo44>$(ProjectName).Artwork\Windows\Uwp_44.png</UWP_CppLogo44>
+        <UWP_CppLogo150>$(ProjectName).Artwork\Windows\Uwp_150.png</UWP_CppLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindcompvclsmp;bindcompvclwinx;bindengine;CloudService;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FMXTeeGrid;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;Skia;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vcledge;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;VCLTeeGrid;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
+        <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindcompvclsmp;bindcompvclwinx;bindengine;CloudService;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FMXTeeGrid;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vcledge;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;VCLTeeGrid;vcltouch;vclwinx;vclx;xmlrtl</PackageImports>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
@@ -122,6 +124,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <BCC_PCHName_Clang>DashboardPCH1.h</BCC_PCHName_Clang>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
+        <Icon_MainIcon>$(ProjectName).Artwork\Windows\AppIcon.ico</Icon_MainIcon>
+        <Icns_MainIcns>$(ProjectName).Artwork\Windows\AppIcon.icns</Icns_MainIcns>
+        <UWP_CppLogo44>$(ProjectName).Artwork\Windows\Uwp_44.png</UWP_CppLogo44>
+        <UWP_CppLogo150>$(ProjectName).Artwork\Windows\Uwp_150.png</UWP_CppLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64x)'!=''">
         <PackageImports>adortl;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindcompvclsmp;bindcompvclwinx;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;RESTBackendComponents;RESTComponents;rtl;Skia;vcl;vclactnband;vcldb;vcldsnap;vcledge;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -132,8 +139,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <BCC_PCHName_Clang>DashboardPCH1.h</BCC_PCHName_Clang>
+        <Icon_MainIcon>$(ProjectName).Artwork\Windows\AppIcon.ico</Icon_MainIcon>
+        <Icns_MainIcns>$(ProjectName).Artwork\Windows\AppIcon.icns</Icns_MainIcns>
+        <UWP_CppLogo44>$(ProjectName).Artwork\Windows\Uwp_44.png</UWP_CppLogo44>
+        <UWP_CppLogo150>$(ProjectName).Artwork\Windows\Uwp_150.png</UWP_CppLogo150>
         <BCC_EnableBatchCompilation>true</BCC_EnableBatchCompilation>
-        <UsePackages>false</UsePackages>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -161,29 +171,34 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)$(CC_SUFFIX)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;bcbsmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;CodeSiteExpressPkg.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;soaprtl.lib;inet.lib;soapserver.lib;vclactnband.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib;CodeSiteExpressPkg.lib</LinkPackageStatics>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
         <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.0.3.0;InternalName=Dashboard;LegalCopyright=© 2024 WG5ENE;LegalTrademarks=;OriginalFilename=Dashboard.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Release>3</VerInfo_Release>
-        <UsePackages>false</UsePackages>
+        <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
         <UWP_CppLogo44>Resources\PC.ico</UWP_CppLogo44>
         <UWP_CppLogo150>Resources\PC.ico</UWP_CppLogo150>
+        <BCC_UserSuppliedOptions>-Zx</BCC_UserSuppliedOptions>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;xmlrtl.bpi;bindcomp.bpi;dbrtl.bpi;bindengine.bpi;RESTComponents.bpi;CustomIPTransport.bpi;Skia.Package.VCL.bpi;Skia.Package.RTL.bpi;vclimg.bpi;vclx.bpi;vcldb.bpi;vclwinx.bpi;dsnap.bpi;bindcompvcl.bpi;VclSmp.bpi;bcbsmp.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;FireDACSqliteDriver.bpi;CodeSiteExpressPkg.bpi;IndyProtocols.bpi;IndyCore.bpi;IndySystem.bpi;soaprtl.bpi;inet.bpi;soapserver.bpi;vclactnband.bpi</LinkPackageImports>
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib;CodeSiteExpressPkg.lib</LinkPackageStatics>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
+        <UWP_CppLogo44>Resources\PC.ico</UWP_CppLogo44>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <UWP_CppLogo150>Resources\PC.ico</UWP_CppLogo150>
+        <DCC_OutputXMLDocumentation>true</DCC_OutputXMLDocumentation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64x)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;bcbsmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;CodeSiteExpressPkg.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;soaprtl.lib;inet.lib;soapserver.lib;vclactnband.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib</LinkPackageStatics>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -192,21 +207,35 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;xmlrtl.bpi;bindcomp.bpi;dbrtl.bpi;bindengine.bpi;RESTComponents.bpi;CustomIPTransport.bpi;vclimg.bpi;vclx.bpi;vcldb.bpi;vclwinx.bpi;dsnap.bpi;bindcompvcl.bpi;VclSmp.bpi;bcbsmp.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;FireDACSqliteDriver.bpi;CodeSiteExpressPkg.bpi;IndyProtocols.bpi;IndyCore.bpi;IndySystem.bpi;soaprtl.bpi;inet.bpi;soapserver.bpi</LinkPackageImports>
         <LinkPackageStatics>Skia.Package.VCL.lib;Skia.Package.RTL.lib</LinkPackageStatics>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Release>4</VerInfo_Release>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.0.4.0;InternalName=Dashboard;LegalCopyright=© 2024 WG5ENE;LegalTrademarks=;OriginalFilename=Dashboard.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <Icon_MainIcon>Resources\Dashboard.ico</Icon_MainIcon>
+        <UsePackages>true</UsePackages>
+        <Icon_MainIcon>$(ProjectName).Artwork\Windows\AppIcon.ico</Icon_MainIcon>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;xmlrtl.bpi;bindcomp.bpi;dbrtl.bpi;bindengine.bpi;RESTComponents.bpi;CustomIPTransport.bpi;vclimg.bpi;vclx.bpi;vcldb.bpi;vclwinx.bpi;dsnap.bpi;bindcompvcl.bpi;VclSmp.bpi;vclFireDAC.bpi;FireDAC.bpi;FireDACCommonDriver.bpi;FireDACCommon.bpi;FireDACSqliteDriver.bpi;IndyProtocols.bpi;IndyCore.bpi;IndySystem.bpi;vclactnband.bpi;vcledge.bpi;vclie.bpi;soaprtl.bpi;inet.bpi;soapserver.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib</LinkPackageStatics>
+        <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
+        <UWP_CppLogo44>Resources\Logo.png</UWP_CppLogo44>
+        <UWP_CppLogo150>Resources\Logo.png</UWP_CppLogo150>
+        <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.1.0.0;InternalName=DASHBORD;LegalCopyright=© 2026 All right reserved.;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Dashboard for NetLogger amateur radio nets.</VerInfo_Keys>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64x)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib</LinkPackageStatics>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <UsingDelphiRTL>true</UsingDelphiRTL>
     </PropertyGroup>
     <ItemGroup>
+        <None Include=".clang-format"/>
         <CppCompile Include="ABOUT.cpp">
             <Form>AboutBox</Form>
             <FormType>dfm</FormType>
@@ -221,10 +250,6 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="DashTypes.h">
-            <BuildOrder>14</BuildOrder>
-        </None>
-        <None Include="Data.md"/>
         <CppCompile Include="DataModule.cpp">
             <Form>DMod</Form>
             <FormType>dfm</FormType>
@@ -238,9 +263,6 @@
             <DependentOn>Download.h</DependentOn>
             <BuildOrder>11</BuildOrder>
         </CppCompile>
-        <None Include="Log.h">
-            <BuildOrder>13</BuildOrder>
-        </None>
         <CppCompile Include="MainForm.cpp">
             <Form>FormMain</Form>
             <FormType>dfm</FormType>
@@ -299,7 +321,7 @@
         <BorlandProject>
             <CPlusPlusBuilder.Personality>
                 <ProjectProperties>
-                    <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
+                    <ProjectProperties Name="AutoShowDeps">True</ProjectProperties>
                     <ProjectProperties Name="ManagePaths">True</ProjectProperties>
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
@@ -315,30 +337,6 @@
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="5">
-                <DeployFile LocalName="$(BDS)\Redist\Win32\CustomIPTransport290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\FireDAC290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\FireDACCommon290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\FireDACCommonDriver290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\FireDACSqliteDriver290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\IndyCore290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\IndyProtocols290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\IndySystem290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\RESTComponents290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\VclSmp290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\bcbsmpc290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\bindcomp290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\bindcompvcl290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\bindengine290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\dbrtl290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\dsnap290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclFireDAC290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vcldb290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclimg290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclwinx290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vclx290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\xmlrtl290.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -355,17 +353,7 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64290.dll" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64290.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64290mt.dll" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64290mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64370.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
@@ -392,17 +380,7 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32290.dll" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32290.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32290mt.dll" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32290mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32370.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -414,17 +392,7 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c290.dll" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c290.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c290mt.dll" Class="DependencyModule"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c290mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c370.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -451,59 +419,32 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName=".\Win32\Debug\Dashboard.exe" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName=".\Win32\Debug\Dashboard.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>Dashboard.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\Dashboard.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>Dashboard.tds</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName=".\Win32\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput"/>
-                <DeployFile LocalName=".\Win32\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>Dashboard.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName=".\Win64\Debug\Dashboard.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName=".\Win64\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName=".\Win64\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>Dashboard.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\Program Files (x86)\Raize\CS5\Deploy\Win32\CodeSiteExpressPkg290.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="C:\WINDOWS\system32\VCLTeeGrid29.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="New1.md" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
+                <DeployFile LocalName=".\Win64x\Release\Dashboard.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName=".clang-format" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName=".clang-format" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="README.md" Configuration="Debug" Class="ProjectFile"/>
-                <DeployFile LocalName="README.md" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="README.md" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="README.md" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="README.md" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="README.md" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="README.md" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
+                <DeployFile LocalName="Resources\Dashboard.png" Configuration="Debug" Class="UWP_CppLogo44"/>
+                <DeployFile LocalName="Resources\Logo.png" Configuration="Release" Class="UWP_CppLogo44"/>
                 <DeployFile LocalName="Resources\PC.ico" Configuration="Debug" Class="UWP_CppLogo44">
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
@@ -511,20 +452,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Resources\alarm clock.ttf" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Resources\alarm clock.ttf" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="Resources\PC.ico" Configuration="Debug" Class="UWP_CppLogo44">
                     <Platform Name="Win64">
-                        <RemoteDir>.\</RemoteDir>
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="Resources\alarm clock.ttf" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
+                    <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -535,6 +471,8 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="alarm clock - Copy.ttf_font" Configuration="Debug" Class="ProjectFile"/>
+                <DeployFile LocalName="alarm clock - Copy.ttf_font" Configuration="Release" Class="ProjectFile"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>

@@ -41,6 +41,8 @@
 TFormMain* FormMain;
 
 #include <Vcl.HtmlHelpViewer.hpp>
+#pragma link "vcl.HtmlHelpViewer"
+
 #include <cctype>
 #include <fstream>
 #include <iostream>
@@ -67,6 +69,11 @@ void LogPairs(String msg, Vpairs list)
 #ifdef _WIN64
     #pragma comment(lib, "CodeSiteExpressPkg.a")
 #endif
+
+#ifdef __WIN32__
+    #pragma comment(lib, "CodeSiteExpressPkg.lib")
+#endif
+
 #pragma link "CodeSiteLogging"
 
 #define TABLENAME "DASH"
@@ -87,7 +94,23 @@ static const char* FieldKey = REG_ROOT "\\Columns";
 
 #define FONT_ID 1
 
-//---------------------------------------------------------------------------
+
+
+
+/// <summary> Removes the specified item from the collection
+/// </summary>
+/// <param name="Filename">The item to remove
+/// </param>
+/// <param name="Collection">The group containing the item
+/// </param>
+/// <remarks>
+/// If parameter "Item" is null, an exception is raised.
+/// <see cref="EArgumentNilException"/>
+/// </remarks>
+/// <returns>void True if the specified item is successfully removed;
+/// otherwise False is returned.
+/// </returns>
+
 void __fastcall TFormMain::ExportCSV(String Filename)
 {
     ENTERFUNC;
@@ -187,25 +210,29 @@ void __fastcall TFormMain::SetGrid(CheckinList* clist)
     if (!clist) // huh?
     {
         LogInfo("clist is null.");
+        EXITFUNC;
         return;
     }
-	LogInfo("Chkins size: " + IntToStr( (int) clist->Checkins.size()));
+
+    LogInfo("Chkins size: " + IntToStr((int)clist->Checkins.size()));
 
     // simple lambda to insert a a check-in record to the table
 
-	auto addrec = [this](const Vpairs& list) mutable {
+    auto addrec = [this](const Vpairs& list) mutable {
         FDTable1->Append();
         FDTable1->Edit();
+
         for (auto Item : list)
             FDTable1->FieldByName(Item.first)->AsString = Item.second;
-		FDTable1->Post();
+
+        FDTable1->Post();
         FDTable1->Next();
     };
 
     FDTable1->BeginBatch(); // prevent gui updating until all done
 
     int recno = -1;
-    int Pointer   = StrToInt(clist->Data[ND_POINTER]);
+    int Pointer = StrToInt(clist->Data[ND_POINTER]);
     FDTable1->First();
     FDTable1->EmptyDataSet();
 
@@ -214,7 +241,7 @@ void __fastcall TFormMain::SetGrid(CheckinList* clist)
         addrec(Item);
         if (Pointer == StrToInt(Item[ND_SERIALNO]))
         { // The NC's currently highlighted record
-            	recno = FDTable1->RecNo;
+            recno = FDTable1->RecNo;
         }
     }
 
@@ -225,7 +252,6 @@ void __fastcall TFormMain::SetGrid(CheckinList* clist)
     FDTable1->EndBatch();
 
     String msg = IntToStr(FDTable1->RecordCount) + " records retrieved.";
-    LogInfo(IntToStr(FDTable1->RecordCount) + " recs.");
     StatusBar1->SimpleText = msg;
     EXITFUNC;
 };
@@ -399,24 +425,19 @@ void __fastcall TFormMain::DataUpdate(const String& netname)
         CurrentNet = netname;
         if (DMod->GetNetData(netname, netinfo))
         {
-			CheckinList* chklist = DMod->GetLiveCheckins(netname);
-			if (chklist != nullptr)
+            CheckinList* chklist = DMod->GetLiveCheckins(netname);
+            if (chklist != nullptr)
             {
                 actExportCSV->Enabled = true;
 
-				edNET->Text = netinfo[ND_NETNAME];
+                edNET->Text = netinfo[ND_NETNAME];
                 edFreq->Text = netinfo[ND_FREQ];
                 edBand->Text = netinfo[ND_BAND];
                 edMode->Text = netinfo[ND_MODE];
                 edNetControl->Text = netinfo[ND_NETCONTROL];
                 edLogger->Text = netinfo[ND_LOGGER];
                 edSubscribe->Text = netinfo[ND_SUBCOUNT];
-				for(int x = 0; x < chklist->Checkins.size(); x++)
-                {
-                    Vpairs &p = chklist->Checkins[x];
-                	LogPairs("CheckinsList:", p);
-                }
-				SetGrid(chklist);
+                SetGrid(chklist);
             } else
             {
                 StatusBar1->SimpleText = CurrentNet + " is now closed.";
@@ -426,7 +447,7 @@ void __fastcall TFormMain::DataUpdate(const String& netname)
         } else
             LogInfo("Failed to get net data.");
     } else
-        LogInfo("No net.");
+        LogInfo("No net given.");
     EXITFUNC;
 }
 //---------------------------------------------------------------------------
@@ -535,6 +556,7 @@ bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String&
 void __fastcall TFormMain::FormCreate(TObject* Sender)
 {
     CodeSite->Clear();
+
     ENTERFUNC;
 
     try
@@ -544,8 +566,6 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
 
         rs = std::make_unique<TResourceStream>(THandle(HInstance), FONT_ID, RT_FONT);
         ClockFontHandle = AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
-        LogInfo("Clock font Loaded.");
-
     } catch (Exception* err)
     { /* failed to load clock resource */
         LogExcept(err);
@@ -656,7 +676,6 @@ void __fastcall TFormMain::ActionExport(TObject* Sender)
     {
         StatusBar1->SimpleText = "Nothing to export.";
         Beep();
-        LogInfo(" 0 recs");
         EXITFUNC;
         return;
     }
@@ -700,10 +719,8 @@ void __fastcall TFormMain::ActionPreferences(TObject* Sender)
     FormPrefs->SpinEdit1->Value = RefreshRate;
 
     if (FormPrefs->ShowModal() == mrOk)
-    {
         RefreshRate = FormPrefs->SpinEdit1->Value;
-
-    } else
+    else
     {
         if (Vcl::Themes::TStyleManager::ActiveStyle->Name != curstyle)
             Vcl::Themes::TStyleManager::TrySetStyle(curstyle);
@@ -754,7 +771,7 @@ void __fastcall TFormMain::actCheckUpdatesExecute(TObject* Sender)
         }
         LogWarn("Empty filename.");
     } else
-        LogInfo("Choose not to unstall update.");
+        LogInfo("Chose not to unstall update.");
     EXITFUNC;
 }
 //---------------------------------------------------------------------------
@@ -779,7 +796,4 @@ void __fastcall TFormMain::ActionLiveNet(TObject* Sender)
     EXITFUNC;
 }
 //---------------------------------------------------------------------------
-
-
-
 

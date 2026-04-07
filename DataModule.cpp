@@ -20,24 +20,33 @@
 #pragma hdrstop
 
 #include "DataModule.h"
-#include "Log.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 
-TDMod* DMod;
+#ifdef  METHOD_TRACE
+#define EXITFUNC Log->ExitMethod(__FUNC__)
+#define ENTERFUNC Log->EnterMethod(__FUNC__)
+#else
+#define ENTERFUNC
+#define EXITFUNC
+#endif
 
+#define LogNameVal(__str1, __str2) Log->Send(csmInfo, __str1 + "=" + __str2)
+#define LogInfo(__s) Log->Send(csmInfo, __s)
+
+
+TDMod* DMod;
 
 // this is an improvement over the discrete data structs used in previous versions.
 // Will likely change to an automatic XML Tranform ->DataSet model in the future
-
 
 // log any nodes unknown to us
 
 void UnknownNode(String which_func, _di_IXMLNode node)
 {
-	CodeSite->Send(csmWarning, which_func, node);
+    CodeSite->Send(csmWarning, which_func, node);
 }
 
 //---------------------------------------------------------------------------
@@ -50,58 +59,58 @@ __fastcall TDMod::TDMod(TComponent* Owner) : TDataModule(Owner) {}
 
 bool TDMod::DoQuery(NLData& nl)
 {
-	bool Retval = true;
-	_di_IXMLNode Node, Child;
-	nl.Header.clear();
-	ENTERFUNC;
-	try
-	{
-		RESTRequest1->Execute();
-		if (RESTResponse1->StatusCode == 200)   // ok
-		{
-			String Name;
+    bool Retval = true;
+    _di_IXMLNode Node, Child;
+    nl.Header.clear();
+    ENTERFUNC;
+    try
+    {
+        RESTRequest1->Execute();
+        if (RESTResponse1->StatusCode == 200) // ok
+        {
+            String Name;
 
-			XMLDocument1->LoadFromXML(DMod->RESTResponse1->Content);
-			XMLDocument1->Active = true;
-			XMLDocument1->SaveToFile("XMLFILLE.XML");
-			Node = XMLDocument1->DocumentElement;
+            XMLDocument1->LoadFromXML(DMod->RESTResponse1->Content);
+            XMLDocument1->Active = true;
+            Node = XMLDocument1->DocumentElement;
 
-			// parse all document nodes
-			for (int x = 0; x < Node->ChildNodes->Count; x++)
-			{
-				Child = Node->ChildNodes->Nodes[x];
-				Name = Child->NodeName;
+            // parse all document nodes
+            for (int x = 0; x < Node->ChildNodes->Count; x++)
+            {
+                Child = Node->ChildNodes->Nodes[x];
+                Name = Child->NodeName;
 
-				if (Name == ND_HEADER)
-				{
-					Retval = ReadHeader(Child, nl);
-					if (Retval == false)
-						break;
-				} else if (Name == ND_ERROR)
-				{
-					LogNameVal(Name, GetValue(Child));
-					nl.Header.insert({ Name, GetValue(Child) });
-					Retval = false;
-					break;
-				} else if (Name == ND_RESPCODE)
-					nl.Header.insert({ Name, GetValue(Child) });
-				else if (Name == ND_SRVLIST)
-					Retval = ReadServerList(Child, nl);
-				else if (Name == ND_CHKLIST)
-					Retval = ReadCheckinList(Child, nl);
-				else
-				{
-					UnknownNode(__FUNC__, Child);
-				}
-			}
-		}
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+                if (Name == ND_HEADER)
+                {
+                    Retval = ReadHeader(Child, nl);
+                    if (Retval == false)
+                        break;
+                } else if (Name == ND_ERROR)
+                {
+                    Log->SendError(GetValue(Child));
+                    nl.Header.insert({ Name, GetValue(Child) });
+                    Retval = false;
+                    break;
+                } else if (Name == ND_RESPCODE)
+                    nl.Header.insert({ Name, GetValue(Child) });
+                else if (Name == ND_SRVLIST)
+                    Retval = ReadServerList(Child, nl);
+                else if (Name == ND_CHKLIST)
+                    Retval = ReadCheckinList(Child, nl);
+                else
+                {
+                    UnknownNode(__FUNC__, Child);
+                }
+            }
+        } else
+            Log->SendError(String().sprintf(L"HTTP StatusCode %d", RESTResponse1->StatusCode));
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -109,25 +118,24 @@ bool TDMod::DoQuery(NLData& nl)
 //
 bool TDMod::ReadHeader(_di_IXMLNode& Head, NLData& nl)
 {
-	_di_IXMLNode Child;
-	bool Retval = true;
-	ENTERFUNC;
-	try
-	{
-		for (int x = 0; x < Head->ChildNodes->Count; x++) // get all children
-		{
-			Child = Head->ChildNodes->Nodes[x];
-			LogNameVal(Child->NodeName, GetValue(Child));
-			nl.Header.insert({ Child->NodeName, GetValue(Child) });
-		}
+    _di_IXMLNode Child;
+    bool Retval = true;
+    ENTERFUNC;
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++) // get all children
+        {
+            Child = Head->ChildNodes->Nodes[x];
+            nl.Header.insert({ Child->NodeName, GetValue(Child) });
+        }
 
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -135,39 +143,38 @@ bool TDMod::ReadHeader(_di_IXMLNode& Head, NLData& nl)
 //
 bool TDMod::ReadServerList(_di_IXMLNode& Head, NLData& nl)
 {
-	String Name;
-	_di_IXMLNode Child;
-	bool Retval = true;
-	ENTERFUNC;
-	try
-	{
-		nl.Servers.clear();
+    String Name;
+    _di_IXMLNode Child;
+    bool Retval = true;
+    ENTERFUNC;
+    try
+    {
+        nl.Servers.clear();
 
-		for (int x = 0; x < Head->ChildNodes->Count; x++)
-		{
-			Child = Head->ChildNodes->Nodes[x];
-			Name = Child->NodeName;
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
+            Child = Head->ChildNodes->Nodes[x];
+            Name = Child->NodeName;
 
-			if (Name == ND_RESPCODE)
-			{
-				LogNameVal(Name, GetValue(Child));
-				nl.Servers.Data.insert({ Name, GetValue(Child) });
-			} else if (Name == ND_SERVER)
-			{
-				ReadServer(Child, nl);
-			} else
-			{
-				UnknownNode(__FUNC__, Child);
-			}
-		}
+            if (Name == ND_RESPCODE)
+            {
+                nl.Servers.Data.insert({ Name, GetValue(Child) });
+            } else if (Name == ND_SERVER)
+            {
+                ReadServer(Child, nl);
+            } else
+            {
+                UnknownNode(__FUNC__, Child);
+            }
+        }
 
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -176,49 +183,45 @@ bool TDMod::ReadServerList(_di_IXMLNode& Head, NLData& nl)
 
 bool TDMod::ReadServer(_di_IXMLNode& Head, NLData& nl)
 {
-	String Name;
-	_di_IXMLNode Child;
-	String ServerName;
-	bool Retval = true;
-	ENTERFUNC;
-	try
-	{
-		for (int x = 0; x < Head->ChildNodes->Count; x++)
-		{
-			Child = Head->ChildNodes->Nodes[x];
-			Name = Child->NodeName;
-			if (Name == "ServerName")       // got a Server
-			{
-				Vpairs list;
-				ServerName = GetValue(Child);
-				LogNameVal(Name, ServerName);
-				list.insert({ Name, ServerName });
-				{
-					nl.Servers.Servers.insert({ ServerName, list });
-				}
-			} else if (Name == ND_SRVACT)   // number of nets claimed active
-			{
-				LogNameVal(Name, GetValue(Child));
-				nl.Servers.Servers[ServerName].insert({ Name, GetValue(Child) });
-			} else if (Name == ND_NET)
-			{
-				if (!ReadNet(Child, ServerName, nl))    // got a Net
-				{
-					Retval = false;
-					break;
-				}
-			} else
-			{
-				UnknownNode(__FUNC__, Child);   // ??
-			}
-		}
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+    String Name;
+    _di_IXMLNode Child;
+    String ServerName;
+    bool Retval = true;
+    ENTERFUNC;
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
+            Child = Head->ChildNodes->Nodes[x];
+            Name = Child->NodeName;
+            if (Name == "ServerName") // got a Server
+            {
+                Vpairs list;
+                ServerName = GetValue(Child);
+                list.insert({ Name, ServerName });
+                nl.Servers.Servers.insert({ ServerName, list });
+            } else if (Name == ND_SRVACT) // number of nets claimed active
+            {
+                nl.Servers.Servers[ServerName].insert({ Name, GetValue(Child) });
+            } else if (Name == ND_NET)
+            {
+                if (!ReadNet(Child, ServerName, nl)) // got a Net
+                {
+                    Retval = false;
+                    break;
+                }
+            } else
+            {
+                UnknownNode(__FUNC__, Child); // ??
+            }
+        }
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -227,40 +230,37 @@ bool TDMod::ReadServer(_di_IXMLNode& Head, NLData& nl)
 
 bool TDMod::ReadNet(_di_IXMLNode& Head, String& ServerName, NLData& nl)
 {
-	String Name;
-	_di_IXMLNode Child;
-	Vpairs net;
-	bool Retval = true;
-	ENTERFUNC;
-	try
-	{
-		net.insert({ ND_SRVNAME, ServerName }); // stash ref to server hosting this net
+    String Name;
+    _di_IXMLNode Child;
+    Vpairs net;
+    bool Retval = true;
+    ENTERFUNC;
+    try
+    {
+        net.insert({ ND_SRVNAME, ServerName }); // stash ref to server hosting this net
 
-		for (int x = 0; x < Head->ChildNodes->Count; x++) // grab all children
-		{
-			Child = Head->ChildNodes->Nodes[x];
-			LogNameVal(Child->NodeName, GetValue(Child));
-			net.insert({ Child->NodeName, GetValue(Child) });
-		}
+        for (int x = 0; x < Head->ChildNodes->Count; x++) // grab all children
+        {
+            Child = Head->ChildNodes->Nodes[x];
+            net.insert({ Child->NodeName, GetValue(Child) });
+        }
 
-		auto iter = net.find(ND_NETID);
+        auto iter = net.find(ND_NETID);
 
-		if (iter != net.end())  // this is a 'past' net use netname + netid as unique key
-		{
-			LogInfo("Inserting: " + net[ND_NETNAME] + net[ND_NETID]);
-			nl.Servers.NameByID.insert({ net[ND_NETNAME] + net[ND_NETID], net });
-		} else
-		{
-			LogInfo("Inserting: " + net[ND_NETNAME]);   //  this is an active net
-			nl.Servers.Nets.insert({ net[ND_NETNAME], net });
-		}
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+        if (iter != net.end()) // this is a 'past' net use netname + netid as unique key
+        {
+            nl.Servers.NameByID.insert({ net[ND_NETNAME] + net[ND_NETID], net });
+        } else
+        {
+            nl.Servers.Nets.insert({ net[ND_NETNAME], net });
+        }
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -269,34 +269,33 @@ bool TDMod::ReadNet(_di_IXMLNode& Head, String& ServerName, NLData& nl)
 
 bool TDMod::ReadCheckinList(_di_IXMLNode& Head, NLData& nl)
 {
-	String Name;
-	_di_IXMLNode Child;
-	bool Retval = true;
-	ENTERFUNC;
-	nl.ChkList.Data.clear();
-	nl.ChkList.Checkins.clear();
-	try
-	{
-		for (int x = 0; x < Head->ChildNodes->Count; x++)
-		{
-			Child = Head->ChildNodes->Nodes[x];
-			Name = Child->NodeName;
-			if (Name == ND_CHECKIN)
-				ReadCheckin(Child, NL.ChkList );   // got a ckeckin record
-			else
-			{
-				LogNameVal(Name, GetValue(Child));
-				NL.ChkList.Data.insert({ Name, GetValue(Child) });   // got checkin list meta data
-			}
-		}
+    ENTERFUNC;
+    String Name;
+    _di_IXMLNode Child;
+    bool Retval = true;
+    nl.ChkList.Data.clear();
+    nl.ChkList.Checkins.clear();
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++)
+        {
+            Child = Head->ChildNodes->Nodes[x];
+            Name = Child->NodeName;
+            if (Name == ND_CHECKIN)
+                ReadCheckin(Child, NL.ChkList); // got a ckeckin record
+            else
+            {
+                NL.ChkList.Data.insert({ Name, GetValue(Child) }); // got checkin list meta data
+            }
+        }
 
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -304,31 +303,28 @@ bool TDMod::ReadCheckinList(_di_IXMLNode& Head, NLData& nl)
 //
 bool TDMod::ReadCheckin(_di_IXMLNode& Head, CheckinList& clist)
 {
-	String Name;
-	_di_IXMLNode Child;
-	Vpairs list;
-	bool Retval = true;
-	ENTERFUNC;
+    String Name;
+    _di_IXMLNode Child;
+    Vpairs list;
+    bool Retval = true;
+    ENTERFUNC;
 
-	try
-	{
-		for (int x = 0; x < Head->ChildNodes->Count; x++)   // grab all fields
-		{
-			Child = Head->ChildNodes->Nodes[x];
-			Name = Child->NodeName;
-			LogNameVal( Name, GetValue(Child));
-			list.insert({ Name, GetValue(Child) });
-		}
-		LogInfo("Inserting Checkin");
-		clist.Checkins.insert(clist.Checkins.end(), list); // insert list record into checkins list
-        LogInfo(" Chkins size: " + IntToStr((int) clist.Checkins.size() ) );
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+    try
+    {
+        for (int x = 0; x < Head->ChildNodes->Count; x++) // grab all fields
+        {
+            Child = Head->ChildNodes->Nodes[x];
+            Name = Child->NodeName;
+            list.insert({ Name, GetValue(Child) });
+        }
+        clist.Checkins.insert(clist.Checkins.end(), list); // insert list record into checkins list
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -338,21 +334,21 @@ bool TDMod::ReadCheckin(_di_IXMLNode& Head, CheckinList& clist)
 
 inline String TDMod::GetValue(const _di_IXMLNode& Node)
 {
-	String retval;
-	try
-	{
-		if (Node->IsTextElement)
-			retval = Node->Text;
-		else
-		{
-			retval = ""; // empty node ...
-		}
+    String retval;
+    try
+    {
+        if (Node->IsTextElement)
+            retval = Node->Text;
+        else
+        {
+            retval = ""; // empty node ...
+        }
 
-	} catch (Exception* e) // just in case...
-	{
-		retval = "";
-	}
-	return retval;
+    } catch (Exception* e) // just in case...
+    {
+        retval = "";
+    }
+    return retval;
 }
 
 //
@@ -369,9 +365,9 @@ bool TDMod::GetNetData(const String& Name, Vpairs& Net)
 
     } catch (Exception* e)
     {
-        LogExcept(e);
+        Log->SendException(__FUNC__, e);
         Retval = false;
-	}
+    }
     EXITFUNC;
     return Retval;
 }
@@ -385,23 +381,21 @@ bool TDMod::GetLiveNetNames(TStringList* List)
     bool Retval;
     ENTERFUNC;
     try
-	{
+    {
         List->Clear();
-
         RESTRequest1->Resource = "GetActiveNets.php";
         RESTRequest1->Params->Clear();
         Retval = DoQuery(NL);
 
         for (auto Item : NL.Servers.Nets)
             List->Add(Item.first);
-
     } catch (Exception* e)
     {
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval;
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval;
 }
 
 //
@@ -411,31 +405,31 @@ bool TDMod::GetLiveNetNames(TStringList* List)
 CheckinList* TDMod::GetLiveCheckins(const String Netname)
 {
     ENTERFUNC;
-	bool Retval = true;
-	try
-	{
-		Vpairs& list = NL.Servers.Nets[Netname];
-		String _netname = list[ND_NETNAME];
-		String _servername = list[ND_SRVNAME];
+    bool Retval = true;
+    try
+    {
+        Vpairs& list = NL.Servers.Nets[Netname];
+        String _netname = list[ND_NETNAME];
+        String _servername = list[ND_SRVNAME];
 
-		RESTRequest1->Resource = "GetCheckins.php";
-		RESTRequest1->Params->Clear();
-		RESTRequest1->Params->AddItem("ServerName", _servername, pkGETorPOST);
-		RESTRequest1->Params->AddItem("NetName", _netname, pkGETorPOST);
-		Retval = DoQuery(NL);
+        RESTRequest1->Resource = "GetCheckins.php";
+        RESTRequest1->Params->Clear();
+        RESTRequest1->Params->AddItem("ServerName", _servername, pkGETorPOST);
+        RESTRequest1->Params->AddItem("NetName", _netname, pkGETorPOST);
+        Retval = DoQuery(NL);
 
-		if (Retval)
-		{
-			LogInfo("chkins count: " + IntToStr( (int) NL.ChkList.Checkins.size()));
-		}
+        if (Retval)
+        {
+            LogInfo("chkins count: " + IntToStr((int)NL.ChkList.Checkins.size()));
+        }
 
-	} catch (Exception* e)
-	{
-		LogExcept(e);
-		Retval = false;
-	}
-	EXITFUNC;
-	return Retval ? &NL.ChkList : nullptr;
+    } catch (Exception* e)
+    {
+        Log->SendException(__FUNC__, e);
+        Retval = false;
+    }
+    EXITFUNC;
+    return Retval ? &NL.ChkList : nullptr;
 }
 
 //
@@ -448,9 +442,22 @@ const String TDMod::ErrorMessage()
         return NL.Header[ND_ERROR];
     } catch (Exception* e)
     {
-        LogExcept(e);
-	}
+        Log->SendException(__FUNC__, e);
+    }
     return "";
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TDMod::DataModuleCreate(TObject* Sender)
+{
+    Log = new TCodeSiteLogger(this);
+    Log->Category = "Data Module";
+    Log->CategoryColor = clMoneyGreen;
+    Log->Enabled = true;
+}
+//---------------------------------------------------------------------------
+void TDMod::LogEnable(bool onoff)
+{
+    Log->Enabled = onoff;
+}
 

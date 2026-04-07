@@ -1,4 +1,5 @@
 object DMod: TDMod
+  OnCreate = DataModuleCreate
   Height = 480
   Width = 640
   object RESTClient1: TRESTClient
