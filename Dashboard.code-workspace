@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../Program Files (x86)/Embarcadero/Studio/37.0/include"
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../Program Files (x86)/Embarcadero/Studio/37.0/include/windows/vcl"
+		}
+	],
+	"settings": {}
+}

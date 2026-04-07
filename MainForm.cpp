@@ -28,6 +28,9 @@
 #include <System.ioutils.hpp>
 #include <system.win.registry.hpp>
 
+#include <Vcl.HtmlHelpViewer.hpp>
+#pragma link "Vcl.HtmlHelpViewer"
+
 #include "Download.h"
 #include "Select.h"
 #include "WinVersionQuery.h"
@@ -40,9 +43,6 @@
 
 TFormMain* FormMain;
 
-#include <Vcl.HtmlHelpViewer.hpp>
-#pragma link "vcl.HtmlHelpViewer"
-
 #include <cctype>
 #include <fstream>
 #include <iostream>
@@ -52,26 +52,28 @@ TFormMain* FormMain;
 
 #include "DashTypes.h"
 
+
+
 void LogPairs(String msg, Vpairs list)
 {
-    CodeSite->Send(csmInfo, msg);
-    CodeSite->AddSeparator();
-    for (auto Entry : list)
-    {
-        String s1, s2;
-        s1 = Entry.first;
-        s2 = Entry.second;
-        CodeSite->Send(csmInfo, s1 + " = " + s2);
-    }
-    CodeSite->AddSeparator();
+	CodeSite->Send(csmInfo, msg);
+	CodeSite->AddSeparator();
+	for (auto Entry : list)
+	{
+		String s1, s2;
+		s1 = Entry.first;
+		s2 = Entry.second;
+		CodeSite->Send(csmInfo, s1 + " = " + s2);
+	}
+	CodeSite->AddSeparator();
 }
 
 #ifdef _WIN64
-    #pragma comment(lib, "CodeSiteExpressPkg.a")
+	#pragma comment(lib, "CodeSiteExpressPkg.a")
 #endif
 
 #ifdef __WIN32__
-    #pragma comment(lib, "CodeSiteExpressPkg.lib")
+	#pragma comment(lib, "CodeSiteExpressPkg.lib")
 #endif
 
 #pragma link "CodeSiteLogging"
@@ -79,13 +81,13 @@ void LogPairs(String msg, Vpairs list)
 #define TABLENAME "DASH"
 
 const char* TableDef = "CREATE TABLE " TABLENAME "( SerialNo VARCHAR(255), Callsign VARCHAR(255),"
-                       "State VARCHAR(255), Remarks VARCHAR(255),"
-                       "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
-                       "FirstName VARCHAR(255), Status VARCHAR(255),"
-                       "County VARCHAR(255), Grid VARCHAR(255),"
-                       "Street VARCHAR(255), Zip VARCHAR(255),"
-                       "MemberID VARCHAR(255), Country VARCHAR(255),"
-                       "DXCC VARCHAR(255),PreferredName VARCHAR(255))";
+					   "State VARCHAR(255), Remarks VARCHAR(255),"
+					   "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
+					   "FirstName VARCHAR(255), Status VARCHAR(255),"
+					   "County VARCHAR(255), Grid VARCHAR(255),"
+					   "Street VARCHAR(255), Zip VARCHAR(255),"
+					   "MemberID VARCHAR(255), Country VARCHAR(255),"
+					   "DXCC VARCHAR(255),PreferredName VARCHAR(255))";
 
 #define REG_ROOT "Software\\WG5ENE\\DASHBOARD"
 
@@ -93,23 +95,6 @@ static const char* PgmKey = REG_ROOT;
 static const char* FieldKey = REG_ROOT "\\Columns";
 
 #define FONT_ID 1
-
-
-
-
-/// <summary> Removes the specified item from the collection
-/// </summary>
-/// <param name="Filename">The item to remove
-/// </param>
-/// <param name="Collection">The group containing the item
-/// </param>
-/// <remarks>
-/// If parameter "Item" is null, an exception is raised.
-/// <see cref="EArgumentNilException"/>
-/// </remarks>
-/// <returns>void True if the specified item is successfully removed;
-/// otherwise False is returned.
-/// </returns>
 
 void __fastcall TFormMain::ExportCSV(String Filename)
 {
@@ -587,83 +572,80 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
 void __fastcall BestFitDBGridColumn(
     TDBGrid* Grid, TColumn* Col, int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/)
 {
-    ENTERFUNC;
-    LogInfo(Col->Title->Caption);
+	ENTERFUNC;
+	if (!Grid || !Col || !Col->Field)
+	{
+		LogWarn("Grid, Col, or Field is nulll.");
+		EXITFUNC;
+		return;
+	}
 
-    if (!Grid || !Col || !Col->Field)
-    {
-        LogWarn("Grid, Col, or Field is nulll.");
-        EXITFUNC;
-        return;
-    }
+	TDataSet* DS = Col->Field->DataSet;
+	if (!DS || !DS->Active)
+	{
+		LogWarn("No DataSet or not active.");
+		EXITFUNC;
+		return;
+	}
 
-    TDataSet* DS = Col->Field->DataSet;
-    if (!DS || !DS->Active)
-    {
-        LogWarn("No DataSet or not active.");
-        EXITFUNC;
-        return;
-    }
+	// Use grid fonts for accurate measurement
+	// Title font may differ from cell font
 
-    // Use grid fonts for accurate measurement
-    // Title font may differ from cell font
+	std::unique_ptr<TFont> oldFont = std::make_unique<TFont>();
 
-    std::unique_ptr<TFont> oldFont = std::make_unique<TFont>();
+	try
+	{
+		oldFont->Assign(Grid->Canvas->Font);
 
-    try
-    {
-        oldFont->Assign(Grid->Canvas->Font);
+		// 1) Measure title/header
+		Grid->Canvas->Font->Assign(Col->Title->Font);
+		int maxW = Grid->Canvas->TextWidth(Col->Title->Caption);
 
-        // 1) Measure title/header
-        Grid->Canvas->Font->Assign(Col->Title->Font);
-        int maxW = Grid->Canvas->TextWidth(Col->Title->Caption);
+		// 2) Measure cell contents (DisplayText = what user sees)
+		Grid->Canvas->Font->Assign(Grid->Font);
 
-        // 2) Measure cell contents (DisplayText = what user sees)
-        Grid->Canvas->Font->Assign(Grid->Font);
+		TBookmark bm = DS->GetBookmark();
+		DS->DisableControls();
+		try
+		{
+			DS->First();
+			int scanned = 0;
 
-        TBookmark bm = DS->GetBookmark();
-        DS->DisableControls();
-        try
-        {
-            DS->First();
-            int scanned = 0;
+			while (!DS->Eof)
+			{
+				UnicodeString s = Col->Field->DisplayText; // formatted display text
+				int w = Grid->Canvas->TextWidth(s);
+				if (w > maxW)
+					maxW = w;
 
-            while (!DS->Eof)
-            {
-                UnicodeString s = Col->Field->DisplayText; // formatted display text
-                int w = Grid->Canvas->TextWidth(s);
-                if (w > maxW)
-                    maxW = w;
+				scanned++;
+				if (MaxRowsToScan > 0 && scanned >= MaxRowsToScan)
+					break;
 
-                scanned++;
-                if (MaxRowsToScan > 0 && scanned >= MaxRowsToScan)
-                    break;
+				DS->Next();
+			}
+		} __finally
+		{
+			if (DS->BookmarkValid(bm))
+				DS->GotoBookmark(bm);
+			DS->FreeBookmark(bm);
+			DS->EnableControls();
+		}
 
-                DS->Next();
-            }
-        } __finally
-        {
-            if (DS->BookmarkValid(bm))
-                DS->GotoBookmark(bm);
-            DS->FreeBookmark(bm);
-            DS->EnableControls();
-        }
-
-        Col->Width = maxW + Padding;
-        LogInfo("New col width  = " + IntToStr(Col->Width));
-    } __finally
-    {
-        Grid->Canvas->Font->Assign(oldFont.get());
-    }
-    EXITFUNC;
+		Col->Width = maxW + Padding;
+	} __finally
+	{
+		Grid->Canvas->Font->Assign(oldFont.get());
+	}
+	EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall BestFitAll(TDBGrid* Grid, int maxrows = 0, int padding = 0)
 {
-    ENTERFUNC;
-    for (int x = 0; x < Grid->Columns->Count; x++)
-        BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrows, padding);
-    EXITFUNC;
+	ENTERFUNC;
+	for (int x = 0; x < Grid->Columns->Count; x++)
+		BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrows, padding);
+	EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::ActionExport(TObject* Sender)

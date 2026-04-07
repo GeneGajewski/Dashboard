@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Build and Run with Launcher",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "builder",
+      "program": "C:\\MinGW\\bin\\launcher.exe",
+      "args": [
+        "${fileDirname}/output/${fileBasenameNoExtension}.exe"
+      ],
+      "cwd": "${fileDirname}",
+      "externalConsole": true,
+      "stopAtEntry": false,
+      "MIMode": "gdb"
+    }
+  ]
+}

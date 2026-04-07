@@ -1,0 +1,24 @@
+{
+  "C_Cpp.intelliSenseEngine": "TagParser",
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}",
+    "C:/Program Files (x86)/Embarcadero/Studio/37.0/include",
+    "C:/Program Files (x86)/Embarcadero/Studio/37.0/include/windows/vcl",
+    "C:/Program Files (x86)/Embarcadero/Studio/37.0/include/windows/rtl",
+    "C:/Program Files (x86)/Embarcadero/Studio/37.0/include/dinkumware",
+    "C:/Program Files (x86)/Embarcadero/Studio/37.0/include/windows/crtl"
+  ],
+  "editor.formatOnSave": true,
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "[h]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "files.exclude": {
+    "**/__history": true,
+    "**/__recovery": true,
+    "**/Win32": false,
+    "**/Win64": false
+  }
+}
