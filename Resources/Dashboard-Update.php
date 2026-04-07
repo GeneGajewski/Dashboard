@@ -40,8 +40,7 @@ $VersionStr = "1.2.0.0";
 $Info = "This is Dashboard version 1.2.0.0
 
 Minor cosmetic and program changes. 
-CHM-based help file - not really needed 
-but why not.
+Added AutoFit function to resize columns to fit content.
 
  WG5ENE
 ";

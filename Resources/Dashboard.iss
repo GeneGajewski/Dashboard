@@ -34,9 +34,9 @@ Source: "..\Win64\Release\Dashboard.exe"; DestDir: "{app}";   Flags: sign
 Source: "..\Win64\Release\Dashboard.chm"; DestDir: "{app}"; 
 
 ; these will need to be changed if using a different version compiler
-Source: "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64\borlndmm.dll" ; DestDir: "{app}"
-Source: "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64\cc64290mt.dll"; DestDir: "{app}"
-Source: "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin64\sk4d.dll"; DestDir: "{app}"
+Source: "C:\Program Files (x86)\Embarcadero\Studio\37.0\bin64\borlndmm.dll" ; DestDir: "{app}"
+Source: "C:\Program Files (x86)\Embarcadero\Studio\37.0\bin64\cc64370mt.dll"; DestDir: "{app}"
+Source: "C:\Program Files (x86)\Embarcadero\Studio\37.0\bin64\sk4d.dll"; DestDir: "{app}"
 
 Source: "Readme.txt"; DestDir: "{app}"; Flags: isreadme
 
