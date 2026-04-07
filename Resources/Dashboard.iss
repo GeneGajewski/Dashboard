@@ -15,7 +15,7 @@ AppId={{258CA839-4023-4DC9-A722-7D62E44918F8}}
 
 AppName=Dashboard
 AppPublisher=WG5ENE
-AppVersion=1.1.0.0
+AppVersion=1.2.0.0
 OutputBaseFilename = "Dashboard Installer"
 WizardStyle=modern dynamic includetitlebar
 DefaultDirName={autopf}\WG5ENE\Dashboard

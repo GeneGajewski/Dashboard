@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>Dashboard.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">Dashboard</ProjectName>
         <TargetedPlatforms>1048579</TargetedPlatforms>
@@ -220,12 +220,12 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;xmlrtl.lib;bindcomp.lib;dbrtl.lib;bindengine.lib;RESTComponents.lib;CustomIPTransport.lib;Skia.Package.VCL.lib;Skia.Package.RTL.lib;vclimg.lib;vclx.lib;vcldb.lib;vclwinx.lib;dsnap.lib;bindcompvcl.lib;VclSmp.lib;vclFireDAC.lib;FireDAC.lib;FireDACCommonDriver.lib;FireDACCommon.lib;FireDACSqliteDriver.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib;vclactnband.lib;vcledge.lib;vclie.lib;soaprtl.lib;inet.lib;soapserver.lib;CodeSiteExpressPkg.lib</LinkPackageStatics>
         <Icon_MainIcon>Resources\PC.ico</Icon_MainIcon>
-        <UWP_CppLogo44>Resources\Logo.png</UWP_CppLogo44>
-        <UWP_CppLogo150>Resources\Logo.png</UWP_CppLogo150>
-        <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.1.0.0;InternalName=DASHBORD;LegalCopyright=© 2026 All right reserved.;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Dashboard for NetLogger amateur radio nets.</VerInfo_Keys>
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
+        <UWP_CppLogo44>Resources\PC.ico</UWP_CppLogo44>
+        <UWP_CppLogo150>Resources\PC.ico</UWP_CppLogo150>
+        <VerInfo_Keys>CompanyName=WG5ENE;FileDescription=$(MSBuildProjectName);FileVersion=1.2.0.0;InternalName=DASHBORD;LegalCopyright=© 2026 All right reserved.;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Dashboard for NetLogger amateur radio nets.</VerInfo_Keys>
+        <VerInfo_MinorVer>2</VerInfo_MinorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64x)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -453,6 +453,13 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="Resources\PC.ico" Configuration="Debug" Class="UWP_CppLogo44">
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Resources\PC.ico" Configuration="Release" Class="UWP_CppLogo44">
                     <Platform Name="Win64">
                         <RemoteDir>Assets\</RemoteDir>
                         <RemoteName>Logo44x44.png</RemoteName>

@@ -34,10 +34,10 @@ $minor   = $_GET["min"];
 $release = $_GET["rel"]; 
 $build   = $_GET["bld"]; 
 
-$VersionStr = "1.1.0.0"; 
+$VersionStr = "1.2.0.0"; 
 
 
-$Info = "This is Dashboard version 1.1.0.0
+$Info = "This is Dashboard version 1.2.0.0
 
 Minor cosmetic and program changes. 
 CHM-based help file - not really needed 
@@ -51,7 +51,7 @@ $minor = (int) $minor;
 $release = (int) $release;
 $build = (int) $build;
 
-if ( bigNum(1,1,0,0) <= bigNum ($major, $minor, $release, $build))
+if ( bigNum(1,2,0,0) <= bigNum ($major, $minor, $release, $build))
 	echo 
 "<?xml version=\"1.0\"?>
 <GUP>

@@ -95,6 +95,7 @@ static const char* PgmKey = REG_ROOT;
 static const char* FieldKey = REG_ROOT "\\Columns";
 
 #define FONT_ID 1
+#define HELPFILE    "DASHBOARD.CHM"
 
 void __fastcall TFormMain::ExportCSV(String Filename)
 {
@@ -540,33 +541,35 @@ bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String&
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::FormCreate(TObject* Sender)
 {
-    CodeSite->Clear();
+	CodeSite->Clear();
 
-    ENTERFUNC;
+	Application->HelpFile = TPath::Combine(TPath::GetAppPath(), HELPFILE);
 
-    try
-    {
-        DWORD font_count;
-        std::unique_ptr<TResourceStream> rs;
+	ENTERFUNC;
 
-        rs = std::make_unique<TResourceStream>(THandle(HInstance), FONT_ID, RT_FONT);
-        ClockFontHandle = AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
-    } catch (Exception* err)
-    { /* failed to load clock resource */
-        LogExcept(err);
-    }
+	try
+	{
+		DWORD font_count;
+		std::unique_ptr<TResourceStream> rs;
 
-    OpenDatabase();
+		rs = std::make_unique<TResourceStream>(THandle(HInstance), FONT_ID, RT_FONT);
+		ClockFontHandle = AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
+	} catch (Exception* err)
+	{ /* failed to load clock resource */
+		LogExcept(err);
+	}
 
-    // ColMap lets us reference a TColumn directly by its field name
+	OpenDatabase();
 
-    for (int x = 0; x < DBGrid1->Columns->Count; x++)
-    {
-        DBGrid1->Columns->Items[x]->Width = 64;
-        ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
-    }
-    LoadDefaults();
-    EXITFUNC;
+	// ColMap lets us reference a TColumn directly by its field name
+
+	for (int x = 0; x < DBGrid1->Columns->Count; x++)
+	{
+		DBGrid1->Columns->Items[x]->Width = 64;
+		ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
+	}
+	LoadDefaults();
+	EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall BestFitDBGridColumn(

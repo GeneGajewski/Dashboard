@@ -22,7 +22,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 		Application->MainFormOnTaskBar = true;
 		TStyleManager::TrySetStyle("Wedgewood Light");
 		Application->Title = "Dashboard";
-		Application->HelpFile = "C:\\Projects\\C++Builder\\Dashboard\\Resources\\Dashboard.chm";
 		Application->CreateForm(__classid(TDMod), &DMod);
 		Application->CreateForm(__classid(TFormMain), &FormMain);
 		Application->CreateForm(__classid(TFormPrefs), &FormPrefs);
