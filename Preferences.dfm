@@ -593,7 +593,7 @@ object FormPrefs: TFormPrefs
       Top = 32
       Width = 97
       Height = 17
-      Caption = 'Serial No'
+      Caption = 'No.'
       TabOrder = 0
     end
     object ckbCall: TCheckBox

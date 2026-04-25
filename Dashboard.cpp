@@ -7,13 +7,12 @@
 // ---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
+USEFORM("UpdateInfo.cpp", UpdInfo);
 USEFORM("Preferences.cpp", FormPrefs);
 USEFORM("MainForm.cpp", FormMain);
-USEFORM("Download.cpp", DL);
-USEFORM("UpdateInfo.cpp", UpdInfo);
-USEFORM("Select.cpp", FormSelect);
 USEFORM("ABOUT.cpp", AboutBox);
-USEFORM("DataModule.cpp", DMod); /* TDataModule: File Type */
+USEFORM("FormActive.cpp", FormActiveNets);
+USEFORM("Download.cpp", DL);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 
@@ -22,13 +21,12 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 		Application->MainFormOnTaskBar = true;
 		TStyleManager::TrySetStyle("Wedgewood Light");
 		Application->Title = "Dashboard";
-		Application->CreateForm(__classid(TDMod), &DMod);
 		Application->CreateForm(__classid(TFormMain), &FormMain);
 		Application->CreateForm(__classid(TFormPrefs), &FormPrefs);
-		Application->CreateForm(__classid(TFormSelect), &FormSelect);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->CreateForm(__classid(TUpdInfo), &UpdInfo);
 		Application->CreateForm(__classid(TDL), &DL);
+		Application->CreateForm(__classid(TFormActiveNets), &FormActiveNets);
 		Application->Run();
 	}
 

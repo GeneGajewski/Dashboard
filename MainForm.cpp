@@ -36,9 +36,11 @@
 #include "WinVersionQuery.h"
 #include "about.h"
 #include "preferences.h"
+#include "xmlcheckin.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "Vcl.LabeledDBCtrls"
 #pragma resource "*.dfm"
 
 TFormMain* FormMain;
@@ -51,51 +53,27 @@ TFormMain* FormMain;
 #include "Log.h"
 
 #include "DashTypes.h"
+#include "FormActive.h"
+
+static const char* BaseUrl = "https://www.netlogger.org/api";
 
 
-
-void LogPairs(String msg, Vpairs list)
-{
-	CodeSite->Send(csmInfo, msg);
-	CodeSite->AddSeparator();
-	for (auto Entry : list)
-	{
-		String s1, s2;
-		s1 = Entry.first;
-		s2 = Entry.second;
-		CodeSite->Send(csmInfo, s1 + " = " + s2);
-	}
-	CodeSite->AddSeparator();
-}
-
-#ifdef _WIN64
-	#pragma comment(lib, "CodeSiteExpressPkg.a")
-#endif
-
-#ifdef __WIN32__
-	#pragma comment(lib, "CodeSiteExpressPkg.lib")
-#endif
+// WIN32 and WIN64x
+#pragma comment(lib, "CodeSiteExpressPkg.lib")
 
 #pragma link "CodeSiteLogging"
 
-#define TABLENAME "DASH"
-
-const char* TableDef = "CREATE TABLE " TABLENAME "( SerialNo VARCHAR(255), Callsign VARCHAR(255),"
-					   "State VARCHAR(255), Remarks VARCHAR(255),"
-					   "QSLInfo VARCHAR(255), CityCountry VARCHAR(255),"
-					   "FirstName VARCHAR(255), Status VARCHAR(255),"
-					   "County VARCHAR(255), Grid VARCHAR(255),"
-					   "Street VARCHAR(255), Zip VARCHAR(255),"
-					   "MemberID VARCHAR(255), Country VARCHAR(255),"
-					   "DXCC VARCHAR(255),PreferredName VARCHAR(255))";
-
 #define REG_ROOT "Software\\WG5ENE\\DASHBOARD"
-
 static const char* PgmKey = REG_ROOT;
 static const char* FieldKey = REG_ROOT "\\Columns";
 
 #define FONT_ID 1
-#define HELPFILE    "DASHBOARD.CHM"
+
+#define HELPFILE "DASHBOARD.CHM"
+
+
+
+// Export a CSV file
 
 void __fastcall TFormMain::ExportCSV(String Filename)
 {
@@ -105,9 +83,9 @@ void __fastcall TFormMain::ExportCSV(String Filename)
     const char* quote = "\"";
     std::wfstream strm;
 
-    int cur_rec = FDTable1->RecNo;
+    TBookmark bm = FDMemTable1->Bookmark;
 
-    // retry in case some other application has the file open in some non-shared
+    // retry in case another application has this file open in some non-shared
     // mode
 
 retry:
@@ -130,47 +108,49 @@ retry:
 
     // write field names
 
-    for (int x = 0; x < FDTable1->Fields->Count; x++)
+    for (int x = 0; x < FDMemTable1->Fields->Count; x++)
     {
         if (x > 0)
             strm << comma;
 
-        strm << quote << FDTable1->Fields->Fields[x]->FieldName.c_str() << quote;
+        strm << quote << FDMemTable1->Fields->Fields[x]->FieldName.c_str() << quote;
     }
 
     strm << std::endl;
 
     // write records
 
-    FDTable1->BeginBatch();
-    FDTable1->First();
+    FDMemTable1->BeginBatch();
+    FDMemTable1->First();
 
-    for (int x = 0; x < FDTable1->RecordCount; x++)
+    for (int x = 0; x < FDMemTable1->RecordCount; x++)
     {
         if (x > 0)
             strm << std::endl;
 
-        for (int y = 0; y < FDTable1->FieldCount; y++)
+        for (int y = 0; y < FDMemTable1->FieldCount; y++)
         {
             if (y > 0)
                 strm << comma;
 
             strm << quote
-                 << FDTable1->FieldByName(FDTable1->Fields->Fields[y]->FieldName)->AsString.c_str()
+                 << FDMemTable1->FieldByName(FDMemTable1->Fields->Fields[y]->FieldName)
+                        ->AsString.c_str()
                  << quote;
         }
 
-        FDTable1->Next();
+        FDMemTable1->Next();
     }
 
     strm.close();
-    FDTable1->RecNo = cur_rec;
-    FDTable1->EndBatch();
+    FDMemTable1->Bookmark = bm;
+    FDMemTable1->EndBatch();
     EXITFUNC;
 }
 //---------------------------------------------------------------------------
 __fastcall TFormMain::TFormMain(TComponent* Owner) : TForm(Owner) {}
 //---------------------------------------------------------------------------
+
 void __fastcall TFormMain::MasterTick(TObject* Sender)
 {
     UpdateClockDisplay();
@@ -188,68 +168,16 @@ void __fastcall TFormMain::UpdateClockDisplay()
     PanelClock->Caption = (now - offset).FormatString(TimeFormat);
     PanelZone->Caption = UTC ? "Universal Time Coordinated" : TTimeZone::Local->DisplayName;
 }
-//---------------------------------------------------------------------------
-void __fastcall TFormMain::SetGrid(CheckinList* clist)
-{
-    ENTERFUNC;
 
-    if (!clist) // huh?
-    {
-        LogInfo("clist is null.");
-        EXITFUNC;
-        return;
-    }
-
-    LogInfo("Chkins size: " + IntToStr((int)clist->Checkins.size()));
-
-    // simple lambda to insert a a check-in record to the table
-
-    auto addrec = [this](const Vpairs& list) mutable {
-        FDTable1->Append();
-        FDTable1->Edit();
-
-        for (auto Item : list)
-            FDTable1->FieldByName(Item.first)->AsString = Item.second;
-
-        FDTable1->Post();
-        FDTable1->Next();
-    };
-
-    FDTable1->BeginBatch(); // prevent gui updating until all done
-
-    int recno = -1;
-    int Pointer = StrToInt(clist->Data[ND_POINTER]);
-    FDTable1->First();
-    FDTable1->EmptyDataSet();
-
-    for (auto Item : clist->Checkins)
-    {
-        addrec(Item);
-        if (Pointer == StrToInt(Item[ND_SERIALNO]))
-        { // The NC's currently highlighted record
-            recno = FDTable1->RecNo;
-        }
-    }
-
-    if (recno >= 0)
-    {
-        FDTable1->RecNo = recno;
-    }
-    FDTable1->EndBatch();
-
-    String msg = IntToStr(FDTable1->RecordCount) + " records retrieved.";
-    StatusBar1->SimpleText = msg;
-    EXITFUNC;
-};
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::DBGrid1DblClick(TObject* Sender)
 {
     ENTERFUNC;
     String Callsign, Cmd;
 
-    if (FDTable1->RecordCount > 0)
+    if (FDMemTable1->RecordCount > 0)
     {
-        Callsign = FDTable1->FieldValues["CallSign"];
+        Callsign = FDMemTable1->FieldByName("Callsign")->AsString;
 
         if (Callsign.IsEmpty()) // huh?
         {
@@ -265,15 +193,12 @@ void __fastcall TFormMain::DBGrid1DblClick(TObject* Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::Shell(String cmd)
 {
-    ENTERFUNC;
     LogInfo("Shell: " + cmd);
     ShellExecuteW(NULL, L"open", cmd.c_str(), NULL, NULL, SW_SHOWNORMAL);
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::SaveDefaults()
 {
-    ENTERFUNC;
     std::unique_ptr<TRegistry> Reg;
 
     try
@@ -318,12 +243,10 @@ void __fastcall TFormMain::SaveDefaults()
         LogExcept(err);
         // do nothing
     }
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::LoadDefaults()
 {
-    ENTERFUNC;
     std::unique_ptr<TRegistry> Reg;
     std::map<int, TColumn*> IndexingMap;
 
@@ -384,102 +307,119 @@ void __fastcall TFormMain::LoadDefaults()
         LogExcept(err);
         // do nothing
     }
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::FormClose(TObject* Sender, TCloseAction& Action)
 {
-    ENTERFUNC;
     SaveDefaults();
 
     // don't leave font resource hanging..
 
     if (ClockFontHandle != INVALID_HANDLE_VALUE)
         RemoveFontMemResourceEx(ClockFontHandle);
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
-void __fastcall TFormMain::DataUpdate(const String& netname)
+void __fastcall TFormMain::ActiveDataUpdate()
 {
-    ENTERFUNC;
-    Vpairs netinfo;
-
-    if (!netname.IsEmpty())
+    Application->ProcessMessages();
+    try
     {
-        LogInfo(netname);
-        Application->ProcessMessages();
-        CurrentNet = netname;
-        if (DMod->GetNetData(netname, netinfo))
-        {
-            CheckinList* chklist = DMod->GetLiveCheckins(netname);
-            if (chklist != nullptr)
-            {
-                actExportCSV->Enabled = true;
+        // set it all up
+        RESTClient1->BaseURL = BaseUrl;
+        RESTRequest1->Client = RESTClient1;
+        RESTRequest1->Response = RESTResponse1;
+        RESTRequest1->Resource = "GetCheckins.php";
+        RESTRequest1->Params->Clear();
+        RESTRequest1->Params->AddItem("ServerName", ActiveServer, pkGETorPOST);
+        RESTRequest1->Params->AddItem("NetName", ActiveNet, pkGETorPOST);
 
-                edNET->Text = netinfo[ND_NETNAME];
-                edFreq->Text = netinfo[ND_FREQ];
-                edBand->Text = netinfo[ND_BAND];
-                edMode->Text = netinfo[ND_MODE];
-                edNetControl->Text = netinfo[ND_NETCONTROL];
-                edLogger->Text = netinfo[ND_LOGGER];
-                edSubscribe->Text = netinfo[ND_SUBCOUNT];
-                SetGrid(chklist);
-            } else
-            {
-                StatusBar1->SimpleText = CurrentNet + " is now closed.";
-                CurrentNet = "";
-                LogInfo(StatusBar1->SimpleText);
-            }
-        } else
-            LogInfo("Failed to get net data.");
-    } else
-        LogInfo("No net given.");
-    EXITFUNC;
+        // run in background thread
+
+        RESTRequest1->ExecuteAsync(
+            [this]() {
+                int Status = RESTResponse1->StatusCode;
+                if (Status != 200)
+                    return; // TODO: expound on this
+
+                try
+                {
+                    FDMemTable1->DisableControls();
+                    FDMemTable1->EmptyDataSet();
+                    // post a record to the mem table
+
+                    auto callback = [&](XML_Checkin_Machine::State state,
+                                        XML_Checkin_Machine::NamedValues& vals) {
+                        if (state == XML_Checkin_Machine::State::Checkin)
+                        {
+                            FDMemTable1->Append();
+                            for (auto Item : vals)
+                            {
+                                TField* field = FDMemTable1->FieldByName(Item.first);
+
+                                if (!field) // huh?
+                                    continue;
+
+                                if (field->DataType == TFieldType::ftBoolean)
+                                    field->Value = (Item.second == "Y" ? true : false);
+                                else
+                                    field->Value = Item.second;
+                            }
+                            FDMemTable1->Post();
+                        }
+                    };
+
+                    // our xml processor
+                    XML_Checkin_Machine machine(callback);
+
+                    String inspect = RESTResponse1->Content;
+
+                    // do it
+                    FDMemTable1->BeginBatch();
+                    machine.Execute(RESTResponse1->RawBytes);
+                    FDMemTable1->EndBatch();
+                } catch (Exception& e)
+                {
+                    FDMemTable1->Cancel();
+                    FDMemTable1->EndBatch();
+                }
+           TThread::Queue(nullptr, [this]() { PostProcessing(); });
+            },
+            false);
+
+    } catch (Exception& e)
+    {
+//        Log(logERROR, e.Message);
+    }
+}
+
+void __fastcall TFormMain::PostProcessing()
+{
+    // set DBGrid column widths to match content
+    for (int x = 0; x < DBGrid1->Columns->Count; x++)
+        BestFitDBGridColumn(DBGrid1, DBGrid1->Columns->Items[x], 0, 24);
+
+    FDMemTable1->EnableControls();
+    StatusBar1->SimpleText = String().sprintf(L"%d Records", FDMemTable1->RecordCount);
+    DBGrid1->Enabled = true;
+    actExportCSV->Enabled = FDMemTable1->RecordCount ? true : false;
+    RefreshTimer->Enabled = true;
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::FormShow(TObject* Sender)
 {
-    ENTERFUNC;
     UpdateClockDisplay();
     ClockTimer->Enabled = true;
-    EXITFUNC;
-}
-//---------------------------------------------------------------------------
-void __fastcall TFormMain::OpenDatabase()
-{
-    ENTERFUNC;
-    try
-    {
-        int index = FDConnection1->Params->IndexOfName("Database");
-
-        // use empty database name to default to an in-memory db
-
-        FDConnection1->Params->ValueFromIndex[index] = "";
-        FDConnection1->Connected = true;
-        FDConnection1->ExecSQL(TableDef);
-        FDTable1->TableName = TABLENAME;
-        FDTable1->Active = true;
-        LogInfo("Database opened.");
-
-    } catch (Exception* err)
-    {
-        LogExcept(err);
-    }
-
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::RefreshTimerTimer(TObject* Sender)
 {
-    ENTERFUNC;
-    DataUpdate(CurrentNet);
-    EXITFUNC;
+    RefreshTimer->Enabled = false;
+    ActiveDataUpdate();
 }
 //---------------------------------------------------------------------------
 bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String& InfoText)
 {
-    ENTERFUNC;
-
     std::unique_ptr<TXMLDocument> Document;
     Utility::WinVersionQuery wver;
     Utility::VerStr vstr;
@@ -535,129 +475,112 @@ bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String&
     {
         LogExcept(err);
     }
-    EXITFUNC;
     return false;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::FormCreate(TObject* Sender)
 {
-	CodeSite->Clear();
+    CodeSite->Clear();
+    Application->HelpFile = TPath::Combine(TPath::GetAppPath(), HELPFILE);
+    try
+    {
+        DWORD font_count;
+        std::unique_ptr<TResourceStream> rs;
 
-	Application->HelpFile = TPath::Combine(TPath::GetAppPath(), HELPFILE);
+        rs = std::make_unique<TResourceStream>(THandle(HInstance), FONT_ID, RT_FONT);
+        ClockFontHandle = AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
+    } catch (Exception* err)
+    { /* failed to load clock resource */
+        LogExcept(err);
+    }
 
-	ENTERFUNC;
+    for (int x = 0; x < DBGrid1->Columns->Count; x++)
+        ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
 
-	try
-	{
-		DWORD font_count;
-		std::unique_ptr<TResourceStream> rs;
-
-		rs = std::make_unique<TResourceStream>(THandle(HInstance), FONT_ID, RT_FONT);
-		ClockFontHandle = AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
-	} catch (Exception* err)
-	{ /* failed to load clock resource */
-		LogExcept(err);
-	}
-
-	OpenDatabase();
-
-	// ColMap lets us reference a TColumn directly by its field name
-
-	for (int x = 0; x < DBGrid1->Columns->Count; x++)
-	{
-		DBGrid1->Columns->Items[x]->Width = 64;
-		ColMap.insert({ DBGrid1->Columns->Items[x]->FieldName, DBGrid1->Columns->Items[x] });
-	}
-	LoadDefaults();
-	EXITFUNC;
+    LoadDefaults();
+    FDMemTable1->Open();
 }
 //---------------------------------------------------------------------------
-void __fastcall BestFitDBGridColumn(
+void __fastcall TFormMain::BestFitDBGridColumn(
     TDBGrid* Grid, TColumn* Col, int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/)
 {
-	ENTERFUNC;
-	if (!Grid || !Col || !Col->Field)
-	{
-		LogWarn("Grid, Col, or Field is nulll.");
-		EXITFUNC;
-		return;
-	}
+    if (!Grid || !Col || !Col->Field)
+    {
+        LogWarn("Grid, Col, or Field is nulll.");
+        EXITFUNC;
+        return;
+    }
 
-	TDataSet* DS = Col->Field->DataSet;
-	if (!DS || !DS->Active)
-	{
-		LogWarn("No DataSet or not active.");
-		EXITFUNC;
-		return;
-	}
+    TDataSet* DS = Col->Field->DataSet;
+    if (!DS || !DS->Active)
+    {
+        LogWarn("No DataSet or not active.");
+        EXITFUNC;
+        return;
+    }
 
-	// Use grid fonts for accurate measurement
-	// Title font may differ from cell font
+    // Use grid fonts for accurate measurement
+    // Title font may differ from cell font
 
-	std::unique_ptr<TFont> oldFont = std::make_unique<TFont>();
+    std::unique_ptr<TFont> oldFont = std::make_unique<TFont>();
 
-	try
-	{
-		oldFont->Assign(Grid->Canvas->Font);
+    try
+    {
+        oldFont->Assign(Grid->Canvas->Font);
 
-		// 1) Measure title/header
-		Grid->Canvas->Font->Assign(Col->Title->Font);
-		int maxW = Grid->Canvas->TextWidth(Col->Title->Caption);
+        // 1) Measure title/header
+        Grid->Canvas->Font->Assign(Col->Title->Font);
+        int maxW = Grid->Canvas->TextWidth(Col->Title->Caption);
 
-		// 2) Measure cell contents (DisplayText = what user sees)
-		Grid->Canvas->Font->Assign(Grid->Font);
+        // 2) Measure cell contents (DisplayText = what user sees)
+        Grid->Canvas->Font->Assign(Grid->Font);
 
-		TBookmark bm = DS->GetBookmark();
-		DS->DisableControls();
-		try
-		{
-			DS->First();
-			int scanned = 0;
+        TBookmark bm = DS->GetBookmark();
+        DS->DisableControls();
+        try
+        {
+            DS->First();
+            int scanned = 0;
 
-			while (!DS->Eof)
-			{
-				UnicodeString s = Col->Field->DisplayText; // formatted display text
-				int w = Grid->Canvas->TextWidth(s);
-				if (w > maxW)
-					maxW = w;
+            while (!DS->Eof)
+            {
+                UnicodeString s = Col->Field->DisplayText; // formatted display text
+                int w = Grid->Canvas->TextWidth(s);
+                if (w > maxW)
+                    maxW = w;
 
-				scanned++;
-				if (MaxRowsToScan > 0 && scanned >= MaxRowsToScan)
-					break;
+                scanned++;
+                if (MaxRowsToScan > 0 && scanned >= MaxRowsToScan)
+                    break;
 
-				DS->Next();
-			}
-		} __finally
-		{
-			if (DS->BookmarkValid(bm))
-				DS->GotoBookmark(bm);
-			DS->FreeBookmark(bm);
-			DS->EnableControls();
-		}
+                DS->Next();
+            }
+        } __finally
+        {
+            if (DS->BookmarkValid(bm))
+                DS->GotoBookmark(bm);
+            DS->FreeBookmark(bm);
+            DS->EnableControls();
+        }
 
-		Col->Width = maxW + Padding;
-	} __finally
-	{
-		Grid->Canvas->Font->Assign(oldFont.get());
-	}
-	EXITFUNC;
+        Col->Width = maxW + Padding;
+    } __finally
+    {
+        Grid->Canvas->Font->Assign(oldFont.get());
+    }
 }
 //---------------------------------------------------------------------------
-void __fastcall BestFitAll(TDBGrid* Grid, int maxrows = 0, int padding = 0)
+void __fastcall TFormMain::BestFitAll(TDBGrid* Grid, int maxrow, int padding)
 {
-	ENTERFUNC;
-	for (int x = 0; x < Grid->Columns->Count; x++)
-		BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrows, padding);
-	EXITFUNC;
+    for (int x = 0; x < Grid->Columns->Count; x++)
+        BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrow, padding);
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::ActionExport(TObject* Sender)
 {
-    ENTERFUNC;
-
     // empty table?
 
-    if (FDTable1->RecordCount == 0)
+    if (FDMemTable1->RecordCount == 0)
     {
         StatusBar1->SimpleText = "Nothing to export.";
         Beep();
@@ -687,19 +610,15 @@ void __fastcall TFormMain::ActionExport(TObject* Sender)
 
     if (SaveDialog1->Execute())
         ExportCSV(SaveDialog1->FileName);
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::ActionAbout(TObject* Sender)
 {
-    ENTERFUNC;
     AboutBox->ShowModal();
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::ActionPreferences(TObject* Sender)
 {
-    ENTERFUNC;
     String curstyle = Vcl::Themes::TStyleManager::ActiveStyle->Name;
     FormPrefs->SpinEdit1->Value = RefreshRate;
 
@@ -710,19 +629,15 @@ void __fastcall TFormMain::ActionPreferences(TObject* Sender)
         if (Vcl::Themes::TStyleManager::ActiveStyle->Name != curstyle)
             Vcl::Themes::TStyleManager::TrySetStyle(curstyle);
     }
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::ActionAutoFit(TObject* Sender)
 {
-    ENTERFUNC;
-    BestFitAll(DBGrid1, 0, 10);
-    EXITFUNC;
+    BestFitAll(DBGrid1, 0, 24);
 }
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::actCheckUpdatesExecute(TObject* Sender)
 {
-    ENTERFUNC;
     String Url, InfoText, VersionText, FileName;
 
     if (CheckUpdate(Url, VersionText, InfoText) == false)
@@ -757,28 +672,66 @@ void __fastcall TFormMain::actCheckUpdatesExecute(TObject* Sender)
         LogWarn("Empty filename.");
     } else
         LogInfo("Chose not to unstall update.");
-    EXITFUNC;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::ActionLiveNet(TObject* Sender)
 {
-    ENTERFUNC;
-    Cursor = crHourGlass;
     RefreshTimer->Enabled = false;
-    int selected;
-    FormSelect->ShowModal();
-    selected = FormSelect->ListBox1->ItemIndex;
-
-    if (FormSelect->ModalResult == mrOk && selected != -1)
+    FormActiveNets->ShowModal();
+    if (FormActiveNets->ModalResult == mrOk)
     {
-        DataUpdate(FormSelect->ListBox1->Items->Strings[selected]);
+        ActiveNet = FormActiveNets->FDMemTabNetName->AsString;
+        ActiveServer = FormActiveNets->FDMemTabServer->AsString;
+        edNET->Text = ActiveNet;
+        edFreq->Text = FormActiveNets->FDMemTabFrequency->AsString;
+        edBand->Text = FormActiveNets->FDMemTabBand->AsString;
+        edMode->Text = FormActiveNets->FDMemTabMode->AsString;
+        edNetControl->Text = FormActiveNets->FDMemTabNetControl->AsString;
+        edLogger->Text = FormActiveNets->FDMemTabLogger->AsString;
+        edSubscribe->Text = FormActiveNets->FDMemTabSubscriberCount->AsString;
+        ActiveDataUpdate();
+    }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFormMain::DBGrid1TitleClick(TColumn *Column)
+{
+    if (!Column || !Column->Field)
+        return;
+    if (Column->Field->FieldKind != fkData)
+        return; // ignore calculated/lookup/etc.
+
+    const String f = Column->Field->FieldName;
+    SortField = f;
+    const String fu = f.UpperCase();
+    const String cur = FDMemTable1->IndexFieldNames.UpperCase();
+
+    // Toggle ASC <-> DESC for the same field; otherwise sort ASC by the new field
+    if (cur == fu)
+    {
+        FDMemTable1->IndexFieldNames = f + ":D"; // ASC -> DESC
+        Ascending = false;
+    } else
+    {
+        if (cur == (fu + ":D"))
+            FDMemTable1->IndexFieldNames = f; // DESC -> ASC
+        else
+            FDMemTable1->IndexFieldNames = f; // new column -> ASC
+        Ascending = true;
     }
 
-    ActiveControl = DBGrid1;
-    Cursor = crDefault;
-    RefreshTimer->Enabled = true;
-    EXITFUNC;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::DBGrid1SortedField(TLabeledDbGrid *Sender, TField *Field, TCBSortOrder &Sorted)
+{
+    if (SameText(SortField, Field->DisplayName))
+        Sorted = Ascending ? TCBSortOrder::soAscending : TCBSortOrder::soDescending;
+    else
+        Sorted = TCBSortOrder::soNone;
+
 }
 //---------------------------------------------------------------------------
 

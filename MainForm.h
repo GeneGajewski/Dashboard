@@ -86,6 +86,7 @@
 #include <Vcl.ActnMenus.hpp>
 #include <Vcl.ToolWin.hpp>
 #include <Vcl.StdActns.hpp>
+#include "Vcl.LabeledDBCtrls.hpp"
 #include <map>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm
@@ -108,7 +109,6 @@ class TFormMain : public TForm
 	TEdit* edLogger;
 	TEdit* edSubscribe;
 	TButton* btnNets;
-	TDBGrid* DBGrid1;
 	TDataSource* DataSource1;
 	TEdit* edNET;
 	TPanel* PanelRight;
@@ -117,9 +117,7 @@ class TFormMain : public TForm
 	TSaveDialog* SaveDialog1;
 	TPanel* panClockBorder;
 	TPanel* PanelClock;
-	TFDConnection* FDConnection1;
 	TTimer* RefreshTimer;
-	TFDTable* FDTable1;
 	TStatusBar* StatusBar1;
 	TRESTClient* RESTClient1;
 	TRESTRequest* RESTRequest1;
@@ -135,6 +133,8 @@ class TFormMain : public TForm
 	THelpOnHelp *actHelpOnHelp;
 	TAction *actCheckUpdates;
 	TAction *actLiveNet;
+	TFDMemTable *FDMemTable1;
+	TLabeledDbGrid *DBGrid1;
 	void __fastcall MasterTick(TObject* Sender);
 	void __fastcall DBGrid1DblClick(TObject* Sender);
 	void __fastcall FormClose(TObject* Sender, TCloseAction& Action);
@@ -147,21 +147,30 @@ class TFormMain : public TForm
 	void __fastcall ActionAutoFit(TObject *Sender);
 	void __fastcall actCheckUpdatesExecute(TObject *Sender);
 	void __fastcall ActionLiveNet(TObject *Sender);
+	void __fastcall DBGrid1TitleClick(TColumn *Column);
+	void __fastcall DBGrid1SortedField(TLabeledDbGrid *Sender, TField *Field, TCBSortOrder &Sorted);
   private: // User declarations
 	void __fastcall UpdateClockDisplay();
-	bool LEDOn = false;
-	void __fastcall OpenDatabase();
-	String CurrentNet;
-	void __fastcall SetGrid(CheckinList* clist);
+
+    String ActiveNet;
+    String ActiveServer;
+
+	void __fastcall PostProcessing();
 	void __fastcall SaveDefaults();
 	void __fastcall LoadDefaults();
-	void __fastcall DataUpdate(const String& netname);
+	void __fastcall ActiveDataUpdate();
 	int RefreshRate = 20;
 	void __fastcall Shell(String cmd);
 	void __fastcall ExportCSV(String Filename);
 	void __fastcall LoadFontFromResource(String ResourceName);
 	bool __fastcall CheckUpdate(String& url, String& versiontext, String& infotext);
+    void __fastcall BestFitDBGridColumn(
+    TDBGrid* Grid, TColumn* Col, int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/);
+    void __fastcall BestFitAll(TDBGrid* Grid, int maxrows = 0, int padding = 0);
+
 	HANDLE ClockFontHandle;
+    String SortField;
+    bool Ascending;
   public: // User declarations
 	__fastcall TFormMain(TComponent* Owner);
 	std::map<String, TColumn*> ColMap;

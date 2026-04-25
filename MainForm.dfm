@@ -20,7 +20,7 @@ object FormMain: TFormMain
   TextHeight = 15
   object PanelTop: TPanel
     Left = 0
-    Top = 25
+    Top = 27
     Width = 1201
     Height = 193
     Align = alTop
@@ -291,205 +291,6 @@ object FormMain: TFormMain
       end
     end
   end
-  object DBGrid1: TDBGrid
-    AlignWithMargins = True
-    Left = 10
-    Top = 221
-    Width = 1181
-    Height = 446
-    Hint = 'double-click for Qrz.com info'
-    HelpKeyword = 'Application'
-    HelpContext = 10
-    Margins.Left = 10
-    Margins.Right = 10
-    Align = alClient
-    DataSource = DataSource1
-    DrawingStyle = gdsClassic
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgTitleClick, dgTitleHotTrack, dgThumbTracking]
-    ParentFont = False
-    ParentShowHint = False
-    ReadOnly = True
-    ShowHint = True
-    TabOrder = 1
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -12
-    TitleFont.Name = 'Segoe UI'
-    TitleFont.Style = []
-    OnDblClick = DBGrid1DblClick
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'SerialNo'
-        Title.Caption = 'Serial No'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'Callsign'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'State'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'Remarks'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'QSLInfo'
-        Title.Caption = 'Info'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CityCountry'
-        Title.Caption = 'City'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'FirstName'
-        Title.Caption = 'Name'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'Status'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'County'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'Grid'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'Street'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'Zip'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'MemberID'
-        Title.Caption = 'Member ID'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'Country'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DXCC'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PreferredName'
-        Title.Caption = 'Preferred Name'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -13
-        Title.Font.Name = 'Segoe UI'
-        Title.Font.Style = []
-        Visible = True
-      end>
-  end
   object StatusBar1: TStatusBar
     Left = 0
     Top = 670
@@ -502,7 +303,7 @@ object FormMain: TFormMain
     Left = 0
     Top = 0
     Width = 1201
-    Height = 25
+    Height = 27
     HelpType = htKeyword
     UseSystemFont = False
     ActionManager = ActionManager1
@@ -514,12 +315,115 @@ object FormMain: TFormMain
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentShowHint = False
     ShowHint = False
     Spacing = 0
+  end
+  object DBGrid1: TLabeledDbGrid
+    Left = 0
+    Top = 220
+    Width = 1201
+    Height = 450
+    Align = alClient
+    DataSource = DataSource1
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgTitleClick, dgTitleHotTrack]
+    TabOrder = 3
+    OnDblClick = DBGrid1DblClick
+    OnTitleClick = DBGrid1TitleClick
+    BoundLabel.Left = 0
+    BoundLabel.Top = 204
+    BoundLabel.Width = 3
+    BoundLabel.Height = 15
+    OnSortedField = DBGrid1SortedField
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'SerialNo'
+        Title.Caption = 'No.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Callsign'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'State'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Remarks'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QSLInfo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CityCountry'
+        Title.Caption = 'City'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FirstName'
+        Title.Caption = 'Name'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Status'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'County'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Grid'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Street'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Zip'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MemberID'
+        Title.Caption = 'Member ID'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Country'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DXCC'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PreferredName'
+        Title.Caption = 'Preferred'
+        Visible = True
+      end>
   end
   object ClockTimer: TTimer
     Enabled = False
@@ -528,7 +432,7 @@ object FormMain: TFormMain
     Top = 572
   end
   object DataSource1: TDataSource
-    DataSet = FDTable1
+    DataSet = FDMemTable1
     Left = 151
     Top = 295
   end
@@ -539,27 +443,12 @@ object FormMain: TFormMain
     Left = 48
     Top = 585
   end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'Database=C:\Users\gajew\OneDrive\Desktop\Dashboard.sdb'
-      'OpenMode=CreateUTF16'
-      'DriverID=SQLite')
-    LoginPrompt = False
-    Left = 56
-    Top = 296
-  end
   object RefreshTimer: TTimer
     Enabled = False
     Interval = 20000
     OnTimer = RefreshTimerTimer
     Left = 1088
     Top = 576
-  end
-  object FDTable1: TFDTable
-    Connection = FDConnection1
-    TableName = 'NETLOGGER'
-    Left = 232
-    Top = 296
   end
   object RESTClient1: TRESTClient
     Params = <>
@@ -682,5 +571,98 @@ object FormMain: TFormMain
       Caption = '&Live Net'
       OnExecute = ActionLiveNet
     end
+  end
+  object FDMemTable1: TFDMemTable
+    FieldDefs = <
+      item
+        Name = 'SerialNo'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Callsign'
+        DataType = ftString
+        Size = 32
+      end
+      item
+        Name = 'State'
+        DataType = ftString
+        Size = 32
+      end
+      item
+        Name = 'Remarks'
+        DataType = ftString
+        Size = 128
+      end
+      item
+        Name = 'QSLInfo'
+        DataType = ftString
+        Size = 128
+      end
+      item
+        Name = 'CityCountry'
+        DataType = ftString
+        Size = 64
+      end
+      item
+        Name = 'FirstName'
+        DataType = ftString
+        Size = 64
+      end
+      item
+        Name = 'Status'
+        DataType = ftString
+        Size = 32
+      end
+      item
+        Name = 'County'
+        DataType = ftString
+        Size = 64
+      end
+      item
+        Name = 'Grid'
+        DataType = ftString
+        Size = 64
+      end
+      item
+        Name = 'Street'
+        DataType = ftString
+        Size = 128
+      end
+      item
+        Name = 'Zip'
+        DataType = ftString
+        Size = 32
+      end
+      item
+        Name = 'MemberID'
+        DataType = ftString
+        Size = 32
+      end
+      item
+        Name = 'Country'
+        DataType = ftString
+        Size = 64
+      end
+      item
+        Name = 'DXCC'
+        DataType = ftString
+        Size = 32
+      end
+      item
+        Name = 'PreferredName'
+        DataType = ftString
+        Size = 64
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 280
+    Top = 295
   end
 end
