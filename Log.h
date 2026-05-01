@@ -20,14 +20,15 @@
 
 #include "CodeSiteLogging.hpp"
 
-#ifndef _NOGLOG
+#ifndef _NOLOG
 
 #define ENTERFUNC CodeSite->EnterMethod(__FUNC__)
 #define EXITFUNC CodeSite->ExitMethod(__FUNC__)
 #define LogInfo(str) CodeSite->Send(csmInfo, (UnicodeString)str)
 #define LogNameVal(__name, __val) CodeSite->Send(csmInfo, __name + " = " + __val)
 #define LogWarn(str) CodeSite->Send(csmWarning, (UnicodeString)str)
-#define LogExcept(ex) CodeSite->SendException(__FUNC__, ex);
+#define LogExcept(ex) CodeSite->SendException(__FUNC__, ex)
+#define LogError(str) CodeSite->Send(csmError, (UnicodeString) str)
 
 #else
 
@@ -36,6 +37,7 @@
 #define LogInfo(str)
 #define LogWarn(str)
 #define LogExcept(ex)
+#define LogError(str)
 
 #endif
 

@@ -23,8 +23,6 @@ void XML_Checkin_Machine::Element(const String& str)
     element = str;
     auto keys = Keys();
 
-    // we aren't doing anything with the top-level parameter lists yet ..
-
     auto tag = keys.find(str);
 
     if (tag != keys.end()) {
@@ -39,7 +37,6 @@ void XML_Checkin_Machine::Element(const String& str)
                 Stack.push(std::move(List));  // first time only
             List.clear();
             state = tag->second;
-            break;
             break;
         case Unk:   // don't care
             break;

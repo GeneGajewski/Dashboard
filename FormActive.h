@@ -53,7 +53,6 @@ class TFormActiveNets : public TForm
 	TRESTClient *RESTClient;
 	TRESTRequest *RESTRequest;
 	TRESTResponse *RESTResponse;
-	TActivityIndicator *ActivityIndicator1;
 	TStringField *FDMemTabNetName;
 	TStringField *FDMemTabAltNetName;
 	TStringField *FDMemTabFrequency;
@@ -64,6 +63,7 @@ class TFormActiveNets : public TForm
 	TStringField *FDMemTabBand;
 	TIntegerField *FDMemTabSubscriberCount;
 	TStringField *FDMemTabServer;
+	TActivityIndicator *ActivityIndicator1;
 	void __fastcall FormCreate(TObject* Sender);
 	void __fastcall FormShow(TObject* Sender);
 	void __fastcall BitBtnOkClick(TObject* Sender);
@@ -78,7 +78,6 @@ class TFormActiveNets : public TForm
 	TDateTime LastCheck = 0;
 	String SortField;
 	bool Ascending;
-
 
   public: // User declarations
     String SelectedNet, SelectedServer;

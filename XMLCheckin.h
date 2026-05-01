@@ -12,7 +12,7 @@
 
 
 // This object parses XML responses and works for both 'Active and 'Past' nets. A user call back
-// is fired for earch 'net' record which receives a std::map of Name/Value pairs representing the record.
+// is fired for each 'net' record which receives a std::map of Name/Value pairs representing the record.
 
 
 class XML_Checkin_Machine {

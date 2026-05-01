@@ -311,8 +311,8 @@
         </CppCompile>
         <FormResources Include="UpdateInfo.dfm"/>
         <FormResources Include="Preferences.dfm"/>
-        <FormResources Include="MainForm.dfm"/>
         <FormResources Include="ABOUT.dfm"/>
+        <FormResources Include="MainForm.dfm"/>
         <FormResources Include="FormActive.dfm"/>
         <FormResources Include="Download.dfm"/>
         <BuildConfiguration Include="Base">

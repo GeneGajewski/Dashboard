@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "FormActive.h"
-#include "Logger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "Vcl.LabeledDBCtrls"
@@ -18,8 +17,7 @@ TFormActiveNets* FormActiveNets;
 #include <REST.Client.hpp>
 #include "xmlnets.h"
 #include <System.dateutils.hpp>
-
-using namespace LogSys;
+#include "log.h"
 
 #define NETLIST_SECONDS 60 // check for new nets no more than once a minute
 
@@ -28,7 +26,6 @@ using namespace LogSys;
 static const char* BaseUrl = "https://www.netlogger.org/api";
 static const char* ResourceStr = "GetActiveNets.php";
 
-
 // make grid column width match content width + padding
 
 void __fastcall TFormActiveNets::BestFitDBGridColumn(
@@ -36,14 +33,14 @@ void __fastcall TFormActiveNets::BestFitDBGridColumn(
 {
     if (!Grid || !Col || !Col->Field)
     {
-        Log(logERROR, "Grid || Col || Col->Field is null");
+        LogError("Grid || Col || Col->Field is null");
         return;
     }
 
     TDataSet* DS = Col->Field->DataSet;
     if (!DS || !DS->Active)
     {
-        Log(logERROR, "!DS || DS->Active = false");
+        LogError("!DS || DS->Active = false");
         return;
     }
 
@@ -103,7 +100,7 @@ __fastcall TFormActiveNets::TFormActiveNets(TComponent* Owner) : TForm(Owner) {}
 
 void __fastcall TFormActiveNets::FormCreate(TObject* Sender)
 {
-    Log(logINFO, "Initializing TActiveNets");
+    LogInfo("Initializing TActiveNets form.");
     FDMemTab->Open();
     LastCheck = GetTime();
 }
@@ -125,55 +122,64 @@ void TFormActiveNets::LoadActiveNets()
 
         // run in background thread
 
-        RESTRequest->ExecuteAsync([this]() {
-            int Status = RESTResponse->StatusCode;
-            if (Status != 200)
-                return; // TODO: expound on this
+        RESTRequest->ExecuteAsync(
+            [this]() {
+                int Status = RESTResponse->StatusCode;
+                if (Status != 200)
+                {
+                    LogWarn("REST Status Code: " + IntToStr(Status));
+                    return;
+                }
 
-            try
-            {
-                FDMemTab->DisableControls();
-                FDMemTab->EmptyDataSet();
+                try
+                {
+                    FDMemTab->DisableControls();
+                    FDMemTab->EmptyDataSet();
 
-                // post a record to the mem table
+                    // post a record to the mem table
 
-                auto callback = [&](XML_Nets_Machine::NamedValues& vals) {
-                    FDMemTab->Append();
-                    for (auto Item : vals)
-                    {
-                        TField* field = FDMemTab->FieldByName(Item.first);
+                    auto callback = [&](XML_Nets_Machine::NamedValues& vals) {
+                        FDMemTab->Append();
+                        for (auto Item : vals)
+                        {
+                            TField* field = FDMemTab->FieldByName(Item.first);
 
-                        if (!field) // huh?
-                            continue;
+                            if (!field) // huh?
+                            {
+                                LogError(Item.first + " field is unknown.");
+                                continue;
+                            }
 
-                        if (field->DataType == TFieldType::ftBoolean)
-                            field->Value = (Item.second == "Y" ? true : false);
-                        else
-                            field->Value = Item.second;
-                    }
-                    FDMemTab->Post();
-                };
+                            if (field->DataType == TFieldType::ftBoolean)
+                                field->Value = (Item.second == "Y" ? true : false);
+                            else
+                                field->Value = Item.second;
+                        }
+                        FDMemTab->Post();
+                    };
 
-                // our xml processor
-                XML_Nets_Machine machine(callback);
+                    // our xml processor
+                    XML_Nets_Machine machine(callback);
 
-                // do it
-                FDMemTab->BeginBatch();
-                machine.Execute(RESTResponse->RawBytes);
-                FDMemTab->EndBatch();
+                    // do it
+                    FDMemTab->BeginBatch();
+                    machine.Execute(RESTResponse->RawBytes);
+                    FDMemTab->EndBatch();
 
-            } catch (Exception& e)
-            {
-                FDMemTab->Cancel();
-                FDMemTab->EndBatch();
-            }
+                } catch (Exception& e)
+                {
+                    LogExcept(&e);
+                    FDMemTab->Cancel();
+                    FDMemTab->EndBatch();
+                }
 
-            TThread::Queue(nullptr, [this]() { PostProcessing(); });
-        });
+                TThread::Queue(nullptr, [this]() { PostProcessing(); });
+            },
+            false);
 
     } catch (Exception& e)
     {
-        Log(logERROR, e.Message);
+        LogExcept(&e);
     }
 }
 
@@ -187,7 +193,7 @@ void __fastcall TFormActiveNets::PostProcessing()
 
     FDMemTab->EnableControls();
     ActivityIndicator1->Animate = false;
-
+    NetGrid->Visible = true;
     NetGrid->Enabled = true;
     FocusControl(NetGrid);
 }
@@ -200,16 +206,16 @@ void __fastcall TFormActiveNets::FormShow(TObject* Sender)
     {
         if (FDMemTab->RecordCount == 0 || SecondsBetween(GetTime(), LastCheck) > NETLIST_SECONDS)
         {
+            NetGrid->Visible = false;
             ActivityIndicator1->Animate = true;
             NetGrid->Enabled = false;
             LoadActiveNets();
             LastCheck = GetTime(); // note the time
-        }
-        else
+        } else
             FocusControl(NetGrid);
     } catch (Exception& e)
     {
-        Log(logERROR, e.Message);
+        LogExcept(&e);
     }
 }
 //---------------------------------------------------------------------------
@@ -229,9 +235,16 @@ void __fastcall TFormActiveNets::NetGridDblClick(TObject* Sender)
 void __fastcall TFormActiveNets::NetGridTitleClick(TColumn* Column)
 {
     if (!Column || !Column->Field)
+    {
+        LogWarn("!Column || !Column->Field.");
         return;
+    }
+
     if (Column->Field->FieldKind != fkData)
+    {
+        LogWarn("FieldKind != fkData");
         return; // ignore calculated/lookup/etc.
+    }
 
     const String f = Column->Field->FieldName;
     SortField = f;
@@ -263,4 +276,5 @@ void __fastcall TFormActiveNets::NetGridSortedField(
         Sorted = TCBSortOrder::soNone;
 }
 //---------------------------------------------------------------------------
+
 

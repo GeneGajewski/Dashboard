@@ -331,6 +331,7 @@ object FormMain: TFormMain
     DataSource = DataSource1
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgTitleClick, dgTitleHotTrack]
     TabOrder = 3
+    OnDrawColumnCell = DBGrid1DrawColumnCell
     OnDblClick = DBGrid1DblClick
     OnTitleClick = DBGrid1TitleClick
     BoundLabel.Left = 0

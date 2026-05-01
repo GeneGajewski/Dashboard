@@ -23,70 +23,71 @@
 
 
 //---------------------------------------------------------------------------
-#include "datamodule.h"
+#include <Vcl.ActnCtrls.hpp>
+#include "Vcl.LabeledDBCtrls.hpp"
+#include <Data.Bind.Components.hpp>
+#include <Data.Bind.ObjectScope.hpp>
 #include <Data.DB.hpp>
-#include <Datasnap.DBClient.hpp>
 #include <FireDAC.Comp.Client.hpp>
 #include <FireDAC.Comp.DataSet.hpp>
 #include <FireDAC.DApt.Intf.hpp>
-#include <FireDAC.DApt.hpp>
 #include <FireDAC.DatS.hpp>
 #include <FireDAC.Phys.Intf.hpp>
-#include <FireDAC.Phys.SQLite.hpp>
-#include <FireDAC.Phys.SQLiteDef.hpp>
-#include <FireDAC.Phys.SQLiteWrapper.Stat.hpp>
-#include <FireDAC.Phys.hpp>
-#include <FireDAC.Stan.Async.hpp>
-#include <FireDAC.Stan.Def.hpp>
 #include <FireDAC.Stan.Error.hpp>
-#include <FireDAC.Stan.ExprFuncs.hpp>
 #include <FireDAC.Stan.Intf.hpp>
 #include <FireDAC.Stan.Option.hpp>
 #include <FireDAC.Stan.Param.hpp>
-#include <FireDAC.Stan.Pool.hpp>
-#include <FireDAC.Stan.StorageBin.hpp>
-#include <FireDAC.UI.Intf.hpp>
-#include <FireDAC.VCLUI.Wait.hpp>
+#include <REST.Client.hpp>
+#include <REST.Types.hpp>
+#include <System.Actions.hpp>
 #include <System.Classes.hpp>
-#include <System.DateUtils.hpp>
-#include <System.ImageList.hpp>
-#include <Vcl.BaseImageCollection.hpp>
-#include <Vcl.Buttons.hpp>
+#include <System.Net.HttpClient.hpp>
+#include <System.Net.URLClient.hpp>
+#include <Vcl.ActnList.hpp>
+#include <Vcl.ActnMan.hpp>
+#include <Vcl.ActnMenus.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.DBGrids.hpp>
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.ExtCtrls.hpp>
-#include <Vcl.Forms.hpp>
-#include <Vcl.Graphics.hpp>
 #include <Vcl.Grids.hpp>
-#include <Vcl.ImageCollection.hpp>
-#include <Vcl.ImgList.hpp>
-#include <Vcl.Menus.hpp>
+#include <Vcl.PlatformDefaultStyleActnCtrls.hpp>
+#include <Vcl.StdActns.hpp>
 #include <Vcl.StdCtrls.hpp>
-#include <Vcl.WinXCtrls.hpp>
+#include <Vcl.ActnMenus.hpp>
+#include "Vcl.LabeledDBCtrls.hpp"
 #include <Data.Bind.Components.hpp>
 #include <Data.Bind.ObjectScope.hpp>
 #include <REST.Client.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdActns.hpp>
+#include <Vcl.ToolWin.hpp>
+#include <Data.DB.hpp>
+#include <FireDAC.Comp.Client.hpp>
+#include <FireDAC.Comp.DataSet.hpp>
+#include <FireDAC.DApt.Intf.hpp>
+#include <FireDAC.DatS.hpp>
+#include <FireDAC.Phys.Intf.hpp>
+#include <FireDAC.Stan.Error.hpp>
+#include <FireDAC.Stan.Intf.hpp>
+#include <FireDAC.Stan.Option.hpp>
+#include <FireDAC.Stan.Param.hpp>
 #include <REST.Types.hpp>
-#include <Soap.WebServExp.hpp>
-#include <Soap.WSDLBind.hpp>
-#include <Soap.WSDLPub.hpp>
-#include <System.TypInfo.hpp>
-#include <Xml.XMLSchema.hpp>
-#include <System.Skia.hpp>
-#include <Vcl.Skia.hpp>
+#include <System.Actions.hpp>
+#include <System.Classes.hpp>
 #include <System.Net.HttpClient.hpp>
 #include <System.Net.URLClient.hpp>
-#include <System.Actions.hpp>
+#include <Vcl.ActnCtrls.hpp>
 #include <Vcl.ActnList.hpp>
 #include <Vcl.ActnMan.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.DBGrids.hpp>
+#include <Vcl.Dialogs.hpp>
+#include <Vcl.ExtCtrls.hpp>
 #include <Vcl.PlatformDefaultStyleActnCtrls.hpp>
-#include <Vcl.ActnCtrls.hpp>
-#include <Vcl.ActnMenus.hpp>
-#include <Vcl.ToolWin.hpp>
-#include <Vcl.StdActns.hpp>
-#include "Vcl.LabeledDBCtrls.hpp"
+#include <Vcl.StdCtrls.hpp>
 #include <map>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm
@@ -149,6 +150,8 @@ class TFormMain : public TForm
 	void __fastcall ActionLiveNet(TObject *Sender);
 	void __fastcall DBGrid1TitleClick(TColumn *Column);
 	void __fastcall DBGrid1SortedField(TLabeledDbGrid *Sender, TField *Field, TCBSortOrder &Sorted);
+	void __fastcall DBGrid1DrawColumnCell(TObject *Sender, const TRect &Rect, int DataCol, TColumn *Column, TGridDrawState State);
+
   private: // User declarations
 	void __fastcall UpdateClockDisplay();
 
@@ -171,6 +174,8 @@ class TFormMain : public TForm
 	HANDLE ClockFontHandle;
     String SortField;
     bool Ascending;
+    unsigned NewRecords;
+    int Pointer;
   public: // User declarations
 	__fastcall TFormMain(TComponent* Owner);
 	std::map<String, TColumn*> ColMap;
