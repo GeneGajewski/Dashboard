@@ -4,7 +4,7 @@ object FormActiveNets: TFormActiveNets
   BorderIcons = []
   Caption = 'Active Nets'
   ClientHeight = 264
-  ClientWidth = 933
+  ClientWidth = 935
   Color = clBtnFace
   Constraints.MinHeight = 264
   Constraints.MinWidth = 900
@@ -15,28 +15,28 @@ object FormActiveNets: TFormActiveNets
   Font.Style = []
   Position = poMainFormCenter
   OnCreate = FormCreate
+  OnResize = FormResize
   OnShow = FormShow
   TextHeight = 15
   object ActivityIndicator1: TActivityIndicator
     AlignWithMargins = True
-    Left = 34
-    Top = 34
-    Align = alCustom
+    Left = 435
+    Top = 100
     Animate = True
     IndicatorSize = aisXLarge
     IndicatorType = aitRotatingLines
-    ExplicitLeft = 19
-    ExplicitTop = 19
   end
   object Panel1: TPanel
     Left = 0
     Top = 210
-    Width = 933
+    Width = 935
     Height = 54
     Align = alBottom
     BevelEdges = []
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitLeft = -22
+    ExplicitTop = 127
     object BitBtnOk: TBitBtn
       Left = 16
       Top = 16
@@ -59,7 +59,7 @@ object FormActiveNets: TFormActiveNets
     end
   end
   object Panel2: TPanel
-    Left = 917
+    Left = 919
     Top = 16
     Width = 16
     Height = 194
@@ -67,6 +67,7 @@ object FormActiveNets: TFormActiveNets
     BevelEdges = []
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitLeft = 917
   end
   object Panel3: TPanel
     Left = 0
@@ -81,17 +82,18 @@ object FormActiveNets: TFormActiveNets
   object Panel4: TPanel
     Left = 0
     Top = 0
-    Width = 933
+    Width = 935
     Height = 16
     Align = alTop
     BevelEdges = []
     BevelOuter = bvNone
     TabOrder = 3
+    ExplicitWidth = 933
   end
   object NetGrid: TLabeledDbGrid
     Left = 16
     Top = 16
-    Width = 901
+    Width = 903
     Height = 194
     Cursor = crHandPoint
     Align = alClient

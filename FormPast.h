@@ -53,7 +53,6 @@ class TFormPastNets : public TForm
 	TRESTResponse *RESTResponse;
 	TImageList *ImageList1;
 	TPanel *Rightside;
-	TActivityIndicator *ActivityIndicator1;
 	TLabeledSpinEdit *LabeledSpinEdit1;
 	TBitBtn *BitBtnRefresh;
 	TLabeledEditEx *FilterEdit;
@@ -75,6 +74,9 @@ class TFormPastNets : public TForm
 	TStringField *FDMemTabClosedAt;
 	TBooleanField *FDMemTabAssassinated;
 	TStringField *FDMemTabServer;
+	TLabeledEditEx *edLike;
+	TActivityIndicator *ActivityIndicator1;
+	TLabel *Label1;
 	void __fastcall FormCreate(TObject* Sender);
 	void __fastcall FormShow(TObject* Sender);
 	void __fastcall BitBtnOkClick(TObject* Sender);

@@ -22,6 +22,8 @@
 
 #include "Download.h"
 #include <system.IOUtils.hpp>
+
+#include "log.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -68,10 +70,9 @@ bool TDL::GetFile(String& url, String& filename)
                 return true;
         }
 
-    } catch (...)
+    } catch (Exception &e)
     {
-        // exceptions?
-        /* TODO -oGG -clow : Handler */
+        LogExcept(&e);
     }
 
     // failed
@@ -102,6 +103,7 @@ void __fastcall TDL::ReceiveDataEvent(
         UInt32 LTime = TThread::GetTickCount() - FGlobalStart;
         float LSpeed = (AReadCount * 1000) / LTime;
 
+        // GUI must be done in main thread - not this one
         bool LAbort = Abort;
         System::Classes::TThread::Synchronize(
             NULL, SyncLambda<int, float, bool&>(&this->UpdateProgress, AReadCount, LSpeed, LAbort));

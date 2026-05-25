@@ -3,8 +3,8 @@ object AboutBox: TAboutBox
   Top = 108
   BorderStyle = bsDialog
   Caption = 'About'
-  ClientHeight = 310
-  ClientWidth = 302
+  ClientHeight = 308
+  ClientWidth = 608
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,15 +16,15 @@ object AboutBox: TAboutBox
   object Panel1: TPanel
     Left = 11
     Top = 8
-    Width = 281
-    Height = 265
+    Width = 581
+    Height = 237
     BevelInner = bvRaised
     BevelOuter = bvLowered
     ParentColor = True
     TabOrder = 0
     DesignSize = (
-      281
-      265)
+      581
+      237)
     object ProgramIcon: TImage
       Left = 17
       Top = 16
@@ -10171,20 +10171,22 @@ object AboutBox: TAboutBox
       IsControl = True
     end
     object lblVersion: TLabel
-      Left = 76
-      Top = 35
+      Left = 376
+      Top = 16
       Width = 45
-      Height = 13
+      Height = 4
       Alignment = taCenter
       Anchors = [akTop, akRight, akBottom]
       Caption = 'lblVersion'
       IsControl = True
+      ExplicitLeft = 389
+      ExplicitHeight = 147
     end
     object LinkLabel1: TLinkLabel
-      Left = 17
-      Top = 55
-      Width = 250
-      Height = 194
+      Left = 31
+      Top = 70
+      Width = 524
+      Height = 157
       AutoSize = False
       Caption = 
         'Copyright (C) 2023 WG5ENE. This program is free software: you ca' +
@@ -10198,14 +10200,19 @@ object AboutBox: TAboutBox
         'ave received a copy of the GNU General Public License along with' +
         ' this program. If not, see <a href="http://www.gnu.org/licenses/' +
         '">http://www.gnu.org/licenses/</a>.'
-      Constraints.MaxWidth = 250
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
       TabOrder = 0
       OnClick = LinkLabel1Click
     end
   end
   object OKButton: TButton
-    Left = 113
-    Top = 280
+    Left = 28
+    Top = 263
     Width = 75
     Height = 25
     Caption = 'OK'

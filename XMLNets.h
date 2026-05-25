@@ -1,3 +1,21 @@
+/*
+ *   Copyright (C) 2026 Gene Gajewski WG5ENE
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 //---------------------------------------------------------------------------
 
 #ifndef XMLNetsH
@@ -12,7 +30,7 @@
 
 
 // This object parses XML responses and works for both 'Active and 'Past' nets. A user call back
-// is fired for earch 'net' record which receives a std::map of Name/Value pairs representing the record.
+// is fired for earch 'net' record - it receives a std::map of Name/Value pairs representing the record.
 
 
 class XML_Nets_Machine {
@@ -24,6 +42,7 @@ public:
 
 private:
 
+
     enum State { Unk,
         Header,
         ServerList,
@@ -32,9 +51,9 @@ private:
 
     String element, text;
 
-    State state; // nesting level
+    State state; // parse nesting level
     NamedValues List; // parameter accumulator
-    std::stack<NamedValues> Stack; // holds nested parent lists
+    std::stack<NamedValues> Stack; // pushed parent lists
     Callback Fcb; // user's callback
 
     // the xml element tags we're interested in

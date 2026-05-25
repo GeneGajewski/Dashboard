@@ -67,7 +67,7 @@ namespace Utility
         {
             return modulename;
         }
-        // ==== STRINGS YOU CAN QUERY via GetStr ========================
+        // ==== TYPICAL STRINGS YOU CAN QUERY via GetStr ========================
         //
         //	 Comments, InternalName, ProductName, CompanyName, LegalCopyright,
         //	 ProductVersion, FileDescription, LegalTrademarks, PrivateBuild,

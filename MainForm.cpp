@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2023 Gene Gajewski WG5ENE
+ *   Copyright (C) 2023, 2026 Gene Gajewski WG5ENE
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,6 +17,14 @@
  */
 
 //---------------------------------------------------------------------------
+
+// The only outside component used by this project is the is
+// DbAware Labeled Components by Ethea - which is available
+// on Ethea.it and source is also available on GitHub.
+//
+// TLabeledDBGrid provides a couple of enhancement over the
+// stock DBGrid component as is freely avaialble to use.
+
 
 #include <vcl.h>
 #pragma hdrstop
@@ -40,8 +48,10 @@
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+
+// -- see https://github.com/EtheaDev for the following controls -----------
 #pragma link "Vcl.LabeledDBCtrls"
-#pragma link "Vcl.LabeledDBCtrls"
+#pragma link "Vcl.LabeledCtrls"
 #pragma link "Vcl.LabeledDBCtrls"
 #pragma resource "*.dfm"
 
@@ -55,23 +65,33 @@ TFormMain* FormMain;
 #include "Log.h"
 
 #include "FormActive.h"
+#include "FormPast.h"
 
 static const char* BaseUrl = "https://www.netlogger.org/api";
 
-// WIN32 and WIN64x
+// -------- CodeSite Logger ------------------------------------------------------
+
+// both WIN32 and WIN64x use .lib
+
+// please note older WIN64 compilers uses CodeSiteExpressPkg.a, but we are preferring
+// to use use the modern WIN64x compiler instead
+
 #pragma comment(lib, "CodeSiteExpressPkg.lib")
 
 #pragma link "CodeSiteLogging"
+
+// Registry stuff -----------------------------------------------------------------
 
 #define REG_ROOT "Software\\WG5ENE\\DASHBOARD"
 static const char* PgmKey = REG_ROOT;
 static const char* FieldKey = REG_ROOT "\\Columns";
 
-#define FONT_ID 1
+// ------ An led font is included in the executable as a private windows resource -------------------
 
+#define FONT_ID 1
 #define HELPFILE "DASHBOARD.CHM"
 
-// Export a CSV file
+// --- Export a CSV file of checkins ---------------------------------------------
 
 void __fastcall TFormMain::ExportCSV(String Filename)
 {
@@ -81,7 +101,7 @@ void __fastcall TFormMain::ExportCSV(String Filename)
 
     TBookmark bm = FDMemTable1->Bookmark;
 
-    // retry in case another application has this file open in a non-shared
+    // *retry* incase some other application unfortunately has this file open in a non-shared
     // mode
 
 retry:
@@ -101,7 +121,7 @@ retry:
         goto retry; // heh!
     }
 
-    // write nicer Column Titles (instead of field) names
+    // write nicer Column Titles (instead of actual field names)
 
     for (int x = 0; x < DBGrid1->Columns->Count; x++)
     {
@@ -113,12 +133,12 @@ retry:
 
     strm << std::endl;
 
-    // write records
+    // write all records -----------
 
     FDMemTable1->BeginBatch();
     FDMemTable1->First();
 
-    // write out fields in same TColumns ordering...
+    // write out fields in same TColumns ordering... ------------
 
     for (int x = 0; x < FDMemTable1->RecordCount; x++)
     {
@@ -135,35 +155,39 @@ retry:
 
         FDMemTable1->Next();
     }
-
     strm.close();
     FDMemTable1->EndBatch();
     FDMemTable1->Bookmark = bm;
 }
 //---------------------------------------------------------------------------
 __fastcall TFormMain::TFormMain(TComponent* Owner) : TForm(Owner) {}
-//---------------------------------------------------------------------------
+
+
+// ---- Once a second... ------------------------------------
 
 void __fastcall TFormMain::MasterTick(TObject* Sender)
 {
     UpdateClockDisplay();
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::UpdateClockDisplay()
 {
     static const String DateFormat = "dddd, mmmm dd, yyyy";
-    static const String TimeFormat = AMPM ? "h:mm:ss ampm" : "hh:mm:ss";
+    static const String TimeFormat12 = "h:mm:ss ampm";
+    static const String TimeFormat24 = "hh:mm:ss";
     static const String UtcStr = "Universal Time Coordinated";
 
-    TTimeSpan offset = UTC ? TTimeZone::Local->UtcOffset : 0;
+    TTimeSpan offset = UTC ? TTimeZone::Local->UtcOffset : 0;  // local or UTC TZ span
     TDateTime now = TDateTime::CurrentDateTime();
 
     PanelDate->Caption = (now - offset).FormatString(DateFormat);
-    PanelClock->Caption = (now - offset).FormatString(TimeFormat);
+    PanelClock->Caption = (now - offset).FormatString(AMPM ? TimeFormat12 : TimeFormat24);
     PanelZone->Caption = UTC ? UtcStr : TTimeZone::Local->DisplayName;
 }
 
-//---------------------------------------------------------------------------
+//  User clicked on an entry - show QRZ.com page -------------------------------------------
+
 void __fastcall TFormMain::DBGrid1DblClick(TObject* Sender)
 {
     String Callsign, Cmd;
@@ -182,13 +206,17 @@ void __fastcall TFormMain::DBGrid1DblClick(TObject* Sender)
         Shell(Cmd);
     }
 }
-//---------------------------------------------------------------------------
+
+// ---- run a shell command ------------------------------------------------------
+
 void __fastcall TFormMain::Shell(String cmd)
 {
     LogInfo("Shell: " + cmd);
     ShellExecuteW(NULL, L"open", cmd.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
-//---------------------------------------------------------------------------
+
+//---- save window layout ----------------------------------------------------------
+
 void __fastcall TFormMain::SaveDefaults()
 {
     std::unique_ptr<TRegistry> Reg;
@@ -201,7 +229,7 @@ void __fastcall TFormMain::SaveDefaults()
 
         // lambda to write out a data column's particulars
 
-        auto writefield = [this, &Reg](TColumn* col) {
+        auto writefield = [&](TColumn* col) {
             Reg->OpenKey(FieldKey, false);
             Reg->OpenKey(col->FieldName, true);
             Reg->WriteBool("Visible", col->Visible);
@@ -236,7 +264,9 @@ void __fastcall TFormMain::SaveDefaults()
         // do nothing
     }
 }
-//---------------------------------------------------------------------------
+
+//---- load window layout ------------------------------------------------------------
+
 void __fastcall TFormMain::LoadDefaults()
 {
     std::unique_ptr<TRegistry> Reg;
@@ -251,7 +281,7 @@ void __fastcall TFormMain::LoadDefaults()
         // lambda to read column data and update an index/column map for
         // later use in a *second* pass
 
-        auto readfield = [this, &Reg, &IndexingMap](TColumn* Column) {
+        auto readfield = [&](TColumn* Column) {
             Reg->OpenKeyReadOnly(FieldKey);
 
             if (!Reg->KeyExists(Column->FieldName)) // unlikely, but
@@ -299,7 +329,9 @@ void __fastcall TFormMain::LoadDefaults()
         LogExcept(err);
     }
 }
-//---------------------------------------------------------------------------
+
+//--- close application properly -------------------------------------------------------
+
 void __fastcall TFormMain::FormClose(TObject* Sender, TCloseAction& Action)
 {
     RefreshTimer->Enabled = false;
@@ -311,40 +343,63 @@ void __fastcall TFormMain::FormClose(TObject* Sender, TCloseAction& Action)
     if (ClockFontHandle != INVALID_HANDLE_VALUE)
         RemoveFontMemResourceEx(ClockFontHandle);
 }
-//---------------------------------------------------------------------------
-void __fastcall TFormMain::ActiveDataUpdate()
+
+//----pull checkin data for either active or past nets --------------------------------------
+
+void __fastcall TFormMain::CheckinData()
 {
-    Application->ProcessMessages();
     try
     {
-        // set it all up
+        // set up REST objs
+
         RESTClient1->BaseURL = BaseUrl;
         RESTRequest1->Client = RESTClient1;
         RESTRequest1->Response = RESTResponse1;
-        RESTRequest1->Resource = "GetCheckins.php";
-        RESTRequest1->Params->Clear();
-        RESTRequest1->Params->AddItem("ServerName", ActiveServer, pkGETorPOST);
-        RESTRequest1->Params->AddItem("NetName", ActiveNet, pkGETorPOST);
 
-        // run in background thread
+        RESTRequest1->Params->Clear();
+        RESTRequest1->Params->AddItem("ServerName", CurrentServer, pkGETorPOST);
+        RESTRequest1->Params->AddItem("NetName", CurrentNet, pkGETorPOST);
+
+        if (ActiveMode)
+            RESTRequest1->Resource = "GetCheckins.php";
+        else
+        {
+            RESTRequest1->Resource = "GetPastNetCheckins.php";
+            RESTRequest1->Params->AddItem("NetID", CurrentNetID, pkGETorPOST); // required param for past nets
+        }
+
+        // Would like to run completion handler in background thread but can't - if grid control is resized
+        // while we're updating then exceptions may occur to due data races....
 
         NewRecords = 0;
         Pointer = -1;
+        LogInfo("REST: " + RESTRequest1->GetFullRequestURL(true));
+
+        FDMemTable1->DisableControls();
 
         RESTRequest1->ExecuteAsync(
             [this]() {
                 int Status = RESTResponse1->StatusCode;
+                LogInfo("CompletionHandler StatusCode: " + IntToStr(Status));
+
                 if (Status != 200)
-                    return; // TODO: expound on this
+                {
+                    FDMemTable1->EnableControls();
+                    return;
+                }
 
                 try
                 {
-                    FDMemTable1->DisableControls();
-                    // post a record to the mem table
+                    // post records to the mem table
 
-                    auto callback = [&](XML_Checkin_Machine::State state,
-                                        XML_Checkin_Machine::NamedValues& vals) {
-                        if (state == XML_Checkin_Machine::State::Checkin)
+                    // aliases
+                    using State = XML_Checkin_Machine::State;
+                    using NamedValues = XML_Checkin_Machine::NamedValues;
+
+                    // quick lambda to write record to mem table
+
+                    auto callback = [&](State state, NamedValues& vals) {
+                        if (state == State::Checkin)
                         {
                             if (NewRecords == 0) // only clear on new records
                                 FDMemTable1->EmptyDataSet();
@@ -365,34 +420,35 @@ void __fastcall TFormMain::ActiveDataUpdate()
                                     field->Value = Item.second;
                             }
                             FDMemTable1->Post();
-                        }
-                        else if(state == XML_Checkin_Machine::State::CheckinList)
+                        } else if (state == State::CheckinList)
                         {
                             auto iter = vals.find("Pointer");
-                            if(iter != vals.end())
+                            if (iter != vals.end())
                             {
-                            	Pointer = StrToInt(iter->second);
-                                LogInfo("Pointer: " + iter->second);
-                            }
-                            else
+                                Pointer = StrToInt(iter->second);
+//                                LogInfo("Pointer: " + iter->second);
+                            } else
                                 Pointer = -1;
+                            for (auto Item : vals)
+                            {
+                                LogNameVal(Item.first, Item.second);
+                            }
                         }
-
                     };
 
-                    // our xml processor
+                    // declare our xml processor
                     XML_Checkin_Machine machine(callback);
 
-                    // note selected record serialno
+                    // stash the currently selected record serialno
                     int Selected = FDMemTable1->FieldByName("SerialNo")->AsInteger;
 
-                    // do it
+                    // go and process it all
                     FDMemTable1->BeginBatch();
                     machine.Execute(RESTResponse1->RawBytes);
                     FDMemTable1->EndBatch();
                     FDMemTable1->First();
 
-                    // set cursor on previously stored serialno
+                    // reset cursor on previously stored serialno if found
                     while (!FDMemTable1->Eof)
                     {
                         if (FDMemTable1->FieldByName("SerialNo")->AsInteger == Selected)
@@ -408,57 +464,75 @@ void __fastcall TFormMain::ActiveDataUpdate()
                 }
                 TThread::Queue(nullptr, [this]() { PostProcessing(); });
             },
-            false);
+            true, true,
+            [this](TObject* AObject) { // should never get to completionerror handler here...
+                Exception* e = dynamic_cast<Exception*>(AObject);
+                LogError(e->Message);
+            });
 
-    } catch (Exception* e)
+    } catch (Exception& e)
     {
-        LogExcept(e);
+        LogExcept(&e);
+        FDMemTable1->EnableControls();
     }
 }
 
 void __fastcall TFormMain::PostProcessing()
 {
-    // set DBGrid column widths to match content
+    // set Grid column widths to match their content
 
-    for (int x = 0; x < DBGrid1->Columns->Count; x++)
-        BestFitDBGridColumn(DBGrid1, DBGrid1->Columns->Items[x], 0, 24);
+    if (NewRecords == 0 && FDMemTable1->RecordCount > 0) // typical new or past "Test" net entry with 0 checkins...
+    {
+        FDMemTable1->EmptyDataSet(); // clear old stuff if needed
+    } else
+        for (int x = 0; x < DBGrid1->Columns->Count; x++)
+            BestFitDBGridColumn(DBGrid1, DBGrid1->Columns->Items[x], 0, 24);
 
     LogInfo(UIntToStr(NewRecords) + " records.");
     FDMemTable1->EnableControls();
     DBGrid1->Enabled = true;
 
-    if (NewRecords == 0)
+    if (ActiveMode) // active nets can suddenly close on us
     {
-        StatusBar1->SimpleText = ActiveNet + " is now closed.";
-        ActiveNet = "";
-        Beep();
-        return;
+        if (NewRecords == 0)
+        {
+            StatusBar1->SimpleText = CurrentNet + " is now closed.";
+            CurrentNet = "";  // clear this so we don't accidentally poll for data again
+            Beep();
+            return; // leave - do not reset timer
+        }
+        RefreshTimer->Interval = RefreshRate * 1000;
+        RefreshTimer->Enabled = true; // ready for the time to next poll
     }
+
     StatusBar1->SimpleText = String().sprintf(L"%d Records", FDMemTable1->RecordCount);
     actExportCSV->Enabled = FDMemTable1->RecordCount ? true : false;
-    RefreshTimer->Enabled = true;
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TFormMain::FormShow(TObject* Sender)
 {
     UpdateClockDisplay();
     ClockTimer->Enabled = true;
 }
-//---------------------------------------------------------------------------
+
+//--- called by refresh timer which is based on a poll rate (20-180sec) ----------------------
+
 void __fastcall TFormMain::RefreshTimerTimer(TObject* Sender)
 {
     ENTERFUNC;
-    RefreshTimer->Enabled = false;
+    RefreshTimer->Enabled = false;  // avoid accidental reentrance
 
-    if (!ActiveNet.IsEmpty())
-        ActiveDataUpdate();
-    else
+    if (!CurrentNet.IsEmpty())
+        CheckinData();
+    else                           // last poll was empty and so CurrentNet was blanked out
         LogInfo("Activenet is empty - no further refreshes.");
     EXITFUNC;
 }
 //---------------------------------------------------------------------------
 
-// check for program updates
+
+// check for program updates -------------------------------------------------
 
 bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String& InfoText)
 {
@@ -469,7 +543,7 @@ bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String&
     vstr = wver.GetStr("FileVersion");
     LogInfo(vstr);
 
-    // REST reuqest
+    // REST request
     try
     {
         Document = std::make_unique<TXMLDocument>(this);
@@ -518,7 +592,8 @@ bool __fastcall TFormMain::CheckUpdate(String& Url, String& VersionText, String&
     }
     return false; // update not needed
 }
-//---------------------------------------------------------------------------
+
+//----  form intialization --------------------------------------------------------------
 void __fastcall TFormMain::FormCreate(TObject* Sender)
 {
     CodeSite->Clear();
@@ -526,7 +601,7 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
     LogInfo("Starting Dashboard");
     Application->HelpFile = TPath::Combine(TPath::GetAppPath(), HELPFILE);
 
-    // load clock font from resource
+    // load led clock font from resource
     try
     {
         DWORD font_count;
@@ -534,9 +609,9 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
 
         rs = std::make_unique<TResourceStream>(THandle(HInstance), FONT_ID, RT_FONT);
         ClockFontHandle = AddFontMemResourceEx(rs->Memory, rs->Size, 0, &font_count);
-    } catch (Exception* err)
+    } catch (Exception& err)
     { /* failed to load clock resource */
-        LogExcept(err);
+        LogExcept(&err);
     }
 
     // Colmap allows access to a DBGrid column by name
@@ -548,7 +623,7 @@ void __fastcall TFormMain::FormCreate(TObject* Sender)
 }
 //---------------------------------------------------------------------------
 
-// adjust TColumn width to content
+// adjust TColumn width to content size ------------------------------------------
 
 void __fastcall TFormMain::BestFitDBGridColumn(
     TDBGrid* Grid, TColumn* Col, int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/)
@@ -569,6 +644,7 @@ void __fastcall TFormMain::BestFitDBGridColumn(
     // Use grid fonts for accurate measurement
     // Title font may differ from cell font
 
+    // RAII
     std::unique_ptr<TFont> oldFont = std::make_unique<TFont>();
 
     try
@@ -618,14 +694,16 @@ void __fastcall TFormMain::BestFitDBGridColumn(
 }
 //---------------------------------------------------------------------------
 
-// adjust all DBGrid TColumn widths
+// adjust *all* DBGrid TColumn widths --------------------------------------
 
 void __fastcall TFormMain::BestFitAll(TDBGrid* Grid, int maxrow, int padding)
 {
     for (int x = 0; x < Grid->Columns->Count; x++)
         BestFitDBGridColumn(Grid, Grid->Columns->Items[x], maxrow, padding);
 }
-//---------------------------------------------------------------------------
+
+
+//---export grid to universal *.csv file  ------------------------------------
 
 void __fastcall TFormMain::ActionExport(TObject* Sender)
 {
@@ -638,7 +716,7 @@ void __fastcall TFormMain::ActionExport(TObject* Sender)
         return;
     }
 
-    // lambda to create and sanitize a suggested filename
+    // lambda to sanitize a suggested filename
 
     auto Legalize = [](String& ref) {
         using System::Ioutils::TPath;
@@ -661,12 +739,16 @@ void __fastcall TFormMain::ActionExport(TObject* Sender)
     if (SaveDialog1->Execute())
         ExportCSV(SaveDialog1->FileName);
 }
-//---------------------------------------------------------------------------
+
+//----about box -----------------------------------------------------------
+
 void __fastcall TFormMain::ActionAbout(TObject* Sender)
 {
     AboutBox->ShowModal();
 }
-//---------------------------------------------------------------------------
+
+//----preferences dialog ---------------------------------------------------
+
 void __fastcall TFormMain::ActionPreferences(TObject* Sender)
 {
     String curstyle = Vcl::Themes::TStyleManager::ActiveStyle->Name;
@@ -680,12 +762,16 @@ void __fastcall TFormMain::ActionPreferences(TObject* Sender)
             Vcl::Themes::TStyleManager::TrySetStyle(curstyle);
     }
 }
-//---------------------------------------------------------------------------
+
+//----force column widths for content size ------------------------------------
+
 void __fastcall TFormMain::ActionAutoFit(TObject* Sender)
 {
     BestFitAll(DBGrid1, 0, 24);
 }
-//---------------------------------------------------------------------------
+
+//------- check for program updates ------------------------------------------
+
 void __fastcall TFormMain::actCheckUpdatesExecute(TObject* Sender)
 {
     String Url, InfoText, VersionText, FileName;
@@ -721,39 +807,13 @@ void __fastcall TFormMain::actCheckUpdatesExecute(TObject* Sender)
             ShellExecute(NULL, L"open", FileName.c_str(), NULL, NULL, SW_SHOW);
             Close(); // program terminates here
         }
-        LogWarn("Empty filename."); // huh?
+        LogWarn("Empty filename."); // huh? aborted somehow?
     } else
         LogInfo("Chose not to unstall update.");
 }
 //---------------------------------------------------------------------------
 
-// user selects an active net to display
-
-void __fastcall TFormMain::ActionLiveNet(TObject* Sender)
-{
-    RefreshTimer->Enabled = false; // todo: is this needed?
-    FormActiveNets->ShowModal();
-
-    if (FormActiveNets->ModalResult == mrOk)
-    {
-        ActiveNet = FormActiveNets->FDMemTabNetName->AsString;
-        ActiveServer = FormActiveNets->FDMemTabServer->AsString;
-
-        edNET->Text = ActiveNet;
-        edFreq->Text = FormActiveNets->FDMemTabFrequency->AsString;
-        edBand->Text = FormActiveNets->FDMemTabBand->AsString;
-        edMode->Text = FormActiveNets->FDMemTabMode->AsString;
-        edNetControl->Text = FormActiveNets->FDMemTabNetControl->AsString;
-        edLogger->Text = FormActiveNets->FDMemTabLogger->AsString;
-        edSubscribe->Text = FormActiveNets->FDMemTabSubscriberCount->AsString;
-
-        ActiveDataUpdate();
-    } else if (!ActiveNet.IsEmpty())
-        RefreshTimer->Enabled = true;
-}
-//---------------------------------------------------------------------------
-
-// set sort order for clicked TColumn
+// set sort order for clicked TColumn header --------------------------------
 
 void __fastcall TFormMain::DBGrid1TitleClick(TColumn* Column)
 {
@@ -781,9 +841,9 @@ void __fastcall TFormMain::DBGrid1TitleClick(TColumn* Column)
         Ascending = true;
     }
 }
-//---------------------------------------------------------------------------
 
-// set indicator for current TColumn
+
+// set the sort indicator arrow (or not) for the current TColumn being drawn -----------
 
 void __fastcall TFormMain::DBGrid1SortedField(
     TLabeledDbGrid* Sender, TField* Field, TCBSortOrder& Sorted)
@@ -793,22 +853,110 @@ void __fastcall TFormMain::DBGrid1SortedField(
     else
         Sorted = TCBSortOrder::soNone;
 }
-//---------------------------------------------------------------------------
 
-void __fastcall TFormMain::DBGrid1DrawColumnCell(TObject *Sender, const TRect &Rect, int DataCol, TColumn *Column, TGridDrawState State)
+// --- hilite current 'pointer' record in MoneyGreen color ----------------------
+
+// TODO: make color a config dialog item
+
+void __fastcall TFormMain::DBGrid1DrawColumnCell(
+    TObject* Sender, const TRect& Rect, int DataCol, TColumn* Column, TGridDrawState State)
 
 {
-    // hilite current 'pointer' record in MoneyGreen color
-    if(State.Empty() && !(DBGrid1->HighlightCurrRow && DBGrid1->DrawingCurrentRecord))
+    if (State.Empty() && !(DBGrid1->HighlightCurrRow && DBGrid1->DrawingCurrentRecord))
     {
-        TField *field = FDMemTable1->FieldByName("SerialNo");
-        if(field)
+        TField* field = FDMemTable1->FieldByName("SerialNo");
+        if (field)
         {
-            if(field->AsInteger == Pointer)
-            	DBGrid1->Canvas->Brush->Color = clMoneyGreen;
+            if (field->AsInteger == Pointer)
+                DBGrid1->Canvas->Brush->Color = clMoneyGreen;
         }
     }
     DBGrid1->DefaultDrawColumnCell(Rect, DataCol, Column, State);
 }
-//---------------------------------------------------------------------------
+
+// ---- update gobal display data -------------------------------------------
+
+void __fastcall TFormMain::ShowNetInfo()
+{
+    if (ActiveMode)    // active nets
+    {
+        CurrentNet = FormActiveNets->FDMemTabNetName->AsString;
+        CurrentServer = FormActiveNets->FDMemTabServer->AsString;
+
+        edFreq->Text = FormActiveNets->FDMemTabFrequency->AsString;
+        edBand->Text = FormActiveNets->FDMemTabBand->AsString;
+        edMode->Text = FormActiveNets->FDMemTabMode->AsString;
+        edNetControl->Text = FormActiveNets->FDMemTabNetControl->AsString;
+        edLogger->Text = FormActiveNets->FDMemTabLogger->AsString;
+        edStart->Text = FormActiveNets->FDMemTabDate->AsString;
+
+    } else  // past nets
+    {
+        CurrentNet = FormPastNets->FDMemTabNetName->AsString;
+        CurrentServer = FormPastNets->FDMemTabServer->AsString;
+        CurrentNetID = FormPastNets->FDMemTabNetID->AsString;
+
+        edFreq->Text = FormPastNets->FDMemTabFrequency->AsString;
+        edBand->Text = FormPastNets->FDMemTabBand->AsString;
+        edMode->Text = FormPastNets->FDMemTabMode->AsString;
+        edNetControl->Text = FormPastNets->FDMemTabNetControl->AsString;
+        edLogger->Text = FormPastNets->FDMemTabLogger->AsString;
+        edStart->Text = FormPastNets->FDMemTabDate->AsString;
+
+        edClosed->Text = FormPastNets->FDMemTabClosedAt->AsString;
+        edInactivity->Text = FormPastNets->FDMemTabInactivityTimer->AsString;
+        dbcbAsassinated->Checked = FormPastNets->FDMemTabAssassinated->AsBoolean;
+        edAIMUpdate->Text = FormPastNets->FDMemTabUpdateInterval->AsString;
+        cbAIM->Checked = FormPastNets->FDMemTabAIM->AsBoolean;
+        edLastActivity->Text = FormPastNets->FDMemTabLastActivity->AsString;
+        edSourceIP->Text = FormPastNets->FDMemTabsrcIP->AsString;
+    }
+    edNET->Text = CurrentNet;
+    edNetID->Text = CurrentNetID;
+
+    // following fields only used by past nets - hide if in active mode
+
+    edClosed->Visible = !ActiveMode;
+    edNetID->Visible = !ActiveMode;
+    edInactivity->Visible = !ActiveMode;
+    edAIMUpdate->Visible = !ActiveMode;
+    edLastActivity->Visible = !ActiveMode;
+    cbAIM->Visible = !ActiveMode;
+    dbcbAsassinated->Visible = !ActiveMode;
+    edSourceIP->Visible = !ActiveMode;
+
+    PanelLeft->Invalidate();
+}
+
+//---- user selects an active net to display ------------------------------------
+
+void __fastcall TFormMain::ActionLiveNet(TObject* Sender)
+{
+    RefreshTimer->Enabled = false; // todo: is this needed?
+    FormActiveNets->ShowModal();
+
+    if (FormActiveNets->ModalResult == mrOk)
+    {
+        ActiveMode = true;
+        ShowNetInfo();
+        CheckinData();
+    } else if (!CurrentNet.IsEmpty() && ActiveMode)
+        RefreshTimer->Enabled = true;
+}
+
+//---- user selects a 'past' net to display ------------------------------------
+
+void __fastcall TFormMain::ActPastNetsExecute(TObject* Sender)
+{
+    RefreshTimer->Enabled = false;  // always
+
+    FormPastNets->ShowModal();
+    if (FormPastNets->ModalResult == mrOk)
+    {
+        ActiveMode = false;
+        ShowNetInfo();
+        CheckinData();
+    } else if (ActiveMode && !CurrentNet.IsEmpty())  // user backed out and so stays on prior active net
+        RefreshTimer->Enabled = true;
+}
 

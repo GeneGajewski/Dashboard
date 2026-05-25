@@ -22,7 +22,7 @@ object FormMain: TFormMain
     Left = 0
     Top = 27
     Width = 1201
-    Height = 193
+    Height = 207
     Align = alTop
     BevelOuter = bvNone
     Constraints.MinHeight = 193
@@ -34,8 +34,8 @@ object FormMain: TFormMain
     object PanelLeft: TPanel
       Left = 0
       Top = 0
-      Width = 553
-      Height = 193
+      Width = 664
+      Height = 207
       Align = alLeft
       BevelOuter = bvNone
       Caption = 'PanelLeft'
@@ -43,71 +43,6 @@ object FormMain: TFormMain
       Constraints.MinWidth = 553
       ShowCaption = False
       TabOrder = 0
-      object Label1: TLabel
-        Left = 16
-        Top = 19
-        Width = 19
-        Height = 15
-        Caption = 'Net'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label2: TLabel
-        Left = 16
-        Top = 75
-        Width = 23
-        Height = 15
-        Caption = 'Freq'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label3: TLabel
-        Left = 112
-        Top = 75
-        Width = 27
-        Height = 15
-        Caption = 'Band'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label4: TLabel
-        Left = 208
-        Top = 75
-        Width = 31
-        Height = 15
-        Caption = 'Mode'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label5: TLabel
-        Left = 352
-        Top = 75
-        Width = 61
-        Height = 15
-        Caption = 'Net Control'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
       object Label6: TLabel
         Left = 352
         Top = 125
@@ -121,105 +56,260 @@ object FormMain: TFormMain
         Font.Style = [fsBold]
         ParentFont = False
       end
-      object Label7: TLabel
+      object edNET: TLabeledEditEx
         Left = 16
-        Top = 125
-        Width = 56
-        Height = 15
-        Caption = 'Subcribers'
-        Font.Charset = ANSI_CHARSET
+        Top = 26
+        Width = 397
+        Height = 23
+        TabStop = False
+        Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -12
         Font.Name = 'Segoe UI Semibold'
-        Font.Style = [fsBold]
+        Font.Style = []
         ParentFont = False
-      end
-      object edFreq: TEdit
-        Left = 16
-        Top = 96
-        Width = 81
-        Height = 23
-        Hint = 'radio frequency'
-        TabStop = False
         ReadOnly = True
         TabOrder = 0
+        BoundCaption = 'Net'
+        BoundLabel.Left = 16
+        BoundLabel.Top = 10
+        BoundLabel.Width = 19
+        BoundLabel.Height = 15
+        BoundLabel.Color = clBtnFace
+        BoundLabel.ParentColor = False
       end
-      object edBand: TEdit
-        Left = 112
-        Top = 96
+      object edFreq: TLabeledEditEx
+        Left = 16
+        Top = 72
         Width = 81
         Height = 23
-        Hint = 'radio band'
         TabStop = False
-        ReadOnly = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 1
+        BoundCaption = 'Frequency'
+        BoundLabel.Left = 16
+        BoundLabel.Top = 56
+        BoundLabel.Width = 55
+        BoundLabel.Height = 15
       end
-      object edMode: TEdit
-        Left = 199
-        Top = 96
+      object edBand: TLabeledEditEx
+        Left = 111
+        Top = 72
         Width = 81
         Height = 23
-        Hint = 'modulation mode'
         TabStop = False
-        ReadOnly = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 2
+        BoundCaption = 'Band'
+        BoundLabel.Left = 111
+        BoundLabel.Top = 56
+        BoundLabel.Width = 27
+        BoundLabel.Height = 15
       end
-      object edNetControl: TEdit
-        Left = 352
-        Top = 96
-        Width = 185
+      object edMode: TLabeledEditEx
+        Left = 207
+        Top = 72
+        Width = 69
         Height = 23
-        Hint = 'Network Controller callsign'
-        HelpKeyword = 'Application'
         TabStop = False
-        ReadOnly = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 3
+        BoundCaption = 'Mode'
+        BoundLabel.Left = 207
+        BoundLabel.Top = 56
+        BoundLabel.Width = 31
+        BoundLabel.Height = 15
       end
-      object edLogger: TEdit
-        Left = 352
-        Top = 144
+      object edNetControl: TLabeledEditEx
+        Left = 16
+        Top = 118
         Width = 185
         Height = 23
-        Hint = 'net logger and software version'
-        HelpType = htKeyword
-        HelpKeyword = 'LICENSE'
         TabStop = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 4
+        BoundCaption = 'Net Control'
+        BoundLabel.Left = 16
+        BoundLabel.Top = 102
+        BoundLabel.Width = 62
+        BoundLabel.Height = 15
       end
-      object edSubscribe: TEdit
-        Left = 16
-        Top = 144
-        Width = 81
+      object edLogger: TLabeledEditEx
+        Left = 228
+        Top = 118
+        Width = 185
         Height = 23
-        Hint = 'Number of Netlogger clients'
         TabStop = False
-        ReadOnly = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 5
+        BoundCaption = 'Logger'
+        BoundLabel.Left = 228
+        BoundLabel.Top = 102
+        BoundLabel.Width = 37
+        BoundLabel.Height = 15
       end
-      object btnNets: TButton
-        Left = 462
-        Top = 39
-        Width = 75
-        Height = 25
-        Action = actLiveNet
-        TabOrder = 6
-      end
-      object edNET: TEdit
+      object edStart: TLabeledEditEx
         Left = 16
-        Top = 40
-        Width = 416
+        Top = 164
+        Width = 185
         Height = 23
-        Hint = 'Selected '#39'net'#39
         TabStop = False
-        ReadOnly = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 6
+        BoundCaption = 'Started'
+        BoundLabel.Left = 16
+        BoundLabel.Top = 148
+        BoundLabel.Width = 37
+        BoundLabel.Height = 15
+      end
+      object edClosed: TLabeledEditEx
+        Left = 228
+        Top = 164
+        Width = 185
+        Height = 23
+        TabStop = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 7
+        Visible = False
+        BoundCaption = 'Closed'
+        BoundLabel.Left = 228
+        BoundLabel.Top = 148
+        BoundLabel.Width = 36
+        BoundLabel.Height = 15
+      end
+      object edNetID: TLabeledEditEx
+        Left = 439
+        Top = 26
+        Width = 114
+        Height = 23
+        TabStop = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 8
+        Visible = False
+        BoundCaption = 'Net ID'
+        BoundLabel.Left = 439
+        BoundLabel.Top = 10
+        BoundLabel.Width = 33
+        BoundLabel.Height = 15
+      end
+      object edSourceIP: TLabeledEditEx
+        Left = 291
+        Top = 72
+        Width = 122
+        Height = 23
+        TabStop = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 9
+        BoundCaption = 'Source IP'
+        BoundLabel.Left = 291
+        BoundLabel.Top = 56
+        BoundLabel.Width = 49
+        BoundLabel.Height = 15
+      end
+      object edLastActivity: TLabeledEditEx
+        Left = 439
+        Top = 164
+        Width = 185
+        Height = 23
+        TabStop = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 10
+        Visible = False
+        BoundCaption = 'Last Activity'
+        BoundLabel.Left = 439
+        BoundLabel.Top = 148
+        BoundLabel.Width = 64
+        BoundLabel.Height = 15
+      end
+      object edInactivity: TLabeledEditEx
+        Left = 439
+        Top = 72
+        Width = 114
+        Height = 23
+        TabStop = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Segoe UI Semibold'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 11
+        Visible = False
+        BoundCaption = 'Inactivity  Timer'
+        BoundLabel.Left = 439
+        BoundLabel.Top = 56
+        BoundLabel.Width = 85
+        BoundLabel.Height = 15
+      end
+      object cbAIM: TCheckBox
+        Left = 559
+        Top = 121
+        Width = 97
+        Height = 17
+        TabStop = False
+        Caption = 'AIM'
+        TabOrder = 12
+        Visible = False
       end
     end
     object PanelRight: TPanel
       Left = 852
       Top = 0
       Width = 349
-      Height = 193
+      Height = 207
       Align = alRight
       BevelOuter = bvNone
       Caption = 'RightPanel'
@@ -290,6 +380,35 @@ object FormMain: TFormMain
         end
       end
     end
+    object edAIMUpdate: TLabeledEditEx
+      Left = 439
+      Top = 118
+      Width = 114
+      Height = 23
+      TabStop = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      Visible = False
+      BoundCaption = 'AIM Update'
+      BoundLabel.Left = 439
+      BoundLabel.Top = 102
+      BoundLabel.Width = 63
+      BoundLabel.Height = 15
+    end
+    object dbcbAsassinated: TDBCheckBox
+      Left = 559
+      Top = 75
+      Width = 117
+      Height = 17
+      Caption = 'Asassinated'
+      TabOrder = 3
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -305,7 +424,6 @@ object FormMain: TFormMain
     Width = 1201
     Height = 27
     HelpType = htKeyword
-    UseSystemFont = False
     ActionManager = ActionManager1
     Caption = 'ActionMainMenuBar1'
     Color = clMenuBar
@@ -314,28 +432,34 @@ object FormMain: TFormMain
     ColorMap.BtnSelectedFont = clBlack
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
+    Font.Color = clWindowText
     Font.Height = -13
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentShowHint = False
-    ShowHint = False
+    ShowHint = True
     Spacing = 0
   end
   object DBGrid1: TLabeledDbGrid
     Left = 0
-    Top = 220
+    Top = 234
     Width = 1201
-    Height = 450
+    Height = 436
     Align = alClient
     DataSource = DataSource1
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI Semibold'
+    Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgRowSelect, dgConfirmDelete, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
     TabOrder = 3
     OnDrawColumnCell = DBGrid1DrawColumnCell
     OnDblClick = DBGrid1DblClick
     OnTitleClick = DBGrid1TitleClick
     BoundLabel.Left = 0
-    BoundLabel.Top = 204
+    BoundLabel.Top = 218
     BoundLabel.Width = 3
     BoundLabel.Height = 15
     OnSortedField = DBGrid1SortedField
@@ -514,14 +638,19 @@ object FormMain: TFormMain
             Items = <
               item
                 Action = actLiveNet
+                ShortCut = 16449
+              end
+              item
+                Action = ActPastNets
+                ShortCut = 16464
               end>
             Caption = '&Nets'
           end>
         ActionBar = ActionMainMenuBar1
       end>
-    Left = 680
-    Top = 88
-    StyleName = 'Platform Default'
+    Left = 869
+    Top = 421
+    StyleName = 'XP Style'
     object actExportCSV: TAction
       Category = 'File'
       Caption = 'Export &CSV'
@@ -569,8 +698,15 @@ object FormMain: TFormMain
     end
     object actLiveNet: TAction
       Category = 'Nets'
-      Caption = '&Live Net'
+      Caption = '&Active Nets'
+      ShortCut = 16449
       OnExecute = ActionLiveNet
+    end
+    object ActPastNets: TAction
+      Category = 'Nets'
+      Caption = '&Past Nets'
+      ShortCut = 16464
+      OnExecute = ActPastNetsExecute
     end
   end
   object FDMemTable1: TFDMemTable

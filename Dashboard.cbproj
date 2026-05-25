@@ -269,7 +269,13 @@
             <Form>FormActiveNets</Form>
             <FormType>dfm</FormType>
             <DependentOn>FormActive.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="FormPast.cpp">
+            <Form>FormPastNets</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>FormPast.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
         </CppCompile>
         <CppCompile Include="MainForm.cpp">
             <Form>FormMain</Form>
@@ -305,14 +311,11 @@
             <DependentOn>XMLNets.h</DependentOn>
             <BuildOrder>14</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\XForm\Logger.cpp">
-            <DependentOn>..\XForm\Logger.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
-        <FormResources Include="UpdateInfo.dfm"/>
         <FormResources Include="Preferences.dfm"/>
-        <FormResources Include="ABOUT.dfm"/>
         <FormResources Include="MainForm.dfm"/>
+        <FormResources Include="UpdateInfo.dfm"/>
+        <FormResources Include="ABOUT.dfm"/>
+        <FormResources Include="FormPast.dfm"/>
         <FormResources Include="FormActive.dfm"/>
         <FormResources Include="Download.dfm"/>
         <BuildConfiguration Include="Base">

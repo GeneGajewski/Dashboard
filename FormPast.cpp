@@ -1,10 +1,27 @@
-﻿//---------------------------------------------------------------------------
+﻿/*
+ *   Copyright (C) 2026 Gene Gajewski WG5ENE
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
 
 #include "FormPast.h"
-#include "Logger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "Vcl.LabeledDBCtrls"
@@ -20,8 +37,7 @@ TFormPastNets* FormPastNets;
 #include <REST.Client.hpp>
 #include <System.DateUtils.hpp>
 #include "xmlnets.h"
-
-using namespace LogSys;
+#include "log.h"
 
 // where to get REST data
 
@@ -36,14 +52,14 @@ void __fastcall TFormPastNets::BestFitDBGridColumn(
 {
     if (!Grid || !Col || !Col->Field)
     {
-        Log(logERROR, "Grid || Col || Col->Field is null");
+        LogError("Grid || Col || Col->Field is null");
         return;
     }
 
     TDataSet* DS = Col->Field->DataSet;
     if (!DS || !DS->Active)
     {
-        Log(logERROR, "!DS || DS->Active = false");
+        LogError("!DS || DS->Active = false");
         return;
     }
 
@@ -105,7 +121,7 @@ __fastcall TFormPastNets::TFormPastNets(TComponent* Owner) : TForm(Owner) {}
 
 void __fastcall TFormPastNets::FormCreate(TObject* Sender)
 {
-    Log(logINFO, "Initializing TFormPastNets");
+    LogInfo("Initializing TFormPastNets");
     FDMemTab->Open();
 }
 //---------------------------------------------------------------------------
@@ -115,9 +131,10 @@ void __fastcall TFormPastNets::LoadPastNets(int Interval)
 {
     try
     {
-        Log(logINFO, String().sprintf(L"LoadPastNets: %d days", Interval));
+        LogInfo(String().sprintf(L"LoadPastNets: %d days", Interval));
         NetGrid->Enabled = false;
         ActivityIndicator1->Animate = true;
+
 
         // set REST request up
 
@@ -125,18 +142,39 @@ void __fastcall TFormPastNets::LoadPastNets(int Interval)
         RESTRequest->Resource = ResourceStr;
         RESTRequest->Params->Clear();
         RESTRequest->Params->AddItem("Interval", IntToStr(Interval), pkGETorPOST);
+
+        String Like = edLike->Text.Trim();  // optional LIKE name filter
+        if(!Like.IsEmpty())
+            RESTRequest->Params->AddItem("NetNameLike", Like, pkGETorPOST);
+
+
         RESTRequest->Response = RESTResponse;
 
         // use separate thread for completion lambda to keep UI happy
+        LogInfo("FormPast RESTRequest");
 
         RESTRequest->ExecuteAsync([this]() {
+            LogInfo("FormPast Completion Handler");
             int Status = RESTResponse->StatusCode;
             if (Status != 200)
+            {
+                LogWarn("Status Code: " + IntToStr(Status));
                 return; // TODO: expound on this
+            }
 
             try
             {
                 // post a record to the mem table
+               FDMemTab->DisableControls();
+
+                if(FDMemTab->RecordCount > 0)
+                {
+                    LogInfo("Deleteing " + IntToStr(FDMemTab->RecordCount) + " records");
+                    FDMemTab->EmptyDataSet();
+                }
+
+                LogInfo("Building records");
+                FDMemTab->First();
 
                 auto callback = [&](XML_Nets_Machine::NamedValues& vals) {
                     FDMemTab->Append();
@@ -162,6 +200,7 @@ void __fastcall TFormPastNets::LoadPastNets(int Interval)
                 FDMemTab->BeginBatch();
                 machine.Execute(RESTResponse->RawBytes);
                 FDMemTab->EndBatch();
+                LogInfo(IntToStr(FDMemTab->RecordCount) + " records processed");
 
             } catch (Exception& e)
             {
@@ -170,11 +209,11 @@ void __fastcall TFormPastNets::LoadPastNets(int Interval)
             }
 
             TThread::Queue(nullptr, [this]() { PostProcessing(); });
-        }, false);
+        }, true);
 
     } catch (Exception& e)
     {
-        Log(logERROR, e.Message);
+        LogExcept(&e);
     }
 }
 //---------------------------------------------------------------------------
@@ -182,18 +221,21 @@ void __fastcall TFormPastNets::LoadPastNets(int Interval)
 
 void __fastcall TFormPastNets::PostProcessing()
 {
+    LogInfo("FormPast post process");
+    Label1->Caption = IntToStr(FDMemTab->RecordCount) + " records.";
     try
     {
         for (int x = 0; x < NetGrid->Columns->Count; x++)
-            BestFitDBGridColumn(NetGrid, NetGrid->Columns->Items[x], 0, 24);
-
+            BestFitDBGridColumn(NetGrid, NetGrid->Columns->Items[x], 200, 24);
     } catch (Exception& e)
     {
-        Log(logERROR, e.Message);
+        LogExcept(&e);
     }
     NetGrid->Enabled = true;
     ActivityIndicator1->Animate = false;
     FocusControl(NetGrid);
+    LogInfo("Post process complete");
+    FDMemTab->EnableControls();
 }
 //---------------------------------------------------------------------------
 
@@ -202,11 +244,15 @@ void __fastcall TFormPastNets::FormShow(TObject* Sender)
     try
     {
         if (FDMemTab->IsEmpty())
-            LoadPastNets(LabeledSpinEdit1->Value); // todo: store this value in registry...
+        {
+            NetGrid->Enabled = false;
+            Application->ProcessMessages();
+            LoadPastNets(LabeledSpinEdit1->Value);
+        }
 
     } catch (Exception& e)
     {
-        Log(logERROR, e.Message);
+        LogExcept(&e);
     }
 }
 //---------------------------------------------------------------------------
@@ -267,7 +313,6 @@ void __fastcall TFormPastNets::NetGridSortedField(
 
 void __fastcall TFormPastNets::BitBtnRefreshClick(TObject* Sender)
 {
-    FDMemTab->EmptyDataSet();
     LoadPastNets(LabeledSpinEdit1->Value);
 }
 
@@ -301,4 +346,5 @@ void __fastcall TFormPastNets::FilterEditChange(TObject* Sender)
     FDMemTab->Filter = FilterString(FilterEdit->Text);
 }
 //---------------------------------------------------------------------------
+
 

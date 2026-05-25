@@ -22,13 +22,15 @@
 
 #ifndef _NOLOG
 
-#define ENTERFUNC CodeSite->EnterMethod(__FUNC__)
-#define EXITFUNC CodeSite->ExitMethod(__FUNC__)
-#define LogInfo(str) CodeSite->Send(csmInfo, (UnicodeString)str)
-#define LogNameVal(__name, __val) CodeSite->Send(csmInfo, __name + " = " + __val)
-#define LogWarn(str) CodeSite->Send(csmWarning, (UnicodeString)str)
-#define LogExcept(ex) CodeSite->SendException(__FUNC__, ex)
-#define LogError(str) CodeSite->Send(csmError, (UnicodeString) str)
+#define FILELINE String(__FILE__) + ":" + __LINE__ + " " + __FUNC__
+
+#define ENTERFUNC CodeSite->EnterMethod(FILELINE)
+#define EXITFUNC CodeSite->ExitMethod(FILELINE)
+#define LogInfo(str) CodeSite->Send(csmInfo, FILELINE + " " + str)
+#define LogWarn(str) CodeSite->Send(csmWarning, FILELINE + " " + str)
+#define LogExcept(ex) CodeSite->SendException(FILELINE, ex)
+#define LogError(str) CodeSite->Send(csmError, FILELINE + " " + str)
+#define LogNameVal(__name, __val) CodeSite->Send(csmInfo, FILELINE + " " + __name + " = " + __val)
 
 #else
 
@@ -38,6 +40,7 @@
 #define LogWarn(str)
 #define LogExcept(ex)
 #define LogError(str)
+#define LogNameVal(__name, __val)
 
 #endif
 

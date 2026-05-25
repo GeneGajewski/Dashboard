@@ -26,8 +26,7 @@
 #pragma resource "*.dfm"
 TAboutBox* AboutBox;
 //---------------------------------------------------------------------
-__fastcall TAboutBox::TAboutBox(TComponent* AOwner)
-    : TForm(AOwner)
+__fastcall TAboutBox::TAboutBox(TComponent* AOwner) : TForm(AOwner)
 {
     Utility::WinVersionQuery ver;
     Utility::VerStr verstr(ver.GetStr("FileVersion"));

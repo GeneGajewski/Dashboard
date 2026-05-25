@@ -4,7 +4,7 @@
 #ifndef MainFormH
 #define MainFormH
 /*
- *   Copyright (C) 2023 Gene Gajewski WG5ENE
+ *   Copyright (C) 2023, 2026 Gene Gajewski WG5ENE
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 
 //---------------------------------------------------------------------------
-#include <Vcl.ActnCtrls.hpp>
+#include "Vcl.LabeledCtrls.hpp"
 #include "Vcl.LabeledDBCtrls.hpp"
 #include <Data.Bind.Components.hpp>
 #include <Data.Bind.ObjectScope.hpp>
@@ -43,6 +43,7 @@
 #include <System.Classes.hpp>
 #include <System.Net.HttpClient.hpp>
 #include <System.Net.URLClient.hpp>
+#include <Vcl.ActnCtrls.hpp>
 #include <Vcl.ActnList.hpp>
 #include <Vcl.ActnMan.hpp>
 #include <Vcl.ActnMenus.hpp>
@@ -52,42 +53,12 @@
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Grids.hpp>
-#include <Vcl.PlatformDefaultStyleActnCtrls.hpp>
 #include <Vcl.StdActns.hpp>
 #include <Vcl.StdCtrls.hpp>
-#include <Vcl.ActnMenus.hpp>
-#include "Vcl.LabeledDBCtrls.hpp"
-#include <Data.Bind.Components.hpp>
-#include <Data.Bind.ObjectScope.hpp>
-#include <REST.Client.hpp>
-#include <Vcl.Grids.hpp>
-#include <Vcl.StdActns.hpp>
 #include <Vcl.ToolWin.hpp>
-#include <Data.DB.hpp>
-#include <FireDAC.Comp.Client.hpp>
-#include <FireDAC.Comp.DataSet.hpp>
-#include <FireDAC.DApt.Intf.hpp>
-#include <FireDAC.DatS.hpp>
-#include <FireDAC.Phys.Intf.hpp>
-#include <FireDAC.Stan.Error.hpp>
-#include <FireDAC.Stan.Intf.hpp>
-#include <FireDAC.Stan.Option.hpp>
-#include <FireDAC.Stan.Param.hpp>
-#include <REST.Types.hpp>
-#include <System.Actions.hpp>
-#include <System.Classes.hpp>
-#include <System.Net.HttpClient.hpp>
-#include <System.Net.URLClient.hpp>
-#include <Vcl.ActnCtrls.hpp>
-#include <Vcl.ActnList.hpp>
-#include <Vcl.ActnMan.hpp>
-#include <Vcl.ComCtrls.hpp>
-#include <Vcl.Controls.hpp>
-#include <Vcl.DBGrids.hpp>
-#include <Vcl.Dialogs.hpp>
-#include <Vcl.ExtCtrls.hpp>
-#include <Vcl.PlatformDefaultStyleActnCtrls.hpp>
-#include <Vcl.StdCtrls.hpp>
+#include <Vcl.XPStyleActnCtrls.hpp>
+#include <Vcl.ControlList.hpp>
+#include <Vcl.DBCtrls.hpp>
 #include <map>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm
@@ -96,22 +67,8 @@ class TFormMain : public TForm
 	TTimer* ClockTimer;
 	TPanel* PanelTop;
 	TPanel* PanelLeft;
-	TLabel* Label1;
-	TLabel* Label2;
-	TLabel* Label3;
-	TLabel* Label4;
-	TLabel* Label5;
 	TLabel* Label6;
-	TLabel* Label7;
-	TEdit* edFreq;
-	TEdit* edBand;
-	TEdit* edMode;
-	TEdit* edNetControl;
-	TEdit* edLogger;
-	TEdit* edSubscribe;
-	TButton* btnNets;
 	TDataSource* DataSource1;
-	TEdit* edNET;
 	TPanel* PanelRight;
 	TPanel* PanelDate;
 	TPanel* PanelZone;
@@ -136,6 +93,22 @@ class TFormMain : public TForm
 	TAction *actLiveNet;
 	TFDMemTable *FDMemTable1;
 	TLabeledDbGrid *DBGrid1;
+	TAction *ActPastNets;
+	TLabeledEditEx *edNET;
+	TLabeledEditEx *edFreq;
+	TLabeledEditEx *edBand;
+	TLabeledEditEx *edMode;
+	TLabeledEditEx *edNetControl;
+	TLabeledEditEx *edLogger;
+	TLabeledEditEx *edStart;
+	TLabeledEditEx *edClosed;
+	TLabeledEditEx *edNetID;
+	TLabeledEditEx *edSourceIP;
+	TLabeledEditEx *edLastActivity;
+	TLabeledEditEx *edInactivity;
+	TLabeledEditEx *edAIMUpdate;
+	TCheckBox *cbAIM;
+	TDBCheckBox *dbcbAsassinated;
 	void __fastcall MasterTick(TObject* Sender);
 	void __fastcall DBGrid1DblClick(TObject* Sender);
 	void __fastcall FormClose(TObject* Sender, TCloseAction& Action);
@@ -151,17 +124,21 @@ class TFormMain : public TForm
 	void __fastcall DBGrid1TitleClick(TColumn *Column);
 	void __fastcall DBGrid1SortedField(TLabeledDbGrid *Sender, TField *Field, TCBSortOrder &Sorted);
 	void __fastcall DBGrid1DrawColumnCell(TObject *Sender, const TRect &Rect, int DataCol, TColumn *Column, TGridDrawState State);
+	void __fastcall ActPastNetsExecute(TObject *Sender);
 
   private: // User declarations
 	void __fastcall UpdateClockDisplay();
 
-    String ActiveNet;
-    String ActiveServer;
+    String CurrentNet;
+    String CurrentServer;
+    String CurrentNetID;
+    bool ActiveMode;
 
 	void __fastcall PostProcessing();
 	void __fastcall SaveDefaults();
 	void __fastcall LoadDefaults();
-	void __fastcall ActiveDataUpdate();
+	void __fastcall CheckinData();
+    void __fastcall PastDataUpdate();
 	int RefreshRate = 20;
 	void __fastcall Shell(String cmd);
 	void __fastcall ExportCSV(String Filename);
@@ -170,6 +147,8 @@ class TFormMain : public TForm
     void __fastcall BestFitDBGridColumn(
     TDBGrid* Grid, TColumn* Col, int MaxRowsToScan /*0 = all*/, int Padding /*pixels*/);
     void __fastcall BestFitAll(TDBGrid* Grid, int maxrows = 0, int padding = 0);
+    void __fastcall ShowNetInfo();
+
 
 	HANDLE ClockFontHandle;
     String SortField;

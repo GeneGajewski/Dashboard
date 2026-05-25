@@ -1,4 +1,22 @@
-﻿//---------------------------------------------------------------------------
+﻿/*
+ *   Copyright (C) 2026 Gene Gajewski WG5ENE
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -107,23 +125,25 @@ void __fastcall TFormActiveNets::FormCreate(TObject* Sender)
 
 //---------------------------------------------------------------------------
 
-// loads the DBgrid with the list of active nets given by the net logger server
+// loads the FDMemTable with a list of active nets from the net logger server
 
 void TFormActiveNets::LoadActiveNets()
 {
     Application->ProcessMessages();
     try
     {
-        // set it all up
+        // set REST stuff all up
         RESTClient->BaseURL = BaseUrl;
         RESTRequest->Client = RESTClient;
         RESTRequest->Response = RESTResponse;
         RESTRequest->Resource = ResourceStr;
 
-        // run in background thread
+        LogInfo("FrmActive ExecuteAsync");
 
+        // run request in a background thread - let completion handler run in bg also
         RESTRequest->ExecuteAsync(
             [this]() {
+                LogInfo("FrmActive CompletionHandler");
                 int Status = RESTResponse->StatusCode;
                 if (Status != 200)
                 {
@@ -173,7 +193,8 @@ void TFormActiveNets::LoadActiveNets()
                     FDMemTab->EndBatch();
                 }
 
-                TThread::Queue(nullptr, [this]() { PostProcessing(); });
+                // do final gui stuff in the main thread
+                TThread::Queue(nullptr, [this]() { PostProcessActive(); });
             },
             false);
 
@@ -183,10 +204,11 @@ void TFormActiveNets::LoadActiveNets()
     }
 }
 
-// adjust columns and re-enable grid
+// adjust columns and re-enable grid after LoadActiveNets thread runs
 
-void __fastcall TFormActiveNets::PostProcessing()
+void __fastcall TFormActiveNets::PostProcessActive()
 {
+    LogInfo("FrmActive Post Process");
     // set DBGrid column widths to match content
     for (int x = 0; x < NetGrid->Columns->Count; x++)
         BestFitDBGridColumn(NetGrid, NetGrid->Columns->Items[x], 0, 24);
@@ -200,19 +222,21 @@ void __fastcall TFormActiveNets::PostProcessing()
 
 void __fastcall TFormActiveNets::FormShow(TObject* Sender)
 {
-    // need to refresh?
+    // do I need to refresh?
 
     try
-    {
+    { // get new data
         if (FDMemTab->RecordCount == 0 || SecondsBetween(GetTime(), LastCheck) > NETLIST_SECONDS)
         {
-            NetGrid->Visible = false;
             ActivityIndicator1->Animate = true;
+
+            NetGrid->Visible = false;
             NetGrid->Enabled = false;
+
             LoadActiveNets();
             LastCheck = GetTime(); // note the time
         } else
-            FocusControl(NetGrid);
+            FocusControl(NetGrid); // keep using current data
     } catch (Exception& e)
     {
         LogExcept(&e);
@@ -275,6 +299,23 @@ void __fastcall TFormActiveNets::NetGridSortedField(
     else
         Sorted = TCBSortOrder::soNone;
 }
+
+void __fastcall TFormActiveNets::CenterIndicator()
+{
+    int _Left, _Top;
+    _Left = (ClientWidth / 2) - (ActivityIndicator1->Width / 2);
+    _Top = (ClientHeight / 2) - (ActivityIndicator1->Height / 2);
+
+    ActivityIndicator1->Left = _Left;
+    ActivityIndicator1->Top = _Top;
+
+}
+
 //---------------------------------------------------------------------------
 
+void __fastcall TFormActiveNets::FormResize(TObject *Sender)
+{
+    CenterIndicator();
+}
+//---------------------------------------------------------------------------
 

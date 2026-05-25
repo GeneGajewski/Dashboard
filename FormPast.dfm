@@ -35,7 +35,7 @@ object FormPastNets: TFormPastNets
       OnClick = BitBtnOkClick
     end
     object BitBtnCancel: TBitBtn
-      Left = 109
+      Left = 111
       Top = 23
       Width = 75
       Height = 25
@@ -44,61 +44,88 @@ object FormPastNets: TFormPastNets
       TabOrder = 1
     end
     object Rightside: TPanel
-      Left = 749
+      Left = 463
       Top = 0
-      Width = 278
+      Width = 564
       Height = 69
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
-      object ActivityIndicator1: TActivityIndicator
-        Left = 93
-        Top = 21
-        IndicatorType = aitRefresh
+      DesignSize = (
+        564
+        69)
+      object Label1: TLabel
+        Left = 19
+        Top = 29
+        Width = 51
+        Height = 15
+        Caption = '0 Records'
       end
       object LabeledSpinEdit1: TLabeledSpinEdit
-        Left = 212
-        Top = 23
-        Width = 56
+        Left = 290
+        Top = 26
+        Width = 66
         Height = 24
-        MaxValue = 90
+        Anchors = [akTop, akRight]
+        MaxValue = 360
         MinValue = 1
-        TabOrder = 1
-        Value = 30
+        TabOrder = 0
+        Value = 7
         BoundCaption = 'Days'
-        BoundLabel.Left = 212
-        BoundLabel.Top = 7
+        BoundLabel.Left = 290
+        BoundLabel.Top = 10
         BoundLabel.Width = 25
         BoundLabel.Height = 15
       end
       object BitBtnRefresh: TBitBtn
-        Left = 131
-        Top = 23
-        Width = 75
+        Left = 199
+        Top = 25
+        Width = 85
         Height = 25
+        Anchors = [akTop, akRight]
         Caption = 'Refresh'
         ImageIndex = 0
         Images = ImageList1
-        TabOrder = 2
+        TabOrder = 1
         OnClick = BitBtnRefreshClick
+      end
+      object edLike: TLabeledEditEx
+        Left = 362
+        Top = 26
+        Width = 188
+        Height = 23
+        Anchors = [akTop, akRight]
+        TabOrder = 2
+        OnChange = FilterEditChange
+        BoundCaption = 'Name LIKE Query (optional)'
+        BoundLabel.Left = 362
+        BoundLabel.Top = 10
+        BoundLabel.Width = 147
+        BoundLabel.Height = 15
+      end
+      object ActivityIndicator1: TActivityIndicator
+        Left = 146
+        Top = 18
+        Anchors = [akTop, akRight]
+        IndicatorType = aitRefresh
       end
     end
     object FilterEdit: TLabeledEditEx
-      Left = 199
-      Top = 25
+      Left = 204
+      Top = 26
       Width = 178
       Height = 23
       TabOrder = 3
       OnChange = FilterEditChange
-      BoundCaption = 'Filter'
-      BoundLabel.Left = 199
-      BoundLabel.Top = 9
-      BoundLabel.Width = 26
+      BoundCaption = 'Local Filter'
+      BoundLabel.Left = 204
+      BoundLabel.Top = 10
+      BoundLabel.Width = 57
       BoundLabel.Height = 15
     end
     object CheckBox1: TCheckBox
-      Left = 383
-      Top = 28
+      Left = 388
+      Top = 29
       Width = 69
       Height = 17
       Caption = 'Enable'
@@ -141,15 +168,17 @@ object FormPastNets: TFormPastNets
     Top = 16
     Width = 995
     Height = 246
+    TabStop = False
     Align = alClient
     DataSource = DataSource4
-    Options = [dgTitles, dgColumnResize, dgRowSelect, dgConfirmDelete, dgTitleClick, dgTitleHotTrack]
+    Options = [dgTitles, dgColumnResize, dgRowSelect, dgTitleClick, dgTitleHotTrack]
     TabOrder = 4
     OnTitleClick = NetGridTitleClick
     BoundLabel.Left = 16
     BoundLabel.Top = 0
     BoundLabel.Width = 3
     BoundLabel.Height = 15
+    AlternateRowColor = False
     OnSortedField = NetGridSortedField
     ColMoving = False
     Columns = <
@@ -163,51 +192,43 @@ object FormPastNets: TFormPastNets
         Expanded = False
         FieldName = 'AltNetName'
         Title.Caption = 'Alt Name'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NetControl'
         Title.Caption = 'Net Control'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Frequency'
         Title.Caption = 'Freq'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Logger'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Date'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Mode'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Band'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Server'
-        Width = 64
         Visible = True
       end
       item
@@ -219,7 +240,7 @@ object FormPastNets: TFormPastNets
       item
         Expanded = False
         FieldName = 'AIM'
-        Width = 64
+        ReadOnly = True
         Visible = True
       end
       item
@@ -232,14 +253,12 @@ object FormPastNets: TFormPastNets
         Expanded = False
         FieldName = 'srcIP'
         Title.Caption = 'IP'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'LastActivity'
         Title.Caption = 'Last'
-        Width = 64
         Visible = True
       end
       item
@@ -252,12 +271,13 @@ object FormPastNets: TFormPastNets
         Expanded = False
         FieldName = 'ClosedAt'
         Title.Caption = 'Closed'
-        Width = 64
         Visible = True
       end
       item
+        ButtonStyle = cbsNone
         Expanded = False
         FieldName = 'Assassinated'
+        ReadOnly = True
         Title.Caption = 'Forced'
         Visible = True
       end>
