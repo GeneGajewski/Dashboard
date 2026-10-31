@@ -35,8 +35,6 @@ object FormActiveNets: TFormActiveNets
     BevelEdges = []
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = -22
-    ExplicitTop = 127
     object BitBtnOk: TBitBtn
       Left = 16
       Top = 16
@@ -67,7 +65,6 @@ object FormActiveNets: TFormActiveNets
     BevelEdges = []
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 917
   end
   object Panel3: TPanel
     Left = 0
@@ -88,7 +85,6 @@ object FormActiveNets: TFormActiveNets
     BevelEdges = []
     BevelOuter = bvNone
     TabOrder = 3
-    ExplicitWidth = 933
   end
   object NetGrid: TLabeledDbGrid
     Left = 16
@@ -288,7 +284,7 @@ object FormActiveNets: TFormActiveNets
     Top = 49
   end
   object RESTResponse: TRESTResponse
-    Left = 741
-    Top = 51
+    Left = 678
+    Top = 50
   end
 end

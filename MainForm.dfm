@@ -20,7 +20,7 @@ object FormMain: TFormMain
   TextHeight = 15
   object PanelTop: TPanel
     Left = 0
-    Top = 27
+    Top = 25
     Width = 1201
     Height = 207
     Align = alTop
@@ -31,6 +31,7 @@ object FormMain: TFormMain
     ShowCaption = False
     ShowHint = True
     TabOrder = 0
+    ExplicitWidth = 1199
     object PanelLeft: TPanel
       Left = 0
       Top = 0
@@ -316,6 +317,7 @@ object FormMain: TFormMain
       Constraints.MinWidth = 349
       ShowCaption = False
       TabOrder = 1
+      ExplicitLeft = 850
       object PanelDate: TPanel
         Left = -2
         Top = 19
@@ -406,7 +408,7 @@ object FormMain: TFormMain
       Top = 75
       Width = 117
       Height = 17
-      Caption = 'Asassinated'
+      Caption = 'Assassinated'
       TabOrder = 3
     end
   end
@@ -417,13 +419,16 @@ object FormMain: TFormMain
     Height = 19
     Panels = <>
     SimplePanel = True
+    ExplicitTop = 662
+    ExplicitWidth = 1199
   end
   object ActionMainMenuBar1: TActionMainMenuBar
     Left = 0
     Top = 0
     Width = 1201
-    Height = 27
+    Height = 25
     HelpType = htKeyword
+    UseSystemFont = False
     ActionManager = ActionManager1
     Caption = 'ActionMainMenuBar1'
     Color = clMenuBar
@@ -432,19 +437,20 @@ object FormMain: TFormMain
     ColorMap.BtnSelectedFont = clBlack
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
+    Font.Color = clBlack
+    Font.Height = -15
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentShowHint = False
     ShowHint = True
     Spacing = 0
+    ExplicitWidth = 1199
   end
   object DBGrid1: TLabeledDbGrid
     Left = 0
-    Top = 234
+    Top = 232
     Width = 1201
-    Height = 436
+    Height = 438
     Align = alClient
     DataSource = DataSource1
     Font.Charset = DEFAULT_CHARSET
@@ -459,7 +465,7 @@ object FormMain: TFormMain
     OnDblClick = DBGrid1DblClick
     OnTitleClick = DBGrid1TitleClick
     BoundLabel.Left = 0
-    BoundLabel.Top = 218
+    BoundLabel.Top = 216
     BoundLabel.Width = 3
     BoundLabel.Height = 15
     OnSortedField = DBGrid1SortedField

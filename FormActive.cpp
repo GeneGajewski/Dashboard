@@ -196,7 +196,15 @@ void TFormActiveNets::LoadActiveNets()
                 // do final gui stuff in the main thread
                 TThread::Queue(nullptr, [this]() { PostProcessActive(); });
             },
-            false);
+            false, true,
+            [this](TObject* AObject) { // completion_error handler ...
+                Exception* e = dynamic_cast<Exception*>(AObject);
+                LogError(e->Message);
+                TThread::Queue(nullptr, [this]() {
+                    Close();
+                    Beep();
+                });
+            });
 
     } catch (Exception& e)
     {
@@ -308,12 +316,11 @@ void __fastcall TFormActiveNets::CenterIndicator()
 
     ActivityIndicator1->Left = _Left;
     ActivityIndicator1->Top = _Top;
-
 }
 
 //---------------------------------------------------------------------------
 
-void __fastcall TFormActiveNets::FormResize(TObject *Sender)
+void __fastcall TFormActiveNets::FormResize(TObject* Sender)
 {
     CenterIndicator();
 }

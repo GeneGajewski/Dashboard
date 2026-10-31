@@ -34,7 +34,8 @@
 template<typename P0, typename P1, typename P2>
 struct TMySyncProcedure3 : public TCppInterfacedObject<TThreadProcedure>
 {
-	typedef void(__closure* TMyFunction)(P0, P1, P2);
+	using TMyFunction = void(__closure*)(P0, P1, P2);
+
 	TMySyncProcedure3(TMyFunction AFunction, P0 AP0, P1 AP1, P2 AP2) :
 		FFunction(AFunction), FParam0(AP0), FParam1(AP1), FParam2(AP2)
 	{

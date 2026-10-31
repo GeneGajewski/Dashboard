@@ -28,26 +28,23 @@
 
 // fast xmllite 'pull' parser for net logger 'net' records
 
-
 // This object parses XML responses and works for both 'Active and 'Past' nets. A user call back
 // is fired for earch 'net' record - it receives a std::map of Name/Value pairs representing the record.
 
-
-class XML_Nets_Machine {
-
-public:
-    typedef std::map<String, String> NamedValues;
-
+class XML_Nets_Machine
+{
+  public:
+    using NamedValues = std::map<String, String>;
     using Callback = std::function<void(NamedValues&)>;
-
-private:
-
-
-    enum State { Unk,
+  private:
+    enum State
+    {
+        Unk,
         Header,
         ServerList,
         Server,
-        Net };
+        Net
+    };
 
     String element, text;
 
@@ -73,16 +70,10 @@ private:
     void Element(const String& str);
     void EndElement(const String& str);
     void Text(const String& str);
-
-public:
-
-    explicit XML_Nets_Machine(Callback cb)
-        : state(Unk)
-        , Fcb(cb)
-    {
-    }
-   void Execute(const TBytes& bytes);
+  public:
+    explicit XML_Nets_Machine(Callback cb) : state(Unk), Fcb(cb) {}
+    void Execute(const TBytes& bytes);
 };
 
-
 #endif
+
